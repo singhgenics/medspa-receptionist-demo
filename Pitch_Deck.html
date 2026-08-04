@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Receptionist for Med Spas: Pitch Deck</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --rose:#C24868; --rose-deep:#7A1F3D;
+  --ink:#2B1E24; --ink-soft:#6B5860; --ink-faint:#A6939A;
+  --line:#EDE1E3; --line-strong:#DEC9CE;
+  --bg:#FBF6F4; --bg-alt:#F4E9E8; --card:#FFFFFF;
+  --green:#3A7D5C; --gold:#B08A4E;
+
+  --f-label:12px; --f-h1:34px; --f-h2:15px; --f-body:13.5px; --f-small:12px; --f-tiny:11px;
+}
+body{font-family:'Raleway',sans-serif;background:#1F1418;padding:20px;}
+h1,h2,h3,.display{font-family:'Lora',serif;}
+
+.slide{
+  width:297mm;height:190mm;background:var(--bg);
+  margin:0 auto 28px;position:relative;overflow:hidden;
+  page-break-after:always;display:flex;
+}
+.pg{position:absolute;bottom:14px;right:20px;font-size:var(--f-tiny);color:var(--ink-faint);letter-spacing:1px;font-weight:600;}
+.rule{height:2px;background:linear-gradient(90deg,transparent,var(--rose),var(--rose-deep),transparent);position:absolute;bottom:0;left:0;right:0;}
+
+.kicker{font-size:var(--f-label);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rose-deep);margin-bottom:10px;}
+.slide-title{font-size:var(--f-h1);font-weight:600;color:var(--ink);line-height:1.15;margin-bottom:8px;}
+.slide-sub{font-size:var(--f-body);color:var(--ink-soft);line-height:1.7;margin-bottom:18px;font-weight:300;}
+
+/* SLIDE 1 — TITLE */
+.s1{background:linear-gradient(135deg,#FBF6F4 0%,#F4E9E8 100%);align-items:center;padding:0 64px;flex-direction:column;justify-content:center;text-align:center;}
+.s1-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(122,31,61,.07);border:1px solid rgba(122,31,61,.2);color:var(--rose-deep);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:28px;}
+.s1-h{font-size:56px;font-weight:600;color:var(--ink);line-height:1.15;margin-bottom:20px;max-width:800px;}
+.s1-h em{font-style:italic;color:var(--rose-deep);}
+.s1-sub{font-size:16px;color:var(--ink-soft);line-height:1.7;max-width:560px;font-weight:300;margin-bottom:8px;}
+.s1-for{margin-top:36px;font-size:13px;color:var(--ink-faint);letter-spacing:.5px;}
+
+/* SLIDE 2 — PROBLEM STATS */
+.s2{padding:56px 64px;flex-direction:column;justify-content:center;}
+.s2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:24px;}
+.s2-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 22px;}
+.s2-n{font-family:'Lora',serif;font-size:38px;font-weight:600;color:var(--rose-deep);line-height:1;letter-spacing:-1px;}
+.s2-l{font-size:12.5px;color:var(--ink-soft);margin-top:10px;line-height:1.5;}
+
+/* SLIDE 3 — SOLUTION */
+.s3{padding:56px 64px;flex-direction:column;justify-content:center;}
+.s3-rows{display:flex;flex-direction:column;gap:1px;margin-top:20px;}
+.s3-row{display:grid;grid-template-columns:60px 1fr;gap:24px;align-items:flex-start;padding:20px 0;border-top:1px solid var(--line);}
+.s3-num{font-family:'Lora',serif;font-size:26px;font-weight:600;color:var(--line-strong);}
+.s3-row h3{font-size:15.5px;font-weight:600;margin-bottom:5px;}
+.s3-row p{font-size:12.5px;color:var(--ink-soft);line-height:1.55;max-width:520px;}
+
+/* SLIDE 4 — HOW IT WORKS */
+.s4{padding:56px 64px;flex-direction:column;justify-content:center;}
+.s4-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:22px;}
+.s4-step{background:var(--card);padding:24px 20px;}
+.s4-step-num{font-family:'Lora',serif;font-size:12px;font-weight:600;color:var(--rose);letter-spacing:1px;margin-bottom:12px;}
+.s4-step h3{font-size:13.5px;font-weight:600;margin-bottom:6px;}
+.s4-step p{font-size:11.5px;color:var(--ink-soft);line-height:1.5;}
+
+/* SLIDE 5 & 6 — CONVERSATIONS */
+.s5,.s6{padding:56px 64px;align-items:center;gap:56px;}
+.conv-phone{width:340px;flex-shrink:0;background:var(--card);border-radius:26px;padding:12px;box-shadow:0 20px 50px -14px rgba(122,31,61,.25);}
+.conv-phone-hdr{display:flex;align-items:center;gap:12px;padding:16px 14px 12px;border-bottom:1px solid var(--line);}
+.conv-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-deep));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Lora',serif;font-weight:600;font-size:14px;flex-shrink:0;}
+.conv-phone-name{font-size:13.5px;font-weight:600;}
+.conv-phone-status{font-size:10.5px;color:var(--green);}
+.conv-phone-body{padding:16px 14px;background:var(--bg-alt);border-radius:0 0 18px 18px;display:flex;flex-direction:column;min-height:260px;}
+.bubble{max-width:88%;border-radius:15px;padding:10px 14px;font-size:12px;line-height:1.5;}
+.bubble.in{align-self:flex-start;background:#fff;border-top-left-radius:4px;margin-bottom:5px;}
+.bubble.out{align-self:flex-end;background:var(--rose-deep);color:#fff;border-top-right-radius:4px;margin-bottom:5px;}
+.bmeta{font-size:9.5px;color:var(--ink-faint);margin-bottom:10px;}
+.bmeta.right{align-self:flex-end;}
+.booked{align-self:center;margin-top:8px;background:rgba(58,125,92,.09);color:var(--green);border:1px solid rgba(58,125,92,.25);font-size:10.5px;font-weight:600;padding:6px 14px;border-radius:100px;}
+.voice-line{display:flex;gap:9px;margin-bottom:11px;}
+.voice-tag{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 7px;border-radius:5px;height:fit-content;margin-top:1px;}
+.voice-tag.ai{background:rgba(122,31,61,.09);color:var(--rose-deep);}
+.voice-tag.caller{background:rgba(58,125,92,.09);color:var(--green);}
+.voice-text{font-size:11.5px;line-height:1.5;color:var(--ink);}
+
+/* SLIDE 7 — PRICING */
+.s7{padding:56px 64px;flex-direction:column;justify-content:center;}
+.price-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;}
+.price-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px 26px;position:relative;}
+.price-card.hot{border:2px solid var(--rose-deep);}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--rose-deep);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:100px;white-space:nowrap;}
+.price-name{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px;}
+.price-amt{font-family:'Lora',serif;font-size:32px;font-weight:600;color:var(--ink);}
+.price-amt small{font-size:14px;font-weight:500;color:var(--ink-soft);}
+.price-period{font-size:11.5px;color:var(--ink-soft);margin-top:3px;}
+.price-setup{font-size:11.5px;color:var(--ink-faint);margin:14px 0;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.price-feats li{font-size:12px;color:var(--ink-soft);line-height:1.5;padding-left:20px;position:relative;}
+.price-feats li::before{content:'✓';position:absolute;left:0;top:0;font-size:10px;font-weight:800;color:var(--green);}
+.price-note{text-align:center;font-size:11.5px;color:var(--ink-faint);margin-top:22px;}
+
+/* SLIDE 8 — CTA */
+.s8{background:var(--rose-deep);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:0 64px;}
+.s8 h2{color:#fff;font-size:40px;margin-bottom:16px;max-width:700px;}
+.s8 p{color:rgba(255,255,255,.85);font-size:15px;max-width:520px;line-height:1.7;font-weight:300;margin-bottom:32px;}
+.s8-contacts{display:flex;gap:16px;}
+.s8-contact{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;padding:13px 26px;border-radius:100px;}
+
+@media print{
+  @page{size:297mm 190mm;margin:0;}
+  body{background:none;padding:0;}
+  .slide{margin:0;page-break-after:always;}
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<section class="slide s1">
+  <div class="s1-badge">AI Receptionist for Med Spas</div>
+  <h1 class="s1-h">Never miss another <em>booking.</em></h1>
+  <p class="s1-sub">An AI receptionist that answers every WhatsApp message and phone call, checks your calendar, and books the appointment on its own.</p>
+  <p class="s1-for">Prepared for Dubai med spas and aesthetic clinics</p>
+  <div class="pg">01 / 08</div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide s2">
+  <span class="kicker">The problem</span>
+  <h2 class="slide-title">You're not losing clients on service. You're losing them on the phone.</h2>
+  <p class="slide-sub">Your front desk is excellent when they're free. The problem is they're rarely free, and every unanswered call is a client who books somewhere else within minutes.</p>
+  <div class="s2-grid">
+    <div class="s2-card"><div class="s2-n">62%</div><div class="s2-l">of salon and spa calls go unanswered</div></div>
+    <div class="s2-card"><div class="s2-n">85%</div><div class="s2-l">of callers who can't reach you never call back, they call a competitor instead</div></div>
+    <div class="s2-card"><div class="s2-n">AED 475K+</div><div class="s2-l">lost annually from just 3 missed calls a day at an average med spa</div></div>
+    <div class="s2-card"><div class="s2-n">AED 29K+</div><div class="s2-l">average med spa client lifetime value, per missed relationship</div></div>
+  </div>
+  <div class="rule"></div>
+  <div class="pg">02 / 08</div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide s3">
+  <span class="kicker">The solution</span>
+  <h2 class="slide-title">An AI receptionist that never misses a call.</h2>
+  <p class="slide-sub">Answers instantly, has a real conversation, checks availability, and books the appointment automatically, across the two channels your clients actually use.</p>
+  <div class="s3-rows">
+    <div class="s3-row"><div class="s3-num">01</div><div><h3>Answers instantly, day or night</h3><p>Every WhatsApp message and phone call gets an immediate, natural response, no hold music, no missed calls.</p></div></div>
+    <div class="s3-row"><div class="s3-num">02</div><div><h3>Understands what's being asked</h3><p>Recognises the service requested, asks natural follow-up questions, and never sounds scripted.</p></div></div>
+    <div class="s3-row"><div class="s3-num">03</div><div><h3>Checks your calendar live</h3><p>Offers only real, open slots, no double-bookings, no manual back-and-forth.</p></div></div>
+    <div class="s3-row"><div class="s3-num">04</div><div><h3>Books and confirms on its own</h3><p>The appointment lands on your calendar the moment it's agreed, with zero manual entry.</p></div></div>
+  </div>
+  <div class="rule"></div>
+  <div class="pg">03 / 08</div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide s4">
+  <span class="kicker">How it works</span>
+  <h2 class="slide-title">Fits into how you already run your front desk.</h2>
+  <p class="slide-sub">Whether you book on Google Calendar, Fresha, or something else entirely, this connects to what you use today. No new software to learn.</p>
+  <div class="s4-steps">
+    <div class="s4-step"><div class="s4-step-num">01</div><h3>A message or call comes in</h3><p>WhatsApp or phone, picked up instantly, any time of day.</p></div>
+    <div class="s4-step"><div class="s4-step-num">02</div><h3>A real conversation happens</h3><p>Natural, warm, never robotic. Understands context and asks the right questions.</p></div>
+    <div class="s4-step"><div class="s4-step-num">03</div><h3>Live availability check</h3><p>Only real open slots are offered, drawn straight from your calendar.</p></div>
+    <div class="s4-step"><div class="s4-step-num">04</div><h3>Booked and confirmed</h3><p>The appointment is added automatically, no one has to lift a finger.</p></div>
+  </div>
+  <div class="rule"></div>
+  <div class="pg">04 / 08</div>
+</section>
+
+<!-- SLIDE 5 — WhatsApp example -->
+<section class="slide s5">
+  <div class="conv-phone">
+    <div class="conv-phone-hdr">
+      <div class="conv-av">L</div>
+      <div><div class="conv-phone-name">Layla Haddad</div><div class="conv-phone-status">Replying now</div></div>
+    </div>
+    <div class="conv-phone-body">
+      <div class="bubble in">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
+      <div class="bmeta">2:14 pm</div>
+      <div class="bubble out">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better for you?</div>
+      <div class="bmeta right">2:14 pm</div>
+      <div class="bubble in">3:30 works great</div>
+      <div class="booked">Booked, added to calendar automatically</div>
+    </div>
+  </div>
+  <div>
+    <span class="kicker">Sample interaction</span>
+    <h2 class="slide-title">A WhatsApp enquiry, handled start to finish.</h2>
+    <p class="slide-sub">No wait, no back-and-forth over hours. The client gets a real answer in seconds, and the booking lands on the calendar without anyone touching a keyboard.</p>
+  </div>
+  <div class="rule"></div>
+  <div class="pg">05 / 08</div>
+</section>
+
+<!-- SLIDE 6 — Voice example -->
+<section class="slide s6">
+  <div>
+    <span class="kicker">Sample interaction</span>
+    <h2 class="slide-title">A phone call, answered like your best receptionist.</h2>
+    <p class="slide-sub">Natural conversation, real pricing information, and a booked appointment before the caller even hangs up.</p>
+  </div>
+  <div class="conv-phone">
+    <div class="conv-phone-hdr">
+      <div class="conv-av" style="background:linear-gradient(135deg,var(--gold),#8a6a38);">☎</div>
+      <div><div class="conv-phone-name">Inbound call</div><div class="conv-phone-status">Lip filler enquiry</div></div>
+    </div>
+    <div class="conv-phone-body">
+      <div class="voice-line"><div class="voice-tag caller">Caller</div><div class="voice-text">Hi, I wanted to ask about lip filler pricing and if you have anything this weekend.</div></div>
+      <div class="voice-line"><div class="voice-tag ai">AI</div><div class="voice-text">Of course! Our lip filler starts from AED 1,200 depending on the volume. For this weekend I have Saturday at 1pm or Sunday at 11am open. Would either work?</div></div>
+      <div class="voice-line"><div class="voice-tag caller">Caller</div><div class="voice-text">Saturday 1pm is perfect.</div></div>
+      <div class="booked">Booked Saturday 1:00pm, confirmation sent by SMS</div>
+    </div>
+  </div>
+  <div class="rule"></div>
+  <div class="pg">06 / 08</div>
+</section>
+
+<!-- SLIDE 7 — PRICING -->
+<section class="slide s7">
+  <span class="kicker">Investment</span>
+  <h2 class="slide-title">Simple, transparent pricing.</h2>
+  <p class="slide-sub">One-time setup to build and test, then a flat monthly fee to keep it running and improving. No long-term contracts.</p>
+  <div class="price-cols">
+    <div class="price-card">
+      <div class="price-name">WhatsApp Only</div>
+      <div class="price-amt"><small>AED</small> 1,200</div>
+      <div class="price-period">per month</div>
+      <div class="price-setup">+ AED 2,500 one-time setup</div>
+      <ul class="price-feats">
+        <li>Instant AI-personalised WhatsApp replies</li>
+        <li>Live calendar availability and booking</li>
+        <li>Automated confirmations</li>
+        <li>Email support</li>
+      </ul>
+    </div>
+    <div class="price-card hot">
+      <div class="price-badge">Recommended</div>
+      <div class="price-name">WhatsApp + Phone</div>
+      <div class="price-amt"><small>AED</small> 2,200</div>
+      <div class="price-period">per month</div>
+      <div class="price-setup">+ AED 4,500 one-time setup</div>
+      <ul class="price-feats">
+        <li>Everything in WhatsApp Only</li>
+        <li>Natural-sounding AI voice answers every call</li>
+        <li>Same live calendar booking over the phone</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+  </div>
+  <p class="price-note">All prices in AED. Billed monthly. No long-term contracts.</p>
+  <div class="rule"></div>
+  <div class="pg">07 / 08</div>
+</section>
+
+<!-- SLIDE 8 — CTA -->
+<section class="slide s8">
+  <h2>Want this answering your phone?</h2>
+  <p>If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to missed calls, this can be live within days.</p>
+  <div class="s8-contacts">
+    <a class="s8-contact" href="https://wa.me/971524718935">📱 +971 52 471 8935</a>
+    <a class="s8-contact" href="mailto:abhishek.singha2710@gmail.com">✉️ abhishek.singha2710@gmail.com</a>
+  </div>
+  <div class="pg" style="color:rgba(255,255,255,.4);">08 / 08</div>
+</section>
+
+</body>
+</html>
