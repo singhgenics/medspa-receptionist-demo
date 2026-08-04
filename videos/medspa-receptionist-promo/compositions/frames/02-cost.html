@@ -1,0 +1,180 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* Full-bleed ground rides on a dedicated clip layer, never painted on #root itself. */
+    #root .c02-bg {
+      position: absolute;
+      inset: 0;
+      background: #fbf6f4;
+    }
+
+    /* Safe-area stage: bounded to the top ~83% so nothing sits in the caption keep-out.
+       A CSS grid single-cell stack lets all three beats share one fixed center anchor
+       without any CSS `transform` on the beats themselves (GSAP owns their transform). */
+    #root .c02-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1590px;
+      display: grid;
+      place-items: center;
+      padding: 0 50px;
+      box-sizing: border-box;
+    }
+
+    #root .c02-beat {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+    }
+
+    #root .c02-hero {
+      margin: 0;
+      font-family: "Lora", serif;
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      color: #2b1e24;
+    }
+
+    #root .c02-hero.c02-accent {
+      color: #7a1f3d;
+    }
+
+    #root .c02-support {
+      margin: 0;
+      font-family: "Raleway", sans-serif;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      color: #2b1e24;
+    }
+
+    #root #c02-beat1 .c02-hero {
+      font-size: 340px;
+      white-space: nowrap;
+    }
+    #root #c02-beat1 .c02-support {
+      font-size: 84px;
+    }
+
+    #root #c02-beat2 .c02-hero {
+      font-size: 130px;
+      white-space: nowrap;
+    }
+    #root #c02-beat2 .c02-support {
+      font-size: 64px;
+    }
+
+    #root #c02-beat3 .c02-hero {
+      font-size: 170px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    #root #c02-beat3 .c02-support {
+      font-size: 64px;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="02-cost"
+    data-start="0"
+    data-width="1080"
+    data-height="1920"
+    data-duration="5.4"
+  >
+    <div class="clip c02-bg" data-start="0" data-duration="5.4" data-track-index="0"></div>
+
+    <div class="c02-stage">
+      <div class="c02-beat" id="c02-beat1">
+        <p class="c02-hero">85%</p>
+        <p class="c02-support">never call back.</p>
+      </div>
+
+      <div class="c02-beat" id="c02-beat2">
+        <p class="c02-support">That&rsquo;s</p>
+        <p class="c02-hero c02-accent">AED 475K+</p>
+        <p class="c02-support">lost every year.</p>
+      </div>
+
+      <div class="c02-beat" id="c02-beat3">
+        <p class="c02-support">One missed call is</p>
+        <p class="c02-hero c02-accent">one lost client.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+
+    // Scene 1 (0.0-1.6s): "85% never call back." punches in, holds, clears.
+    tl.fromTo(
+      "#c02-beat1",
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+      0.05,
+    );
+    tl.to(
+      "#c02-beat1",
+      { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" },
+      1.3,
+    );
+
+    // Scene 2 (1.6-3.3s): "That's AED 475K+ lost every year." punches in same anchor, holds, clears.
+    tl.fromTo(
+      "#c02-beat2",
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+      1.65,
+    );
+    tl.to(
+      "#c02-beat2",
+      { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" },
+      3.0,
+    );
+
+    // Scene 3 (3.3-5.0s): "One missed call is one lost client." punches in and holds to
+    // end -- the frame's final held read. No clear tween: this is the deliberate hold.
+    tl.fromTo(
+      "#c02-beat3",
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+      3.35,
+    );
+
+    window.__timelines["02-cost"] = tl;
+  </script>
+</template>

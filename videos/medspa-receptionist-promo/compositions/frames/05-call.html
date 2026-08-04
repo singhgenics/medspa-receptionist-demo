@@ -1,0 +1,294 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root[data-composition-id="05-call"] {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      --cream: #ffffff;
+      --cream-2: #c6e4d5;
+      --green: #254f3a;
+      --green-deep: #1d3e2e;
+      --pink-deep: #7a1f3d;
+      --ink: #2b1e24;
+      --font-display: "Lora", serif;
+      --font-mono: monospace;
+    }
+
+    #root[data-composition-id="05-call"] * {
+      box-sizing: border-box;
+    }
+
+    /* full-bleed ground — rides on a .clip layer, never on #root */
+    .f05call-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--cream);
+    }
+
+    /* asymmetric accent block, right-of-center, sitting behind the card */
+    .f05call-accent {
+      position: absolute;
+      left: 660px;
+      top: 460px;
+      width: 340px;
+      height: 680px;
+      background: var(--cream-2);
+      border-radius: 40px;
+      transform-origin: 50% 50%;
+    }
+
+    /* the call surface — persistent hero */
+    .f05call-card {
+      position: absolute;
+      left: 64px;
+      top: 380px;
+      width: 620px;
+      height: 820px;
+      background: var(--cream);
+      border: 2px solid var(--green);
+      border-radius: 24px;
+      padding: 48px;
+      transform-origin: 50% 50%;
+    }
+
+    .f05call-header-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      height: 40px;
+    }
+
+    .f05call-wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 32px;
+    }
+
+    .f05call-bar {
+      width: 5px;
+      background: var(--pink-deep);
+      border-radius: 3px 3px 0 0;
+      transform-origin: 50% 100%;
+    }
+    .f05call-bar:nth-child(1) { height: 12px; }
+    .f05call-bar:nth-child(2) { height: 22px; }
+    .f05call-bar:nth-child(3) { height: 32px; }
+    .f05call-bar:nth-child(4) { height: 18px; }
+    .f05call-bar:nth-child(5) { height: 26px; }
+
+    .f05call-header-label {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .f05call-rule {
+      height: 2px;
+      background: var(--green);
+      width: 100%;
+    }
+    .f05call-rule-top {
+      margin: 24px 0 32px;
+      transform-origin: 0% 50%;
+    }
+    .f05call-rule-bottom {
+      margin: 40px 0 24px;
+      opacity: 0;
+    }
+
+    .f05call-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .f05call-line-label {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .f05call-line-text {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.32;
+      max-width: 524px;
+    }
+    .f05call-line-text.is-caller { color: var(--ink); }
+    .f05call-line-text.is-reply { color: var(--pink-deep); }
+
+    .f05call-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      background: var(--pink-deep);
+      transform-origin: 50% 50%;
+    }
+
+    .f05call-chip-text {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+  </style>
+
+  <div id="root" data-composition-id="05-call" data-start="0" data-duration="6.5" data-width="1080" data-height="1920">
+    <div class="clip f05call-bg" data-start="0" data-duration="6.5" data-track-index="0"></div>
+
+    <div class="clip f05call-accent" id="f05call-accent" data-start="0" data-duration="6.5" data-track-index="1"></div>
+
+    <div class="clip f05call-card" id="f05call-card" data-start="0" data-duration="6.5" data-track-index="2">
+      <div class="f05call-header-row">
+        <div class="f05call-wave">
+          <div class="f05call-bar"></div>
+          <div class="f05call-bar"></div>
+          <div class="f05call-bar"></div>
+          <div class="f05call-bar"></div>
+          <div class="f05call-bar"></div>
+        </div>
+        <div class="f05call-header-label" id="f05call-headerlabel">Inbound call</div>
+      </div>
+
+      <div class="f05call-rule f05call-rule-top" id="f05call-rule-top"></div>
+
+      <div class="f05call-lines">
+        <div class="f05call-line" id="f05call-line1">
+          <div class="f05call-line-label">Caller</div>
+          <div class="f05call-line-text is-caller">Do you have anything for lip filler this weekend, and what's the pricing?</div>
+        </div>
+
+        <div class="f05call-line" id="f05call-line2">
+          <div class="f05call-line-label">Receptionist</div>
+          <div class="f05call-line-text is-reply">Filler starts from AED 1,200. I have Saturday 1pm or Sunday 11am open.</div>
+        </div>
+
+        <div class="f05call-line" id="f05call-line3">
+          <div class="f05call-line-label">Caller</div>
+          <div class="f05call-line-text is-caller">Saturday 1pm is perfect.</div>
+        </div>
+      </div>
+
+      <div class="f05call-rule f05call-rule-bottom" id="f05call-rule-bottom"></div>
+
+      <div class="f05call-chip" id="f05call-chip">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="9" cy="9" r="8" stroke="#ffffff" stroke-width="2" />
+          <path d="M5.5 9.3L7.7 11.5L12.5 6.7" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div class="f05call-chip-text">Booked, Saturday 1:00pm</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–1.2s) — surface establishes, mirrored asymmetric layout, header + waveform
+      tl.fromTo(
+        "#f05call-card",
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
+        0
+      );
+      tl.fromTo(
+        "#f05call-accent",
+        { scale: 0.92, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: "power2.out" },
+        0
+      );
+      tl.fromTo(
+        ".f05call-bar",
+        { scaleY: 0, opacity: 0 },
+        { scaleY: 1, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.04 },
+        0.15
+      );
+      tl.fromTo(
+        "#f05call-headerlabel",
+        { opacity: 0, y: -6 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+        0.2
+      );
+      tl.fromTo(
+        "#f05call-rule-top",
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.3, ease: "power2.out" },
+        0.3
+      );
+
+      // Scene 2 (1.2–2.8s) — caller line settles
+      tl.fromTo(
+        "#f05call-line1",
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        1.2
+      );
+
+      // Scene 3 (2.8–4.4s) — reply line settles, rose-deep
+      tl.fromTo(
+        "#f05call-line2",
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        2.8
+      );
+
+      // Scene 4 (4.4–5.4s) — caller line settles
+      tl.fromTo(
+        "#f05call-line3",
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        4.4
+      );
+
+      // Scene 5 (5.4–6.0s) — booked chip pops in, holds to end
+      tl.fromTo(
+        "#f05call-rule-bottom",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.25, ease: "power1.out" },
+        5.3
+      );
+      tl.fromTo(
+        "#f05call-chip",
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+        5.4
+      );
+
+      window.__timelines["05-call"] = tl;
+    })();
+  </script>
+</template>

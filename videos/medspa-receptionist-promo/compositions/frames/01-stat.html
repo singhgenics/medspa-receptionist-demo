@@ -1,0 +1,204 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    /* Root: style by #root, never a class — scoping drops class-on-root rules. */
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* Clips are absolutely positioned to fill the root; the runtime does not
+       inject this automatically — every authored clip declares it. */
+    .clip {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Full-bleed ground rides on a class="clip" layer, never on #root. */
+    .fr01-bg {
+      background: #fbf6f4; /* cream ground, per Scene 1 */
+    }
+
+    .fr01-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 420px; /* anchors the hero block ~0.22H, inside the 0.2-0.35H band */
+    }
+
+    .fr01-counter-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      width: 900px;
+    }
+    .fr01-counter {
+      display: inline-block;
+      min-width: 2ch;
+      text-align: center;
+      font-family: "Lora", serif;
+      font-weight: 700;
+      font-size: 440px;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: #2b1e24; /* ink */
+      font-variant-numeric: tabular-nums;
+      transform-origin: center center;
+    }
+    .fr01-suffix {
+      display: inline-block;
+      font-family: "Lora", serif;
+      font-weight: 700;
+      font-size: 250px;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: #2b1e24; /* ink — same as the numeral, per Scene 1 */
+      margin-left: 6px;
+    }
+
+    .fr01-label {
+      margin-top: 56px;
+      max-width: 640px;
+      text-align: center;
+      font-family: "Raleway", sans-serif;
+      font-weight: 400;
+      font-size: 52px;
+      line-height: 1.35;
+      letter-spacing: 0.005em;
+      color: #2b1e24; /* ink */
+    }
+
+    .fr01-underline {
+      margin-top: 28px;
+      width: 160px;
+      height: 4px;
+      background: #7a1f3d; /* rose-deep */
+      transform-origin: left center;
+    }
+  </style>
+
+  <div id="root" data-composition-id="01-stat" data-start="0" data-duration="4.5" data-width="1080" data-height="1920">
+    <div
+      id="fr01-bg-clip"
+      class="fr01-bg clip"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="0"
+    ></div>
+
+    <div
+      id="fr01-content-clip"
+      class="fr01-stage clip"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="1"
+    >
+      <div class="fr01-counter-row">
+        <span id="fr01-counter" class="fr01-counter">0</span
+        ><span id="fr01-suffix" class="fr01-suffix">%</span>
+      </div>
+      <div class="fr01-label">of med spa calls go unanswered</div>
+      <div class="fr01-underline"></div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      Frame 01 — "The stat" (dataviz-countup, adapted: no ring/chart, just the
+      count-up-to-hero-number signature — too short a frame for the full
+      instrument traversal).
+
+      Scene 1 (0.0-2.0s): "62" counts up 0->62 with a shared transform-scale
+        growth (counting-dynamic-scale rule), long-tail power3.out ease; the
+        "%" suffix slides/settles in right after the count lands.
+      Scene 2 (2.0-4.0s): the label slides up beneath the settled number, and
+        a short rose-deep underline draws in left->right on the same beat.
+        Holds fully still to the end.
+    */
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+
+    const counterEl = document.getElementById("fr01-counter");
+    const countState = { value: 0 };
+
+    const COUNT_START_AT = 0;
+    const COUNT_DUR = 1.4;
+    const COUNT_EASE = "power3.out"; // long-tail deceleration on the count
+    const START_SCALE = 0.55; // numeral grows in as it counts (counting-dynamic-scale)
+
+    const SUFFIX_AT = COUNT_START_AT + COUNT_DUR; // trailing "%" settles last
+    const SUFFIX_DUR = 0.45;
+
+    const LABEL_AT = 2.0; // Scene 2 begins — number has settled
+    const LABEL_DUR = 0.6;
+
+    const UNDERLINE_AT = 2.35; // draws in on the same beat as the label
+    const UNDERLINE_DUR = 0.5;
+
+    // Value count (proxy state -> text) and its paired transform-scale growth,
+    // same timing + ease so the digits and their visual weight land as one beat.
+    tl.to(
+      countState,
+      {
+        value: 62,
+        duration: COUNT_DUR,
+        ease: COUNT_EASE,
+        onUpdate: () => {
+          counterEl.textContent = Math.round(countState.value).toLocaleString();
+        },
+      },
+      COUNT_START_AT,
+    );
+
+    tl.fromTo(
+      counterEl,
+      { scale: START_SCALE },
+      { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE },
+      COUNT_START_AT,
+    );
+
+    // Suffix "%" settles in after the count completes.
+    tl.fromTo(
+      "#fr01-suffix",
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: SUFFIX_DUR, ease: "back.out(1.6)" },
+      SUFFIX_AT,
+    );
+
+    // Label slides up beneath the settled number.
+    tl.fromTo(
+      ".fr01-label",
+      { opacity: 0, y: 28 },
+      { opacity: 1, y: 0, duration: LABEL_DUR, ease: "power2.out" },
+      LABEL_AT,
+    );
+
+    // Short rose-deep underline draws in left -> right on the same beat.
+    tl.fromTo(
+      ".fr01-underline",
+      { scaleX: 0 },
+      { scaleX: 1, duration: UNDERLINE_DUR, ease: "power2.out" },
+      UNDERLINE_AT,
+    );
+
+    window.__timelines["01-stat"] = tl;
+  </script>
+</template>

@@ -1,0 +1,133 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    /* Root — styled via #root only (never a class on the data-composition-id element). */
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      container-type: size;
+      container-name: f03turn;
+    }
+
+    /* Full-bleed ground rides on a dedicated class="clip" layer, never on #root. */
+    .f03turn-bg {
+      position: absolute;
+      inset: 0;
+      background: #7a1f3d; /* rose-deep — per packet Scene 1 */
+    }
+
+    .f03turn-stage {
+      position: absolute;
+      left: 50%;
+      top: 32cqh;
+      transform: translate(-50%, -50%);
+      width: min(86cqw, 920px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      row-gap: 2.4cqh;
+    }
+
+    .f03turn-line {
+      margin: 0;
+      font-family: "Lora", serif;
+      color: #fbf6f4; /* cream */
+      will-change: opacity, filter, transform;
+    }
+
+    .f03turn-line1 {
+      font-weight: 700; /* heaviest available on the generic serif fallback */
+      font-size: 9.6cqw;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      --f03turn-dof: 0px;
+      filter: blur(var(--f03turn-dof));
+    }
+
+    .f03turn-line2 {
+      font-weight: 400; /* the 700→400 step reads as the display→body rhythm */
+      font-size: 4.6cqw;
+      line-height: 1.22;
+      letter-spacing: 0;
+      color: #f4e9e8; /* softer cream — qualifier line */
+    }
+  </style>
+
+  <div id="root" data-composition-id="03-turn" data-start="0" data-duration="4.5" data-width="1080" data-height="1920">
+    <div
+      class="clip f03turn-bg"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="0"
+    ></div>
+
+    <div class="f03turn-stage">
+      <p class="f03turn-line f03turn-line1" id="f03turn-line1">An AI receptionist</p>
+      <p class="f03turn-line f03turn-line2" id="f03turn-line2">that never misses a call.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var el1 = document.getElementById("f03turn-line1");
+      var el2 = document.getElementById("f03turn-line2");
+
+      // Scene 1 (0.0–1.5s): title blur-snaps into focus — depth-of-field-blur
+      // mechanics (rules/depth-of-field-blur.md): the layer's own --dof tweens
+      // from a defocused start to 0 while it stays the sharp/focal element
+      // throughout (no context layers to dim against here — a single-layer
+      // "prelude" pull per the blueprint's blur-away -> snap-into-focus mapping).
+      tl.fromTo(
+        el1,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.35, ease: "power2.out" },
+        0,
+      );
+      tl.fromTo(
+        el1,
+        { "--f03turn-dof": "22px", scale: 1.045 },
+        {
+          "--f03turn-dof": "0px",
+          scale: 1,
+          duration: 1.0,
+          ease: "power3.out",
+        },
+        0,
+      );
+
+      // Scene 2 (1.5–4.0s): second line settles beneath on a soft
+      // crossfade-up — translate-up + fade, landing well inside the window,
+      // then holds fully still to the end (the deliberate breather beat;
+      // no further motion is authored past this point).
+      tl.fromTo(
+        el2,
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.72, ease: "power3.out" },
+        1.5,
+      );
+
+      window.__timelines["03-turn"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,170 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    /* Root: style by #root, never a class — a class on the data-composition-id
+       element is scoped to a descendant selector that can never match it. */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Lora", Georgia, serif;
+    }
+
+    /* ---- background clip (track 0) ---- */
+    .close07-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .close07-bg-world {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    .close07-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 55%;
+    }
+    /* dim ~50% */
+    .close07-bg-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 8, 8, 0.5);
+    }
+    /* rose-deep (frame.md colors.pink-deep #7A1F3D) rising from the bottom, fading to transparent */
+    .close07-bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(122, 31, 61, 0.85) 0%,
+        rgba(122, 31, 61, 0.5) 26%,
+        rgba(122, 31, 61, 0.16) 52%,
+        rgba(122, 31, 61, 0) 74%
+      );
+    }
+
+    /* ---- content clip (track 1) ---- */
+    .close07-content {
+      position: absolute;
+      inset: 0;
+    }
+    .close07-content-wrap {
+      position: absolute;
+      left: 50%;
+      top: 33.5%;
+      transform: translateX(-50%);
+      width: min(88cqw, 940px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      row-gap: 3.4cqw;
+    }
+    .close07-headline {
+      margin: 0;
+      color: #ffffff;
+      font-family: "Lora", Georgia, serif;
+      font-weight: 500;
+      font-size: 9cqw;
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      --dof: 0px;
+      filter: blur(var(--dof));
+      will-change: filter, opacity;
+    }
+    .close07-cta {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-family: "Raleway", -apple-system, "Helvetica Neue", Arial, sans-serif;
+      font-weight: 400;
+      font-size: 3.5cqw;
+      line-height: 1.35;
+      letter-spacing: 0.005em;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <div id="root" data-composition-id="07-close" data-start="0" data-duration="4" data-width="1080" data-height="1920">
+    <div class="clip close07-bg" data-start="0" data-duration="4" data-track-index="0">
+      <div class="close07-bg-world" id="close07-bg-world">
+        <img
+          class="close07-bg-img"
+          src="assets/warm-softly-lit-spa-treatment-room-with-.jpg"
+          alt=""
+        />
+        <div class="close07-bg-dim"></div>
+        <div class="close07-bg-gradient"></div>
+      </div>
+    </div>
+
+    <div class="clip close07-content" data-start="0" data-duration="4" data-track-index="1">
+      <div class="close07-content-wrap">
+        <h1 class="close07-headline" id="close07-headline">Never miss<br />another booking.</h1>
+        <p class="close07-cta" id="close07-cta">Get this built for your business.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+
+      var bgWorld = document.getElementById("close07-bg-world");
+      var headline = document.getElementById("close07-headline");
+      var cta = document.getElementById("close07-cta");
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Camera modifier — barely-perceptible continuous drift under the hold,
+      // so a fully static end-card doesn't read as a freeze-frame.
+      tl.fromTo(bgWorld, { scale: 1 }, { scale: 1.035, duration: 4, ease: "none" }, 0);
+
+      // Scene 1 (0.0-1.5s) — headline blur-snaps into focus. Opacity resolves
+      // fast (hero-legible well before 0.5s); the --dof blur pull runs a touch
+      // longer so the "snap into focus" read lands cleanly inside Scene 1.
+      tl.fromTo(headline, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power1.out" }, 0.15);
+      tl.fromTo(
+        headline,
+        { "--dof": "18px" },
+        { "--dof": "0px", duration: 0.9, ease: "power2.out" },
+        0.15
+      );
+
+      // Scene 2 (1.5-4.0s) — CTA line settles beneath on a soft crossfade-up,
+      // then the whole card holds fully still to the final frame (no exit —
+      // this is the last frame of the video).
+      tl.fromTo(
+        cta,
+        { opacity: 0, yPercent: 42 },
+        { opacity: 1, yPercent: 0, duration: 0.7, ease: "power2.out" },
+        1.6
+      );
+
+      window.__timelines["07-close"] = tl;
+    })();
+  </script>
+</template>

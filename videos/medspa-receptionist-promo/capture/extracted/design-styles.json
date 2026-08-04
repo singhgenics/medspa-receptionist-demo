@@ -1,0 +1,321 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Lora",
+      "fontSize": "58px",
+      "fontWeight": "600",
+      "lineHeight": "66.7px",
+      "letterSpacing": "-0.5px",
+      "color": "#2B1E24",
+      "sampleText": "Never miss another booking."
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Lora",
+      "fontSize": "40px",
+      "fontWeight": "600",
+      "lineHeight": "48px",
+      "letterSpacing": "-0.3px",
+      "color": "#2B1E24",
+      "sampleText": "You're not losing clients on service. You're losing them on "
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Lora",
+      "fontSize": "19px",
+      "fontWeight": "600",
+      "lineHeight": "30.4px",
+      "letterSpacing": "-0.1px",
+      "color": "#2B1E24",
+      "sampleText": "Staff can't answer while treating a client"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Raleway",
+      "fontSize": "18.5px",
+      "fontWeight": "300",
+      "lineHeight": "32.375px",
+      "letterSpacing": "normal",
+      "color": "#6B5860",
+      "sampleText": "An AI receptionist that answers every WhatsApp message and p"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Lora",
+      "fontSize": "16.5px",
+      "fontWeight": "600",
+      "lineHeight": "26.4px",
+      "letterSpacing": "normal",
+      "color": "#2B1E24",
+      "sampleText": "A message or call comes in"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Raleway",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "lineHeight": "22.4px",
+      "letterSpacing": "normal",
+      "color": "#6B5860",
+      "sampleText": "The problem"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Raleway",
+      "fontSize": "10.5px",
+      "fontWeight": "700",
+      "lineHeight": "16.8px",
+      "letterSpacing": "0.5px",
+      "color": "#3A7D5C",
+      "sampleText": "Caller"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      1,
+      2,
+      4,
+      6,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      20
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "6px",
+    "24px",
+    "100px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(122, 31, 61, 0.05) 0px 1px 2px 0px, rgba(43, 30, 36, 0.05) 0px 4px 14px 0px",
+      "count": 3
+    },
+    {
+      "value": "rgba(122, 31, 61, 0.14) 0px 26px 60px 0px, rgba(43, 30, 36, 0.08) 0px 6px 16px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(122, 31, 61, 0.4) 0px 30px 70px -20px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "Get this built",
+      "background": "#7A1F3D",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "12px 24px",
+      "borderRadius": "100px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "46.3906px"
+    },
+    {
+      "label": "See how it works",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#2B1E24",
+      "padding": "16px 32px",
+      "borderRadius": "100px",
+      "border": "1px solid rgb(222, 201, 206)",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "600",
+      "height": "58px"
+    },
+    {
+      "label": "Want this answering your phone?\n      If",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#2B1E24",
+      "padding": "130px 0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(43, 30, 36)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "606.719px"
+    },
+    {
+      "label": "Want this answering your phone?\n      If",
+      "background": "#7A1F3D",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "90px",
+      "borderRadius": "36px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "rgba(122, 31, 61, 0.4) 0px 30px 70px -20px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "346.719px"
+    },
+    {
+      "label": "Message me here to get started.",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgba(255, 255, 255, 0.85)",
+      "boxShadow": "none",
+      "fontSize": "15.5px",
+      "fontWeight": "600",
+      "height": "26.3438px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#2B1E24",
+      "padding": "14px",
+      "borderRadius": "32px",
+      "border": "0px none rgb(43, 30, 36)",
+      "boxShadow": "rgba(122, 31, 61, 0.14) 0px 26px 60px 0px, rgba(43, 30, 36, 0.08) 0px 6px 16px 0px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "497px"
+    },
+    {
+      "label": "card",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#2B1E24",
+      "padding": "0px",
+      "borderRadius": "24px",
+      "border": "1px solid rgb(237, 225, 227)",
+      "boxShadow": "rgba(122, 31, 61, 0.05) 0px 1px 2px 0px, rgba(43, 30, 36, 0.05) 0px 4px 14px 0px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "494.656px"
+    },
+    {
+      "label": "card",
+      "background": "#7A1F3D",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "90px",
+      "borderRadius": "36px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "rgba(122, 31, 61, 0.4) 0px 30px 70px -20px",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "346.719px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#FBF6F4",
+    "backgroundImage": "",
+    "backdropFilter": "blur(14px)",
+    "color": "#2B1E24",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "83px"
+  },
+  "chips": [
+    {
+      "label": "Booked · added to calend",
+      "background": "#3A7D5C",
+      "color": "#3A7D5C",
+      "padding": "8px 18px",
+      "borderRadius": "100px",
+      "border": "1px solid rgba(58, 125, 92, 0.25)",
+      "boxShadow": "none",
+      "fontSize": "12.5px",
+      "fontWeight": "600",
+      "height": "38px"
+    },
+    {
+      "label": "Works with your existing",
+      "background": "#FFFFFF",
+      "color": "#2B1E24",
+      "padding": "10px 20px",
+      "borderRadius": "100px",
+      "border": "1px solid rgb(222, 201, 206)",
+      "boxShadow": "none",
+      "fontSize": "13px",
+      "fontWeight": "500",
+      "height": "42.7969px"
+    },
+    {
+      "label": "Booked",
+      "background": "#3A7D5C",
+      "color": "#3A7D5C",
+      "padding": "6px 13px",
+      "borderRadius": "100px",
+      "border": "1px solid rgba(58, 125, 92, 0.22)",
+      "boxShadow": "none",
+      "fontSize": "11px",
+      "fontWeight": "700",
+      "height": "31.5938px"
+    },
+    {
+      "label": "Caller",
+      "background": "#3A7D5C",
+      "color": "#3A7D5C",
+      "padding": "4px 9px",
+      "borderRadius": "6px",
+      "border": "0px none rgb(58, 125, 92)",
+      "boxShadow": "none",
+      "fontSize": "10.5px",
+      "fontWeight": "700",
+      "height": "24.7969px"
+    }
+  ],
+  "statCells": [
+    {
+      "background": "transparent",
+      "borderRadius": "0px",
+      "border": "0px none rgb(43, 30, 36)",
+      "boxShadow": "none",
+      "numberFontSize": "44px",
+      "numberFontWeight": "600",
+      "numberColor": "#7A1F3D"
+    }
+  ],
+  "tabs": [],
+  "backgrounds": [
+    {
+      "value": "linear-gradient(rgba(43, 30, 36, 0) 0%, rgba(43, 30, 36, 0.55) 100%)",
+      "area": 427120
+    }
+  ],
+  "glass": [
+    {
+      "backdropFilter": "blur(14px)",
+      "background": "rgba(251, 246, 244, 0.88)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 159360
+    }
+  ]
+}

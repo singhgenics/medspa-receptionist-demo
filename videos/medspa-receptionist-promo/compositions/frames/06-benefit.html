@@ -1,0 +1,176 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* ---- background photo track (track 0, lowest) ---- */
+    .clip.benefit06-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .benefit06-bg-photo {
+      position: absolute;
+      inset: -3%;
+      width: 106%;
+      height: 106%;
+      object-fit: cover;
+      object-position: center 40%;
+      transform-origin: 50% 50%;
+    }
+    .benefit06-bg-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(43, 30, 36, 0.45); /* ink @ ~45% dim per packet */
+    }
+    .benefit06-bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.08) 30%,
+        rgba(255, 255, 255, 0.24) 52%,
+        rgba(255, 255, 255, 0.34) 68%,
+        rgba(255, 255, 255, 0.1) 83%,
+        rgba(255, 255, 255, 0) 100%
+      ); /* cream-to-transparent wash, centered on the text band */
+    }
+
+    /* ---- text stage track (track 1) ---- */
+    .clip.benefit06-stage-clip {
+      position: absolute;
+      inset: 0;
+    }
+    .benefit06-stage {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1594px; /* caption keep-out: content stays within top 83% (0.83 * 1920) */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 84px;
+    }
+    .benefit06-line {
+      position: absolute;
+      left: 84px;
+      right: 84px;
+      margin: 0;
+      text-align: center;
+      color: #ffffff; /* cream token, frame.md */
+      font-family: "Lora", serif;
+      letter-spacing: -0.01em;
+      text-shadow: 0 6px 28px rgba(20, 12, 14, 0.55), 0 2px 8px rgba(20, 12, 14, 0.4);
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+    #benefit06-line1 {
+      font-size: 74px;
+      font-weight: 400;
+      line-height: 1.16;
+    }
+    #benefit06-line2 {
+      font-size: 108px;
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+    }
+    #benefit06-line3 {
+      font-size: 132px;
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+    }
+  </style>
+
+  <div id="root" data-composition-id="06-benefit" data-start="0" data-duration="4.4" data-width="1080" data-height="1920">
+    <div class="clip benefit06-bg" data-start="0" data-duration="4.4" data-track-index="0">
+      <img
+        class="benefit06-bg-photo"
+        id="benefit06-bg-photo"
+        src="assets/spa-treatment-tray-with-a-lit-candle-rol.jpg"
+        alt=""
+      />
+      <div class="benefit06-bg-dim"></div>
+      <div class="benefit06-bg-gradient"></div>
+    </div>
+
+    <div class="clip benefit06-stage-clip" data-start="0" data-duration="4.4" data-track-index="1">
+      <div class="benefit06-stage">
+        <p class="benefit06-line" id="benefit06-line1">Checks your calendar live.</p>
+        <p class="benefit06-line" id="benefit06-line2">Books automatically.</p>
+        <p class="benefit06-line" id="benefit06-line3">Every time.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["06-benefit"] = tl;
+
+      var bgPhoto = document.getElementById("benefit06-bg-photo");
+      var line1 = document.getElementById("benefit06-line1");
+      var line2 = document.getElementById("benefit06-line2");
+      var line3 = document.getElementById("benefit06-line3");
+
+      // Slow continuous push-in on the background photo, running underneath
+      // the whole shot (multi-phase-camera push, transform-only, deterministic).
+      tl.fromTo(bgPhoto, { scale: 1 }, { scale: 1.07, duration: 4, ease: "none" }, 0);
+
+      // Each line's own fromTo below states its collapsed from-state explicitly,
+      // so seeking to any time (including t=0, before line2/line3 start) is correct.
+
+      // --- Scene 1 (0.0-1.3s): "Checks your calendar live." ---
+      // spring-pop-entrance: calm long-tail settle, no bounce (premium/calm register).
+      tl.fromTo(
+        line1,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4, ease: "power3.out" },
+        0.08
+      );
+      tl.to(line1, { scale: 0.92, opacity: 0, duration: 0.26, ease: "power2.in" }, 1.02);
+
+      // --- Scene 2 (1.3-2.6s): "Books automatically." ---
+      tl.fromTo(
+        line2,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4, ease: "power3.out" },
+        1.32
+      );
+      tl.to(line2, { scale: 0.92, opacity: 0, duration: 0.24, ease: "power2.in" }, 2.34);
+
+      // --- Scene 3 (2.6-4.0s): "Every time." heavier weight, escalating close, holds. ---
+      tl.fromTo(
+        line3,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.46, ease: "power3.out" },
+        2.62
+      );
+      // Final beat: lands and holds to the end, settle only, no exit tween.
+    })();
+  </script>
+</template>

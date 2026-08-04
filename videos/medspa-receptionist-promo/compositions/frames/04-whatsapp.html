@@ -1,0 +1,314 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lora";
+      src: url("assets/fonts/Lora-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Lora-Variable.woff2") format("woff2");
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Raleway";
+      src: url("assets/fonts/Raleway-Variable.woff2") format("woff2-variations"),
+        url("assets/fonts/Raleway-Variable.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Lora", serif;
+      color: #2b1e24;
+    }
+
+    .wa04-bg {
+      position: absolute;
+      inset: 0;
+      background: #fbf6f4;
+    }
+
+    /* — left column: kicker + short supporting headline — */
+    .wa04-left {
+      position: absolute;
+      left: 5.93cqw;
+      top: 21.3cqw;
+      width: 38.52cqw;
+    }
+
+    .wa04-kicker {
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 700;
+      font-size: 2.04cqw;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #7a1f3d;
+      opacity: 0;
+    }
+
+    .wa04-hairline {
+      width: 5.93cqw;
+      height: 2px;
+      margin-top: 1.85cqw;
+      background: #7a1f3d;
+      transform-origin: left center;
+      opacity: 0;
+    }
+
+    .wa04-headline {
+      margin-top: 2.59cqw;
+      font-family: "Lora", serif;
+      font-size: 3.7cqw;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: #2b1e24;
+      opacity: 0;
+    }
+
+    /* — backdrop stage behind the chat card — */
+    .wa04-stage {
+      position: absolute;
+      left: 48.33cqw;
+      top: 15.93cqw;
+      width: 51.48cqw;
+      height: 88.52cqw;
+      background: #f4e9e8;
+      border-radius: 2.96cqw;
+      opacity: 0;
+    }
+
+    /* — the chat card itself — */
+    .wa04-card {
+      position: absolute;
+      left: 51.85cqw;
+      top: 18.52cqw;
+      width: 44.44cqw;
+      height: 83.33cqw;
+      background: #ffffff;
+      border: 2px solid #2b1e24;
+      border-radius: 2.59cqw;
+      padding: 3.7cqw;
+      opacity: 0;
+    }
+
+    .wa04-header {
+      display: flex;
+      align-items: center;
+      gap: 1.48cqw;
+    }
+
+    .wa04-avatar {
+      flex: 0 0 auto;
+      width: 5.93cqw;
+      height: 5.93cqw;
+      border-radius: 50%;
+      background: #7a1f3d;
+      color: #fbf6f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Lora", serif;
+      font-size: 2.04cqw;
+      letter-spacing: 0.02em;
+    }
+
+    .wa04-headinfo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.37cqw;
+    }
+
+    .wa04-name {
+      font-family: "Lora", serif;
+      font-size: 3.15cqw;
+      color: #2b1e24;
+    }
+
+    .wa04-substatus {
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 700;
+      font-size: 1.48cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c24868;
+    }
+
+    .wa04-thread {
+      margin-top: 3.7cqw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wa04-row {
+      display: flex;
+      opacity: 0;
+    }
+
+    .wa04-row + .wa04-row {
+      margin-top: 2.59cqw;
+    }
+
+    .wa04-row.in {
+      justify-content: flex-start;
+    }
+
+    .wa04-row.out {
+      justify-content: flex-end;
+    }
+
+    .wa04-msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 31.48cqw;
+    }
+
+    .wa04-msg.align-r {
+      align-items: flex-end;
+    }
+
+    .wa04-bubble {
+      font-family: "Raleway", sans-serif;
+      font-size: 2.78cqw;
+      line-height: 1.4;
+      padding: 1.85cqw 2.04cqw;
+      border-radius: 1.85cqw;
+    }
+
+    .wa04-bubble.in {
+      background: #f4e9e8;
+      color: #2b1e24;
+      border-bottom-left-radius: 0.56cqw;
+    }
+
+    .wa04-bubble.out {
+      background: #7a1f3d;
+      color: #ffffff;
+      border-bottom-right-radius: 0.56cqw;
+    }
+
+    .wa04-time {
+      margin-top: 0.56cqw;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 1.48cqw;
+      letter-spacing: 0.04em;
+      color: #c24868;
+      opacity: 0;
+    }
+
+    .wa04-chip {
+      margin-top: 3.33cqw;
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: 0.74cqw;
+      background: #254f3a;
+      color: #fbf6f4;
+      padding: 1.67cqw 2.41cqw;
+      border-radius: 999px;
+      opacity: 0;
+    }
+
+    .wa04-chip-check {
+      font-family: "Lora", serif;
+      font-size: 2.04cqw;
+      line-height: 1;
+    }
+
+    .wa04-chip-label {
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 700;
+      font-size: 1.85cqw;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+  </style>
+
+  <div id="root" data-composition-id="04-whatsapp" data-start="0" data-duration="6.5" data-width="1080" data-height="1920">
+    <div class="wa04-bg clip" data-start="0" data-duration="6.5" data-track-index="0"></div>
+
+    <div class="wa04-left clip" data-start="0" data-duration="6.5" data-track-index="1">
+      <div class="wa04-kicker">Live Enquiry</div>
+      <div class="wa04-hairline"></div>
+      <div class="wa04-headline">Answered and<br />booked instantly.</div>
+    </div>
+
+    <div class="wa04-stage clip" data-start="0" data-duration="6.5" data-track-index="2"></div>
+
+    <div class="wa04-card clip" data-start="0" data-duration="6.5" data-track-index="3">
+      <div class="wa04-header">
+        <div class="wa04-avatar">LH</div>
+        <div class="wa04-headinfo">
+          <div class="wa04-name">Layla Haddad</div>
+          <div class="wa04-substatus">New enquiry</div>
+        </div>
+      </div>
+
+      <div class="wa04-thread">
+        <div class="wa04-row in" id="wa04-row1">
+          <div class="wa04-msg">
+            <div class="wa04-bubble in">Hi, do you have anything for a HydraFacial this Thursday afternoon?</div>
+            <div class="wa04-time" id="wa04-time1">2:14 PM</div>
+          </div>
+        </div>
+
+        <div class="wa04-row out" id="wa04-row2">
+          <div class="wa04-msg align-r">
+            <div class="wa04-bubble out">We have 3:30pm or 5pm open this Thursday. Which works better for you?</div>
+            <div class="wa04-time" id="wa04-time2">2:14 PM</div>
+          </div>
+        </div>
+
+        <div class="wa04-row in" id="wa04-row3">
+          <div class="wa04-msg">
+            <div class="wa04-bubble in">3:30 works great</div>
+            <div class="wa04-time" id="wa04-time3">2:15 PM</div>
+          </div>
+        </div>
+
+        <div class="wa04-chip" id="wa04-chip">
+          <span class="wa04-chip-check">&check;</span>
+          <span class="wa04-chip-label">Booked, added to calendar automatically</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–1.2s) — the surface establishes: backdrop, card, header, left kicker/headline.
+      tl.fromTo(".wa04-stage", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 0.0);
+      tl.fromTo(".wa04-card", { opacity: 0, y: 20, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, 0.05);
+      tl.fromTo(".wa04-kicker", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.05);
+      tl.fromTo(".wa04-hairline", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power3.out" }, 0.3);
+      tl.fromTo(".wa04-headline", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 0.35);
+      tl.fromTo(".wa04-avatar, .wa04-name", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 0.2);
+      tl.fromTo(".wa04-substatus", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.35);
+
+      // Scene 2 (1.2–2.6s) — incoming enquiry bubble settles.
+      tl.fromTo("#wa04-row1", { opacity: 0, y: 14, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 1.2);
+      tl.fromTo("#wa04-time1", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power3.out" }, 1.5);
+
+      // Scene 3 (2.6–4.2s) — reply bubble with the two real slots.
+      tl.fromTo("#wa04-row2", { opacity: 0, y: 14, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, 2.65);
+      tl.fromTo("#wa04-time2", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power3.out" }, 2.95);
+
+      // Scene 4 (4.2–5.2s) — client confirms.
+      tl.fromTo("#wa04-row3", { opacity: 0, y: 14, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 4.25);
+      tl.fromTo("#wa04-time3", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power3.out" }, 4.5);
+
+      // Scene 5 (5.2–6.0s) — booked chip pops in on a long-tail scale-in and holds.
+      tl.fromTo("#wa04-chip", { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 5.25);
+
+      window.__timelines["04-whatsapp"] = tl;
+    })();
+  </script>
+</template>

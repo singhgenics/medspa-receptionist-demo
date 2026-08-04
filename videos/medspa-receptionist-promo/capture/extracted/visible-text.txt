@@ -1,0 +1,89 @@
+[a] AI Receptionist
+[a] The problem
+[a] How it works
+[a] Capabilities
+[a] Get this built
+[div] Sample build for Dubai med spas
+[h1] Never miss another
+[em] booking.
+[p] An AI receptionist that answers every WhatsApp message and phone call, checks your calendar, and books the appointment on its own. No hold music, no missed calls, no lost clients.
+[a] Get this built
+[a] See how it works
+[div] Layla Haddad
+[div] Replying now
+[div] Hi, do you have anything for a hydrafacial this Thursday afternoon?
+[div] 2:14 pm
+[div] Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better for you?
+[div] Sent by AI · 2:14 pm
+[div] 3:30 works great
+[div] Booked · added to calendar automatically
+[div] 62%
+[div] of salon and spa calls go unanswered
+[div] 85%
+[div] of callers who can't reach you never call back, they call a competitor instead
+[div] AED 475K+
+[div] lost annually from just 3 missed calls a day at an average med spa
+[div] AED 29K+
+[div] average med spa client lifetime value, per missed relationship
+[p] Sources: AdminifAI, Booking Bee, Hyperleap AI salon/medspa call research, 2026. Figures converted to AED.
+[span] The problem
+[h2] You're not losing clients on service. You're losing them on the phone.
+[p] Your front desk is excellent when they're free. The problem is they're rarely free, and every unanswered call is a client who books somewhere else within minutes.
+[h3] Staff can't answer while treating a client
+[p] 35 to 40% of calls go unanswered during peak hours, precisely when your busiest, highest-value clients are trying to reach you.
+[h3] Most callers never try twice
+[p] Only 20 to 30% call back if they don't reach you the first time. The rest quietly become a competitor's client instead.
+[h3] WhatsApp replies come too slowly to matter
+[p] By the time someone gets back to a WhatsApp enquiry, the client has often already booked elsewhere or lost interest entirely.
+[span] How it works
+[h2] Answers instantly. Books on its own.
+[p] Runs quietly in the background across both channels your clients actually use to reach you.
+[h3] A message or call comes in
+[p] WhatsApp or phone, picked up instantly, any time of day.
+[h3] The AI has a real conversation
+[p] Understands the service requested, asks natural follow-up questions, never sounds scripted.
+[h3] Checks your calendar live
+[p] Offers real open slots only, no double-bookings, no back-and-forth.
+[h3] Books and confirms automatically
+[p] The appointment lands on your calendar the moment it's agreed, no manual entry.
+[div] Works with your existing calendar
+[div] Live within days
+[div] Sounds like your front desk, not a robot
+[p] The automation should feel like an extension of the front desk you already trust, calm, attentive, never rushed.
+[p] The design principle behind every build
+[span] Sample interactions
+[h2] Text or call. Same result: booked.
+[p] Real examples of the AI handling a WhatsApp enquiry and an inbound phone call, start to finish.
+[div] WhatsApp enquiry
+[div] Nadia Al Rashid · Botox consultation
+[div] Booked
+[div] Hey! Do you guys do consultations for Botox? Never done it before and a bit nervous about it
+[div] 6:48 pm
+[div] Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?
+[div] Sent by AI · 6:49 pm
+[div] Wednesday if possible, evening?
+[div] Consultation booked Wed 6:30pm · calendar updated
+[div] Inbound phone call
+[div] Answered live · lip filler enquiry
+[div] Booked
+[div] Caller
+[div] Hi, I wanted to ask about lip filler pricing and if you have anything this weekend.
+[div] Of course! Our lip filler starts from AED 1,200 depending on the volume. For this weekend I have Saturday at 1pm or Sunday at 11am open. Would either of those work?
+[div] Caller
+[div] Saturday 1pm is perfect.
+[div] Booked Saturday 1:00pm · confirmation sent by SMS
+[span] Capabilities
+[h2] Fits into how you already run your front desk.
+[p] Whatever you book on today, this connects to it. No new software to learn.
+[div] Natural voice conversation
+[div] Instant WhatsApp replies
+[div] Live calendar sync
+[div] Works with your existing booking system
+[strong] About this build:
+[p] this is a sample project demonstrating the system I build for Dubai med spas and aesthetic clinics. Every clinic runs differently, so tone, service menu, and calendar integration are customised to how you already book before anything goes live. Nothing here represents a real client; it's a working demonstration of the automation itself.
+[div] Every appointment on your calendar, without anyone missing a message.
+[h2] Want this answering your phone?
+[p] If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to missed calls, this can be live within days.
+[p] Message me here to get started.
+[footer] Sample automation build for portfolio purposes.
+[a] Get this built
