@@ -93,8 +93,9 @@ header.scrolled{box-shadow:0 4px 20px rgba(43,30,36,.05);}
 }
 
 /* HERO — asymmetric split, not centered */
-.hero{padding:70px 0 100px;overflow:hidden;}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center;}
+.hero{padding:70px 0 100px;overflow:hidden;position:relative;}
+.hero-blob{position:absolute;top:-140px;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 42% 42%,rgba(194,72,104,.14),rgba(122,31,61,.05) 60%,transparent 76%);filter:blur(6px);pointer-events:none;z-index:0;will-change:transform;}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center;position:relative;z-index:1;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--rose-deep);letter-spacing:.3px;margin-bottom:26px;}
 .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -181,8 +182,9 @@ header.scrolled{box-shadow:0 4px 20px rgba(43,30,36,.05);}
 
 /* AMBIANCE — split image + quote */
 .ambiance-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
-.ambiance-img{border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lg);}
-.ambiance-img img{width:100%;height:520px;object-fit:cover;object-position:70% 50%;transition:transform 1.1s var(--ease-out);}
+.ambiance-img{border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lg);position:relative;height:520px;}
+.parallax-layer{position:absolute;top:-15%;left:0;width:100%;height:130%;will-change:transform;}
+.ambiance-img img{width:100%;height:100%;object-fit:cover;object-position:70% 50%;transition:transform 1.1s var(--ease-out);}
 @media (hover:hover) and (pointer:fine){.ambiance-img:hover img{transform:scale(1.045);}}
 .ambiance-quote{font-family:'Lora',serif;font-size:clamp(24px,2.4vw,32px);font-weight:500;font-style:italic;line-height:1.5;color:var(--ink);}
 .ambiance-attr{margin-top:24px;font-family:'Raleway',sans-serif;font-style:normal;font-size:13.5px;font-weight:600;color:var(--rose-deep);letter-spacing:.3px;}
@@ -194,7 +196,7 @@ header.scrolled{box-shadow:0 4px 20px rgba(43,30,36,.05);}
 .banner-text{position:absolute;left:0;right:0;bottom:0;padding:36px 44px;color:#fff;font-family:'Lora',serif;font-size:clamp(20px,2vw,26px);font-weight:500;font-style:italic;}
 @media (max-width:960px){
   .ambiance-grid{grid-template-columns:1fr;gap:32px;}
-  .ambiance-img img{height:340px;}
+  .ambiance-img{height:340px;}
   .banner-img{height:280px;}
 }
 
@@ -273,9 +275,10 @@ footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-si
 
 <!-- HERO -->
 <section class="hero" id="top">
+  <div class="hero-blob" data-parallax-hero="bg" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero-grid">
-      <div>
+      <div data-parallax-hero="text">
         <div class="hero-eyebrow rv"><div class="pulse-dot"></div>Sample build for Dubai med spas</div>
         <h1 class="rv rv-d1">Never miss another <em>booking.</em></h1>
         <p class="lede rv rv-d2">An AI receptionist that answers every WhatsApp message and phone call, checks your calendar, and books the appointment on its own. No hold music, no missed calls, no lost clients.</p>
@@ -286,7 +289,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-si
       </div>
 
       <div class="hero-visual rv rv-d2">
-        <div class="hero-card">
+        <div class="hero-card" data-parallax-hero="visual">
           <div class="phone-hdr">
             <div class="phone-av">L</div>
             <div>
@@ -383,7 +386,9 @@ footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-si
   <div class="wrap">
     <div class="ambiance-grid">
       <div class="ambiance-img rv">
-        <img src="img/spa-detail.jpg" alt="Spa treatment tray with a lit candle, rolled towels and an orchid" loading="lazy">
+        <div class="parallax-layer" data-parallax>
+          <img src="img/spa-detail.jpg" alt="Spa treatment tray with a lit candle, rolled towels and an orchid" loading="lazy">
+        </div>
       </div>
       <div class="rv rv-d1">
         <p class="ambiance-quote">The automation should feel like an extension of the front desk you already trust, calm, attentive, never rushed.</p>
@@ -459,7 +464,9 @@ footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-si
 <section style="padding:70px 0 0;">
   <div class="wrap">
     <div class="banner-img rv">
-      <img src="img/spa-interior.jpg" alt="Warm, softly lit spa treatment room with folded towels and candles" loading="lazy">
+      <div class="parallax-layer" data-parallax>
+        <img src="img/spa-interior.jpg" alt="Warm, softly lit spa treatment room with folded towels and candles" loading="lazy">
+      </div>
       <div class="banner-fade"></div>
       <div class="banner-text">Every appointment on your calendar, without anyone missing a message.</div>
     </div>
@@ -504,6 +511,31 @@ footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-si
 (function(){
   var hdr=document.getElementById('hdr');
   window.addEventListener('scroll',function(){hdr.classList.toggle('scrolled',window.scrollY>8);},{passive:true});
+})();
+
+/* PARALLAX — scroll-scrubbed depth on the two photo sections and the hero.
+   Applied to plain wrapper elements only (never anything carrying .rv), so
+   this never fights the reveal-on-load transitions. Skips entirely under
+   prefers-reduced-motion. */
+(function(){
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  if(window.matchMedia('(max-width:640px)').matches)return; // keep small screens simple and jank-free
+
+  document.querySelectorAll('.parallax-layer').forEach(function(layer){
+    gsap.fromTo(layer,
+      {yPercent:-8},
+      {yPercent:8,ease:'none',
+        scrollTrigger:{trigger:layer.parentElement,start:'top bottom',end:'bottom top',scrub:true}}
+    );
+  });
+
+  var heroBg=document.querySelector('[data-parallax-hero="bg"]');
+  var heroText=document.querySelector('[data-parallax-hero="text"]');
+  var heroVisual=document.querySelector('[data-parallax-hero="visual"]');
+  if(heroBg)gsap.to(heroBg,{yPercent:22,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  if(heroText)gsap.to(heroText,{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  if(heroVisual)gsap.to(heroVisual,{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 })();
 
 (function(){
