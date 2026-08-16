@@ -136,11 +136,23 @@ header.scrolled{border-bottom-color:var(--hairline);}
 #hero3d{position:absolute;inset:0;width:100%;height:100%;display:block;}
 .hero-phone-card{
   position:absolute;right:14px;bottom:-6%;width:min(290px,80%);
-  background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:10px;
   transform-style:preserve-3d;
   transform:perspective(1400px) rotateY(-8deg) rotateX(4deg);
   transition:transform .4s var(--ease-out);
+  animation:phoneFloat 5.5s ease-in-out infinite;
 }
+@keyframes phoneFloat{
+  0%,100%{transform:perspective(1400px) rotateY(-8deg) rotateX(4deg) translateY(0);}
+  50%{transform:perspective(1400px) rotateY(-6.5deg) rotateX(2.5deg) translateY(-4px);}
+}
+/* DEVICE FRAME — a physical phone bezel wrapping the app screen mockups */
+.phone-mock{background:#141414;border-radius:30px;padding:10px 8px;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 24px 48px -18px rgba(10,10,10,.45);}
+.device-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:62px;height:15px;background:#000;border-radius:9px;z-index:5;}
+.device-btn{position:absolute;background:#0b0b0b;border-radius:2px;}
+.btn-vol1{left:-2px;top:62px;width:2.5px;height:22px;}
+.btn-vol2{left:-2px;top:90px;width:2.5px;height:22px;}
+.btn-power{right:-2px;top:76px;width:2.5px;height:34px;}
+.device-screen{background:var(--canvas);border-radius:22px;overflow:hidden;position:relative;}
 .phone-hdr{display:flex;align-items:center;gap:11px;padding:14px 12px 12px;border-bottom:1px solid var(--hairline);}
 .phone-av{width:34px;height:34px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;}
 .phone-name{font-size:13.5px;font-weight:600;color:var(--ink);}
@@ -236,6 +248,16 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .chat-seq.play .cs-6{transition-delay:1.9s;}
 .chat-seq.play .cs-7{transition-delay:2.4s;}
 
+.typing-dots{display:inline-flex;gap:4px;align-self:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-md);padding:11px 14px;margin-bottom:6px;opacity:0;}
+.typing-dots.out{align-self:flex-end;background:var(--primary);border-color:var(--primary);}
+.typing-dots.out span{background:rgba(255,255,255,.55);}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted-soft);animation:dotBounce 1s ease-in-out infinite;}
+.typing-dots span:nth-child(2){animation-delay:.15s;}
+.typing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes dotBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
+@keyframes typingCycle{0%{opacity:0;transform:translateY(8px);}15%{opacity:1;transform:translateY(0);}75%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-4px);}}
+.chat-seq.play .typing-dots{animation:typingCycle .6s ease-out forwards;animation-delay:.45s;}
+
 .voice-line{display:flex;gap:12px;margin-bottom:14px;}
 .voice-tag{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-xs);height:fit-content;margin-top:1px;}
 .voice-tag.ai{background:rgba(184,164,237,.28);color:#5a3fa8;}
@@ -295,6 +317,20 @@ header.scrolled{border-bottom-color:var(--hairline);}
   .mob-cta{display:block;}
   .footer-grid{grid-template-columns:1fr;}
 }
+/* TOUCH IDLE MOTION — .tilt-3d cards get pointer-driven tilt on hover-capable
+   devices (see script below); touch devices can't hover, so give the same
+   cards a gentle looping idle wobble instead. Excludes the ambiance photo,
+   which shouldn't wobble. */
+@keyframes idleTilt{
+  0%,100%{transform:perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0);}
+  50%{transform:perspective(900px) rotateX(-2deg) rotateY(3deg) translateY(-5px);}
+}
+@media (hover:none),(pointer:coarse){
+  .conv-card,.p-row,.feature-card.tilt-3d{animation:idleTilt 4.5s ease-in-out infinite;}
+  .conv-card:nth-child(2),.p-row:nth-child(2),.feature-card.tilt-3d:nth-child(2){animation-delay:.5s;}
+  .p-row:nth-child(3),.feature-card.tilt-3d:nth-child(3){animation-delay:1s;}
+  .feature-card.tilt-3d:nth-child(4){animation-delay:1.5s;}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;}
   .rv,.chat-seq .bubble,.chat-seq .b-meta,.chat-seq .booked-pill,.chat-seq .voice-line{opacity:1;transform:none;}
@@ -341,23 +377,30 @@ header.scrolled{border-bottom-color:var(--hairline);}
       <div class="hero-visual rv rv-d2">
         <div class="hero-illustration-card">
           <div class="hero-3d-stage" id="hero3dStage">
-            <span class="hero-badge" id="heroBadge" style="top:6%;left:4%;"><span class="pulse-dot"></span>Always on</span>
+            <span class="hero-badge" id="heroBadge" style="top:-14px;left:6px;box-shadow:var(--shadow-sm,0 6px 18px -6px rgba(10,10,10,.18));"><span class="pulse-dot"></span>Always on</span>
             <canvas id="hero3d"></canvas>
-            <div class="hero-phone-card" id="heroPhoneCard">
-              <div class="phone-hdr">
-                <div class="phone-av">L</div>
-                <div>
-                  <div class="phone-name">Layla Haddad</div>
-                  <div class="phone-status">Replying now</div>
+            <div class="hero-phone-card phone-mock" id="heroPhoneCard">
+              <span class="device-notch"></span>
+              <span class="device-btn btn-vol1"></span>
+              <span class="device-btn btn-vol2"></span>
+              <span class="device-btn btn-power"></span>
+              <div class="device-screen">
+                <div class="phone-hdr">
+                  <div class="phone-av">L</div>
+                  <div>
+                    <div class="phone-name">Layla Haddad</div>
+                    <div class="phone-status">Replying now</div>
+                  </div>
                 </div>
-              </div>
-              <div class="phone-body chat-seq" id="heroChat">
-                <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
-                <div class="b-meta cs-2">2:14 pm</div>
-                <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
-                <div class="b-meta right cs-4">Sent by AI · 2:14 pm</div>
-                <div class="bubble in cs-5">3:30 works great</div>
-                <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
+                <div class="phone-body chat-seq" id="heroChat">
+                  <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
+                  <div class="b-meta cs-2">2:14 pm</div>
+                  <div class="typing-dots out"><span></span><span></span><span></span></div>
+                  <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
+                  <div class="b-meta right cs-4">Sent by AI · 2:14 pm</div>
+                  <div class="bubble in cs-5">3:30 works great</div>
+                  <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
+                </div>
               </div>
             </div>
           </div>
@@ -477,6 +520,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
         <div class="conv-body chat-seq">
           <div class="bubble in cs-1">Hey! Do you guys do consultations for Botox? Never done it before and a bit nervous about it</div>
           <div class="b-meta cs-2">6:48 pm</div>
+          <div class="typing-dots out"><span></span><span></span><span></span></div>
           <div class="bubble out cs-3">Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?</div>
           <div class="b-meta right cs-4">Sent by AI · 6:49 pm</div>
           <div class="bubble in cs-5">Wednesday if possible, evening?</div>
@@ -489,7 +533,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
           <div class="conv-ic" style="background:rgba(26,58,58,.1);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           </div>
-          <div><div class="conv-title">Inbound phone call</div><div class="conv-sub">Answered live · lip filler enquiry</div></div>
+          <div><div class="conv-title">Inbound phone call</div><div class="conv-sub"><span class="pulse-dot" style="display:inline-block;margin-right:5px;vertical-align:middle;"></span>Answered live · lip filler enquiry</div></div>
           <div class="conv-chip">Booked</div>
         </div>
         <div class="conv-body chat-seq">
