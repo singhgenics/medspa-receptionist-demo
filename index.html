@@ -131,19 +131,38 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .avatar-txt strong{color:var(--ink);}
 
 .hero-visual{position:relative;}
-.hero-illustration-card{background:var(--surface-soft);border-radius:var(--r-xl);padding:18px;position:relative;}
-.hero-3d-stage{position:relative;height:clamp(340px,40vw,460px);perspective:1400px;}
-#hero3d{position:absolute;inset:0;width:100%;height:100%;display:block;}
-.hero-phone-card{
-  position:absolute;right:14px;bottom:-6%;width:min(290px,80%);
-  transform-style:preserve-3d;
-  transform:perspective(1400px) rotateY(-8deg) rotateX(4deg);
-  transition:transform .4s var(--ease-out);
-  animation:phoneFloat 5.5s ease-in-out infinite;
+.hero-illustration-card{
+  background:radial-gradient(120% 130% at 30% 15%,var(--surface-card) 0%,var(--surface-soft) 55%,var(--surface-soft) 100%);
+  border-radius:var(--r-xl);position:relative;
+  height:clamp(380px,42vw,480px);
+  display:flex;align-items:center;justify-content:center;
+  perspective:1800px;overflow:visible;
 }
-@keyframes phoneFloat{
-  0%,100%{transform:perspective(1400px) rotateY(-8deg) rotateX(4deg) translateY(0);}
-  50%{transform:perspective(1400px) rotateY(-6.5deg) rotateX(2.5deg) translateY(-4px);}
+.phone-shadow{
+  position:absolute;bottom:9%;left:50%;width:200px;height:26px;
+  background:radial-gradient(ellipse,rgba(10,10,10,.32),transparent 72%);
+  filter:blur(4px);transform:translateX(-50%) scaleX(.8);
+  animation:shadowPulse 9s ease-in-out infinite;
+}
+.hero-phone-card{
+  position:relative;width:min(270px,74%);
+  transform-style:preserve-3d;
+  transform:perspective(1800px) rotateY(-8deg) rotateX(4deg);
+  animation:phoneOrbit 9s ease-in-out infinite;
+}
+@keyframes phoneOrbit{
+  0%{transform:perspective(1800px) rotateY(-20deg) rotateX(4deg) translateY(0);}
+  25%{transform:perspective(1800px) rotateY(-6deg) rotateX(-2deg) translateY(-10px);}
+  50%{transform:perspective(1800px) rotateY(11deg) rotateX(4deg) translateY(0);}
+  75%{transform:perspective(1800px) rotateY(-3deg) rotateX(-1deg) translateY(-7px);}
+  100%{transform:perspective(1800px) rotateY(-20deg) rotateX(4deg) translateY(0);}
+}
+@keyframes shadowPulse{
+  0%{transform:translateX(-50%) scaleX(.72);opacity:.55;}
+  25%{transform:translateX(-50%) scaleX(1);opacity:.38;}
+  50%{transform:translateX(-50%) scaleX(.82);opacity:.5;}
+  75%{transform:translateX(-50%) scaleX(1);opacity:.38;}
+  100%{transform:translateX(-50%) scaleX(.72);opacity:.55;}
 }
 /* DEVICE FRAME — a physical phone bezel wrapping the app screen mockups */
 .phone-mock{background:#141414;border-radius:30px;padding:10px 8px;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 24px 48px -18px rgba(10,10,10,.45);}
@@ -299,7 +318,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
 @media (max-width:960px){
   .band{padding:64px 0;}
   .hero-grid{grid-template-columns:1fr;gap:48px;}
-  .hero-visual{order:2;width:100%;max-width:440px;margin:0 auto;}
+  .hero-visual{order:2;width:100%;max-width:440px;margin:36px auto 0;}
   .p-row{grid-template-columns:1fr;gap:14px;text-align:left;}
   .p-arrow{display:none;}
   .card-grid{grid-template-columns:1fr 1fr;}
@@ -376,31 +395,29 @@ header.scrolled{border-bottom-color:var(--hairline);}
 
       <div class="hero-visual rv rv-d2">
         <div class="hero-illustration-card">
-          <div class="hero-3d-stage" id="hero3dStage">
-            <span class="hero-badge" id="heroBadge" style="top:-14px;left:6px;box-shadow:var(--shadow-sm,0 6px 18px -6px rgba(10,10,10,.18));"><span class="pulse-dot"></span>Always on</span>
-            <canvas id="hero3d"></canvas>
-            <div class="hero-phone-card phone-mock" id="heroPhoneCard">
-              <span class="device-notch"></span>
-              <span class="device-btn btn-vol1"></span>
-              <span class="device-btn btn-vol2"></span>
-              <span class="device-btn btn-power"></span>
-              <div class="device-screen">
-                <div class="phone-hdr">
-                  <div class="phone-av">L</div>
-                  <div>
-                    <div class="phone-name">Layla Haddad</div>
-                    <div class="phone-status">Replying now</div>
-                  </div>
+          <span class="hero-badge" id="heroBadge" style="top:14px;left:14px;box-shadow:var(--shadow-sm,0 6px 18px -6px rgba(10,10,10,.18));z-index:6;"><span class="pulse-dot"></span>Always on</span>
+          <div class="phone-shadow" aria-hidden="true"></div>
+          <div class="hero-phone-card phone-mock" id="heroPhoneCard">
+            <span class="device-notch"></span>
+            <span class="device-btn btn-vol1"></span>
+            <span class="device-btn btn-vol2"></span>
+            <span class="device-btn btn-power"></span>
+            <div class="device-screen">
+              <div class="phone-hdr">
+                <div class="phone-av">L</div>
+                <div>
+                  <div class="phone-name">Layla Haddad</div>
+                  <div class="phone-status">Replying now</div>
                 </div>
-                <div class="phone-body chat-seq" id="heroChat">
-                  <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
-                  <div class="b-meta cs-2">2:14 pm</div>
-                  <div class="typing-dots out"><span></span><span></span><span></span></div>
-                  <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
-                  <div class="b-meta right cs-4">Sent by AI · 2:14 pm</div>
-                  <div class="bubble in cs-5">3:30 works great</div>
-                  <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
-                </div>
+              </div>
+              <div class="phone-body chat-seq" id="heroChat">
+                <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
+                <div class="b-meta cs-2">2:14 pm</div>
+                <div class="typing-dots out"><span></span><span></span><span></span></div>
+                <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
+                <div class="b-meta right cs-4">Sent by AI · 2:14 pm</div>
+                <div class="bubble in cs-5">3:30 works great</div>
+                <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
               </div>
             </div>
           </div>
@@ -716,120 +733,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
   });
 })();
 
-/* HERO 3D SCENE — a chrome/glass sculpture auto-rotating inside a wireframe
-   cage, with a few orbiting accent spheres. Purely decorative; the page is
-   fully readable and functional if WebGL or the CDN is unavailable. */
-(function(){
-  var canvas=document.getElementById('hero3d');
-  var stage=document.getElementById('hero3dStage');
-  if(!canvas||!stage||typeof THREE==='undefined')return;
-
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  var renderer;
-  try{
-    renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
-  }catch(e){return;}
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-
-  var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(38,1,0.1,100);
-  camera.position.set(0,0.3,6.4);
-  camera.lookAt(0,0,0);
-
-  scene.add(new THREE.AmbientLight(0xEDE3FF,1.1));
-  var key=new THREE.PointLight(0xffffff,2.2,20); key.position.set(4,5,5); scene.add(key);
-  var rim=new THREE.PointLight(0xC6ADFF,2.0,20); rim.position.set(-4,-2,3); scene.add(rim);
-  var fill=new THREE.PointLight(0xFFD9E8,1.2,20); fill.position.set(0,-4,-3); scene.add(fill);
-  var top=new THREE.PointLight(0xffffff,1.4,20); top.position.set(0,5,-2); scene.add(top);
-
-  var rig=new THREE.Group();
-  scene.add(rig);
-
-  var coreGeo=new THREE.TorusKnotGeometry(1,0.32,220,32,2,3);
-  var coreMat=new THREE.MeshPhysicalMaterial({
-    color:0xC9B6FA,metalness:0.35,roughness:0.28,clearcoat:1,clearcoatRoughness:0.15,reflectivity:0.6,sheen:0.4,sheenColor:0xFFFFFF
-  });
-  var core=new THREE.Mesh(coreGeo,coreMat);
-  core.scale.setScalar(0.85);
-  rig.add(core);
-
-  var cageGeo=new THREE.EdgesGeometry(new THREE.BoxGeometry(2.7,2.7,2.7));
-  var cageMat=new THREE.LineBasicMaterial({color:0x5B3FD9,transparent:true,opacity:0.32});
-  var cage=new THREE.LineSegments(cageGeo,cageMat);
-  cage.rotation.set(-0.5,0.35,0.15);
-  rig.add(cage);
-
-  var accentColors=[0xB08A4E,0xFF9EC4,0xFFFFFF,0xD9C6FF];
-  var accents=[];
-  for(var i=0;i<4;i++){
-    var g=new THREE.SphereGeometry(0.08+Math.random()*0.05,16,16);
-    var m=new THREE.MeshStandardMaterial({color:accentColors[i],emissive:accentColors[i],emissiveIntensity:0.35,roughness:0.4});
-    var s=new THREE.Mesh(g,m);
-    var radius=1.7+Math.random()*0.5;
-    var angle=(i/4)*Math.PI*2;
-    s.userData={radius:radius,angle:angle,speed:0.3+Math.random()*0.2,y:(Math.random()-0.5)*1.2};
-    rig.add(s);
-    accents.push(s);
-  }
-
-  rig.rotation.set(-0.15,0.5,0);
-
-  function size(){
-    var w=stage.clientWidth,h=stage.clientHeight;
-    if(!w||!h)return;
-    renderer.setSize(w,h,false);
-    camera.aspect=w/h;
-    camera.updateProjectionMatrix();
-  }
-  size();
-  window.addEventListener('resize',size);
-
-  var mouseX=0,mouseY=0;
-  window.addEventListener('pointermove',function(e){
-    mouseX=(e.clientX/window.innerWidth-0.5);
-    mouseY=(e.clientY/window.innerHeight-0.5);
-  },{passive:true});
-
-  var visible=true;
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){visible=e.isIntersecting;});
-  },{threshold:0.05}).observe(stage);
-
-  var scrollProgress=0;
-  if(typeof ScrollTrigger!=='undefined'){
-    ScrollTrigger.create({
-      trigger:stage,start:'top bottom',end:'bottom top',
-      onUpdate:function(self){scrollProgress=self.progress;}
-    });
-  }
-
-  var clock=new THREE.Clock();
-  function tick(){
-    requestAnimationFrame(tick);
-    if(!visible)return;
-    var dt=clock.getDelta();
-    if(!reduce){
-      rig.rotation.y+=dt*0.22;
-      core.rotation.x+=dt*0.15;
-      accents.forEach(function(s){
-        s.userData.angle+=dt*s.userData.speed;
-        s.position.set(
-          Math.cos(s.userData.angle)*s.userData.radius,
-          s.userData.y,
-          Math.sin(s.userData.angle)*s.userData.radius
-        );
-      });
-    }
-    rig.rotation.x=-0.15+mouseY*0.25+(scrollProgress-0.5)*0.5;
-    rig.rotation.z=mouseX*0.12;
-    renderer.render(scene,camera);
-  }
-  tick();
-})();
-
-/* FOOTER 3D — a small companion sculpture echoing the hero, sitting quietly
-   in the corner of the footer card. */
+/* FOOTER 3D — a small companion sculpture in the corner of the footer card. */
 (function(){
   var canvas=document.getElementById('footer3d');
   if(!canvas||typeof THREE==='undefined')return;
