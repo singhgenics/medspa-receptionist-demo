@@ -171,17 +171,18 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .btn-vol2{left:-2px;top:90px;width:2.5px;height:22px;}
 .btn-power{right:-2px;top:76px;width:2.5px;height:34px;}
 .device-screen{background:var(--canvas);border-radius:22px;overflow:hidden;position:relative;}
-.phone-hdr{display:flex;align-items:center;gap:11px;padding:14px 12px 12px;border-bottom:1px solid var(--hairline);}
-.phone-av{width:34px;height:34px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;}
-.phone-name{font-size:13.5px;font-weight:600;color:var(--ink);}
-.phone-status{font-size:11px;color:var(--success);}
-.phone-body{padding:14px 12px 16px;background:var(--surface-card);border-radius:0 0 12px 12px;display:flex;flex-direction:column;min-height:200px;}
-.bubble{max-width:88%;border-radius:var(--r-md);padding:10px 13px;font-size:12.5px;line-height:1.5;}
-.bubble.in{align-self:flex-start;background:#fff;border:1px solid var(--hairline);border-top-left-radius:4px;margin-bottom:6px;}
-.bubble.out{align-self:flex-end;background:var(--primary);color:#fff;border-top-right-radius:4px;margin-bottom:6px;}
+/* WhatsApp-themed chat mockup */
+.phone-hdr{display:flex;align-items:center;gap:11px;padding:14px 12px 12px;background:#075E54;}
+.phone-av{width:34px;height:34px;border-radius:50%;background:#128C7E;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0;}
+.phone-name{font-size:13.5px;font-weight:600;color:#fff;}
+.phone-status{font-size:11px;color:rgba(255,255,255,.72);}
+.phone-body{padding:14px 12px 16px;background:#ECE5DD;border-radius:0 0 12px 12px;display:flex;flex-direction:column;min-height:200px;}
+.bubble{max-width:88%;border-radius:8px;padding:10px 13px;font-size:12.5px;line-height:1.5;box-shadow:0 1px 1px rgba(0,0,0,.08);}
+.bubble.in{align-self:flex-start;background:#fff;border-top-left-radius:2px;margin-bottom:6px;}
+.bubble.out{align-self:flex-end;background:#D9FDD3;color:#111b21;border-top-right-radius:2px;margin-bottom:6px;}
 .b-meta{font-size:10px;color:var(--muted-soft);margin-bottom:12px;}
 .b-meta.right{align-self:flex-end;}
-.booked-pill{align-self:center;margin-top:8px;background:rgba(34,197,94,.12);color:#16803c;border:1px solid rgba(34,197,94,.3);font-size:11px;font-weight:600;padding:7px 15px;border-radius:var(--r-pill);text-align:center;}
+.booked-pill{align-self:center;margin-top:8px;background:rgba(37,211,102,.16);color:#075E54;border:1px solid rgba(37,211,102,.35);font-size:11px;font-weight:600;padding:7px 15px;border-radius:var(--r-pill);text-align:center;}
 
 /* FEATURE CARDS (saturated) */
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;}
@@ -266,9 +267,9 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .chat-seq.play .cs-6{transition-delay:1.9s;}
 .chat-seq.play .cs-7{transition-delay:2.4s;}
 
-.typing-dots{display:inline-flex;gap:4px;align-self:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-md);padding:11px 14px;margin-bottom:6px;opacity:0;}
-.typing-dots.out{align-self:flex-end;background:var(--primary);border-color:var(--primary);}
-.typing-dots.out span{background:rgba(255,255,255,.55);}
+.typing-dots{display:inline-flex;gap:4px;align-self:flex-start;background:#fff;border-radius:8px;padding:11px 14px;margin-bottom:6px;opacity:0;box-shadow:0 1px 1px rgba(0,0,0,.08);}
+.typing-dots.out{align-self:flex-end;background:#D9FDD3;}
+.typing-dots.out span{background:rgba(7,94,84,.5);}
 .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted-soft);animation:dotBounce 1s ease-in-out infinite;}
 .typing-dots span:nth-child(2){animation-delay:.15s;}
 .typing-dots span:nth-child(3){animation-delay:.3s;}
@@ -277,7 +278,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .chat-seq.play .typing-dots{animation:typingCycle .6s ease-out forwards;animation-delay:.45s;}
 
 .voice-line{display:flex;gap:12px;margin-bottom:14px;}
-.voice-tag{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-xs);height:fit-content;margin-top:1px;}
+.voice-tag{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-xs);height:fit-content;margin-top:1px;white-space:nowrap;}
 .voice-tag.ai{background:rgba(184,164,237,.28);color:#5a3fa8;}
 .voice-tag.caller{background:rgba(34,197,94,.12);color:#16803c;}
 .voice-text{font-size:13.5px;line-height:1.55;color:var(--ink);}
@@ -414,7 +415,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
                 <div class="b-meta cs-2">2:14 pm</div>
                 <div class="typing-dots out"><span></span><span></span><span></span></div>
                 <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
-                <div class="b-meta right cs-4">Sent by AI · 2:14 pm</div>
+                <div class="b-meta right cs-4">Sent by Virtual system · 2:14 pm</div>
                 <div class="bubble in cs-5">3:30 works great</div>
                 <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
               </div>
@@ -527,8 +528,8 @@ header.scrolled{border-bottom-color:var(--hairline);}
     <div class="conv-grid">
       <div class="conv-card rv tilt-3d">
         <div class="conv-hdr">
-          <div class="conv-ic" style="background:rgba(255,77,139,.14);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff4d8b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <div class="conv-ic" style="background:rgba(37,211,102,.16);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           </div>
           <div><div class="conv-title">WhatsApp enquiry</div><div class="conv-sub">Nadia Al Rashid · Botox consultation</div></div>
           <div class="conv-chip">Booked</div>
@@ -538,7 +539,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
           <div class="b-meta cs-2">6:48 pm</div>
           <div class="typing-dots out"><span></span><span></span><span></span></div>
           <div class="bubble out cs-3">Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?</div>
-          <div class="b-meta right cs-4">Sent by AI · 6:49 pm</div>
+          <div class="b-meta right cs-4">Sent by Virtual system · 6:49 pm</div>
           <div class="bubble in cs-5">Wednesday if possible, evening?</div>
           <div class="booked-pill cs-6">Consultation booked Wed 6:30pm · calendar updated</div>
         </div>
@@ -554,7 +555,7 @@ header.scrolled{border-bottom-color:var(--hairline);}
         </div>
         <div class="conv-body chat-seq">
           <div class="voice-line cs-1"><div class="voice-tag caller">Caller</div><div class="voice-text">Hi, I wanted to ask about lip filler pricing and if you have anything this weekend.</div></div>
-          <div class="voice-line cs-3"><div class="voice-tag ai">AI</div><div class="voice-text">Of course! Our lip filler starts from AED 1,200 depending on the volume. For this weekend I have Saturday at 1pm or Sunday at 11am open. Would either of those work?</div></div>
+          <div class="voice-line cs-3"><div class="voice-tag ai">Virtual system</div><div class="voice-text">Of course! Our lip filler starts from AED 1,200 depending on the volume. For this weekend I have Saturday at 1pm or Sunday at 11am open. Would either of those work?</div></div>
           <div class="voice-line cs-5"><div class="voice-tag caller">Caller</div><div class="voice-text">Saturday 1pm is perfect.</div></div>
           <div class="booked-pill cs-7">Booked Saturday 1:00pm · confirmation sent by SMS</div>
         </div>
