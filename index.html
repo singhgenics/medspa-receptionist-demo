@@ -102,9 +102,27 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
 
 /* FLOATING PHONE CARD — tilted composition, GetLayers signature */
-.stage{display:flex;justify-content:center;perspective:1600px;}
-.tilt-card{transform:rotateY(-9deg) rotateX(2deg) rotateZ(1.5deg);transition:transform .5s var(--ease);}
+.stage{display:flex;justify-content:center;perspective:1600px;position:relative;}
+.tilt-card{position:relative;z-index:2;transform:rotateY(-9deg) rotateX(2deg) rotateZ(1.5deg);transition:transform .5s var(--ease);}
 @media (hover:hover) and (pointer:fine){.stage:hover .tilt-card{transform:rotateY(-4deg) rotateX(1deg) rotateZ(.5deg);}}
+
+/* DECK PEEK — a second and third card peeking from behind the front one,
+   the stacked-deck signature from the GetLayers reference. Purely
+   decorative, so hidden from assistive tech. */
+.deck-peek{position:absolute;top:0;left:50%;width:min(276px,68vw);border-radius:34px 34px 0 0;pointer-events:none;border:1px solid var(--line);border-bottom:none;}
+.deck-peek-a{height:64px;transform:translate(-50%,-16px) scale(.94);background:linear-gradient(160deg,rgba(226,87,124,.22),rgba(124,74,147,.14));opacity:.7;z-index:1;}
+.deck-peek-b{height:64px;transform:translate(-50%,-30px) scale(.88);background:linear-gradient(160deg,rgba(203,162,88,.16),rgba(226,87,124,.08));opacity:.42;z-index:0;}
+
+/* RAIL — numbered progress indicator beside the mockup, echoing the
+   reference's "02/11" chapter counter. Decorative only; skipped on
+   narrower viewports where there's no room for it beside the card. */
+.rail{position:absolute;right:-58px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;z-index:3;}
+.rail-n{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--text);line-height:1;white-space:nowrap;}
+.rail-n span{font-size:11px;color:var(--text-faint);font-weight:600;}
+.rail-line{width:1px;height:64px;background:var(--line);position:relative;}
+.rail-dot{position:absolute;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 5px var(--rose-soft);}
+.rail-label{writing-mode:vertical-rl;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:700;}
+@media (max-width:1180px){.rail{display:none;}}
 
 .phone{width:min(320px,80vw);background:#000;border-radius:44px;padding:11px;box-shadow:0 0 0 1px rgba(226,87,124,.25),0 60px 120px -30px rgba(0,0,0,.85);position:relative;animation:floatY 6s ease-in-out infinite;}
 @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
@@ -169,6 +187,7 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 
 /* SECOND EXAMPLE — same floating-card treatment as hero, smaller */
 .ex-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;}
+.ex-stage{position:relative;}
 .ex-card{background:var(--canvas-card);border:1px solid var(--line);border-radius:var(--r-card);padding:6px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:floatY 7s ease-in-out infinite;animation-delay:.4s;}
 .ex-hdr{display:flex;align-items:center;gap:11px;padding:16px 16px 12px;}
 .ex-ic{width:34px;height:34px;border-radius:12px;background:var(--rose-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -271,13 +290,15 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
       <div>
         <div class="kicker rv"><span class="kicker-dot"></span>Instagram DM automation for Dubai med spas</div>
         <h1 class="rv rv-d1">Never miss<br>another <span class="accent">booking.</span></h1>
-        <p class="lede rv rv-d2">IG Receptionist answers every Instagram DM, checks your calendar, and books the appointment on its own — no unanswered messages, no ignored story replies, no lost clients.</p>
+        <p class="lede rv rv-d2">IG Receptionist answers every Instagram DM, checks your calendar, and books the appointment on its own. No unanswered messages, no ignored story replies, no lost clients.</p>
         <div class="hero-actions rv rv-d3">
           <a class="btn btn-primary" href="#contact">Get this built<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
         </div>
       </div>
       <div class="stage">
+        <div class="deck-peek deck-peek-b" aria-hidden="true"></div>
+        <div class="deck-peek deck-peek-a" aria-hidden="true"></div>
         <div class="tilt-card">
           <div class="phone">
             <div class="screen">
@@ -302,6 +323,11 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
               </div>
             </div>
           </div>
+        </div>
+        <div class="rail" aria-hidden="true">
+          <div class="rail-n">01<span>/02</span></div>
+          <div class="rail-line"><span class="rail-dot" style="top:22%;"></span></div>
+          <div class="rail-label">HYDRAFACIAL</div>
         </div>
       </div>
     </div>
@@ -331,8 +357,9 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
       <div>
         <span class="kicker rv"><span class="kicker-dot"></span>Sample interaction</span>
         <h2 class="rv">Every DM. Same result: booked.</h2>
-        <p class="lede rv rv-d1">A nervous first-time client, talked through it and booked — start to finish, without anyone on staff typing a word.</p>
+        <p class="lede rv rv-d1">A nervous first-time client, talked through it and booked from start to finish, without anyone on staff typing a word.</p>
       </div>
+      <div class="ex-stage">
       <div class="ex-card rv rv-d2">
         <div class="ex-hdr">
           <div class="ex-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--rose)" stroke="none"/></svg></div>
@@ -352,6 +379,12 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
           <div class="booked-pill cs-6">Consultation booked Wed 6:30pm · calendar updated</div>
         </div>
       </div>
+      <div class="rail" aria-hidden="true">
+        <div class="rail-n">02<span>/02</span></div>
+        <div class="rail-line"><span class="rail-dot" style="top:78%;"></span></div>
+        <div class="rail-label">BOTOX</div>
+      </div>
+      </div>
     </div>
   </div>
 </section>
@@ -367,7 +400,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
         <div class="step-tile"><span class="step-badge">01</span>
           <div class="mock-notif"><div class="mock-ig-ring"></div><div class="mock-lines"><span></span><span></span></div></div>
         </div>
-        <div><h3>A DM lands in your inbox</h3><p>Direct message, comment reply, or story reply — picked up instantly, any time of day.</p></div>
+        <div><h3>A DM lands in your inbox</h3><p>Direct message, comment reply, or story reply, picked up instantly, any time of day.</p></div>
       </div>
       <div class="step rv rv-d1">
         <div class="step-tile"><span class="step-badge">02</span>
@@ -379,7 +412,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
         <div class="step-tile"><span class="step-badge">03</span>
           <div class="mock-cal"><span></span><span></span><span></span><span></span><span class="hit"></span><span></span><span></span><span></span><span></span></div>
         </div>
-        <div><h3>Checks your calendar live</h3><p>Offers real open slots only — no double-bookings, no back-and-forth.</p></div>
+        <div><h3>Checks your calendar live</h3><p>Offers real open slots only, no double-bookings, no back-and-forth.</p></div>
       </div>
       <div class="step rv rv-d3">
         <div class="step-tile"><span class="step-badge">04</span>
@@ -407,7 +440,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
     <div class="footer-row">
       <div>
         <div class="footer-logo"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>IG Receptionist</div>
-        <p class="footer-tag">Sample automation build for portfolio purposes — nothing here represents a real client. Tone, service menu, and calendar integration are customised per clinic before anything goes live.</p>
+        <p class="footer-tag">Sample automation build for portfolio purposes. Nothing here represents a real client. Tone, service menu, and calendar integration are customised per clinic before anything goes live.</p>
       </div>
       <div class="footer-meta"><span>© 2026 Sample build</span><span>Dubai, UAE</span></div>
     </div>
