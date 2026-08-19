@@ -288,8 +288,8 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .ig-profile-body{flex:1;display:flex;flex-direction:column;padding:16px 18px 0;overflow:hidden;color:var(--ink);}
 
 .ig-profile-top{display:flex;align-items:center;gap:20px;margin-bottom:14px;}
-.ig-default-avatar{width:66px;height:66px;border-radius:50%;background:#ddd3c4;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#a3927f;}
-.ig-default-avatar svg{width:36px;height:36px;}
+.ig-default-avatar{width:66px;height:66px;border-radius:50%;background:#ddd3c4;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#a3927f;overflow:hidden;}
+.ig-default-avatar img{width:100%;height:100%;object-fit:cover;}
 .ig-profile-stats{display:flex;flex:1;justify-content:space-around;}
 .ig-stat{display:flex;flex-direction:column;align-items:center;font-size:13px;}
 .ig-stat strong{font-size:15px;font-weight:700;color:var(--ink);font-family:'Sora',sans-serif;font-variant-numeric:tabular-nums;}
@@ -574,7 +574,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
             <div class="ig-profile-body">
               <div class="ig-profile-top">
                 <div class="ig-default-avatar">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8Z"/></svg>
+                  <img src="img/avatar.png" alt="IG Receptionist profile picture" loading="lazy">
                 </div>
                 <div class="ig-profile-stats">
                   <div class="ig-stat"><strong>142</strong><span>Posts</span></div>
