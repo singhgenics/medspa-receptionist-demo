@@ -127,7 +127,24 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .phone{width:min(320px,80vw);background:#000;border-radius:44px;padding:11px;box-shadow:0 0 0 1px rgba(226,87,124,.25),0 60px 120px -30px rgba(0,0,0,.85);position:relative;animation:floatY 6s ease-in-out infinite;}
 @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 .phone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#000;border-radius:12px;z-index:3;}
-.screen{background:var(--paper);border-radius:34px;overflow:hidden;height:560px;display:flex;flex-direction:column;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+.screen{background:var(--paper);border-radius:34px;overflow:hidden;height:560px;position:relative;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+
+/* REEL STACK — native vertical snap-scroll inside the phone, so swiping
+   over the demo actually feels like paging through Reels: real touch
+   momentum, a hard snap per conversation, and each one auto-replaying
+   from scratch the moment it snaps into view. */
+.reel-stack{height:100%;width:100%;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.reel-stack::-webkit-scrollbar{display:none;}
+.reel{height:100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;background:var(--paper);}
+.reel .thread{flex:1;}
+
+.reel-dots{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:5;pointer-events:none;}
+.reel-dots span{width:5px;height:5px;border-radius:50%;background:rgba(34,26,21,.22);transition:background .3s,transform .3s;}
+.reel-dots span.on{background:var(--rose);transform:scale(1.4);}
+
+.reel-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);color:rgba(34,26,21,.32);z-index:5;pointer-events:none;transition:opacity .4s;animation:reelHint 1.8s ease-in-out infinite;}
+.reel-hint svg{width:18px;height:18px;}
+@keyframes reelHint{0%,100%{transform:translateX(-50%) translateY(0);opacity:.75;}50%{transform:translateX(-50%) translateY(6px);opacity:.25;}}
 .ig-hdr{display:flex;align-items:center;gap:10px;padding:40px 16px 12px;border-bottom:1px solid rgba(34,26,21,.08);}
 .ig-ring{width:32px;height:32px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ig-av{width:100%;height:100%;border-radius:50%;background:#fafafa;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;border:2px solid #fff;}
@@ -325,25 +342,54 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
         <div class="tilt-card">
           <div class="phone">
             <div class="screen">
-              <div class="ig-hdr">
-                <div class="ig-ring"><div class="ig-av">L</div></div>
-                <div>
-                  <div class="ig-name">Layla Haddad</div>
-                  <div class="ig-status"><span class="status-dot"></span>Active now</div>
+              <div class="reel-stack" id="reelStack">
+                <div class="reel">
+                  <div class="ig-hdr">
+                    <div class="ig-ring"><div class="ig-av">L</div></div>
+                    <div>
+                      <div class="ig-name">Layla Haddad</div>
+                      <div class="ig-status"><span class="status-dot"></span>Active now</div>
+                    </div>
+                    <button class="replay-btn" type="button" data-target="heroChat1" aria-label="Replay conversation" title="Replay conversation">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+                    </button>
+                  </div>
+                  <div class="thread chat-seq reel-chat" id="heroChat1">
+                    <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
+                    <div class="b-meta cs-2">2:14 pm</div>
+                    <div class="typing"><span></span><span></span><span></span></div>
+                    <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
+                    <div class="b-meta right cs-4">Sent by IG Receptionist · 2:14 pm</div>
+                    <div class="bubble in cs-5">3:30 works great</div>
+                    <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
+                  </div>
                 </div>
-                <button class="replay-btn" type="button" data-target="heroChat" aria-label="Replay conversation" title="Replay conversation">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-                </button>
+                <div class="reel">
+                  <div class="ig-hdr">
+                    <div class="ig-ring"><div class="ig-av">S</div></div>
+                    <div>
+                      <div class="ig-name">Sara Khalil</div>
+                      <div class="ig-status"><span class="status-dot"></span>Replied to your story</div>
+                    </div>
+                    <button class="replay-btn" type="button" data-target="heroChat2" aria-label="Replay conversation" title="Replay conversation">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+                    </button>
+                  </div>
+                  <div class="thread chat-seq reel-chat" id="heroChat2">
+                    <div class="bubble in cs-1">Hey! saw your story about the lip filler offer 👀 is it still on this week?</div>
+                    <div class="b-meta cs-2">9:02 pm</div>
+                    <div class="typing"><span></span><span></span><span></span></div>
+                    <div class="bubble out cs-3">Yes, it's live until Sunday! AED 1,200 for full lips. I have Saturday 1pm or Sunday 11am open, which works better?</div>
+                    <div class="b-meta right cs-4">Sent by IG Receptionist · 9:03 pm</div>
+                    <div class="bubble in cs-5">Saturday 1pm please</div>
+                    <div class="booked-pill cs-6">Booked Saturday 1:00pm · confirmation sent by DM</div>
+                  </div>
+                </div>
               </div>
-              <div class="thread chat-seq" id="heroChat">
-                <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
-                <div class="b-meta cs-2">2:14 pm</div>
-                <div class="typing"><span></span><span></span><span></span></div>
-                <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
-                <div class="b-meta right cs-4">Sent by IG Receptionist · 2:14 pm</div>
-                <div class="bubble in cs-5">3:30 works great</div>
-                <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
+              <div class="reel-hint" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
               </div>
+              <div class="reel-dots" id="reelDots" aria-hidden="true"><span class="on"></span><span></span></div>
             </div>
           </div>
         </div>
@@ -502,7 +548,33 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target);}});
   },{threshold:0.3});
-  document.querySelectorAll('.chat-seq').forEach(function(el){io.observe(el);});
+  document.querySelectorAll('.chat-seq:not(.reel-chat)').forEach(function(el){io.observe(el);});
+})();
+
+/* REEL SWIPE — scoped to the hero phone's own scroll container (not the
+   page), so each conversation replays from scratch every time it snaps
+   into view, the same way a Reel restarts every time you scroll to it.
+   Deliberately not unobserving, unlike the page-level reveal above. */
+(function(){
+  var stack=document.getElementById('reelStack');
+  if(!stack)return;
+  var reels=Array.prototype.slice.call(stack.querySelectorAll('.reel'));
+  var dots=Array.prototype.slice.call(document.querySelectorAll('#reelDots span'));
+  var hint=document.querySelector('.reel-hint');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting || e.intersectionRatio<0.6)return;
+      var i=reels.indexOf(e.target);
+      dots.forEach(function(d,di){d.classList.toggle('on',di===i);});
+      if(i>0 && hint)hint.style.opacity='0';
+      var chat=e.target.querySelector('.chat-seq');
+      if(!chat)return;
+      chat.classList.remove('play');
+      void chat.offsetWidth;
+      chat.classList.add('play');
+    });
+  },{root:stack,threshold:[0.6]});
+  reels.forEach(function(r){io.observe(r);});
 })();
 
 /* REPLAY — chat-seq only auto-plays once (io.unobserve above), which isn't
