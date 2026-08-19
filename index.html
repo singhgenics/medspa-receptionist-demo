@@ -193,6 +193,15 @@ header.scrolled{border-bottom-color:var(--hairline);}
 .b-meta.right{align-self:flex-end;}
 .booked-pill{align-self:center;margin-top:8px;background:rgba(34,197,94,.12);color:#16803c;border:1px solid rgba(34,197,94,.3);font-size:11px;font-weight:600;padding:7px 15px;border-radius:var(--r-pill);text-align:center;}
 
+/* REPLAY — lets a live demo be re-run on demand instead of once per scroll */
+.replay-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--hairline);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);flex-shrink:0;transition:color .2s,border-color .2s,transform .35s var(--ease-out);}
+.replay-btn svg{width:14px;height:14px;}
+@media (hover:hover) and (pointer:fine){.replay-btn:hover{color:var(--primary);border-color:var(--primary-soft-strong);}}
+.replay-btn:active{transform:rotate(-70deg);}
+.replay-btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+.phone-hdr .replay-btn{margin-left:auto;}
+.conv-hdr .replay-btn{margin-left:8px;}
+
 /* FEATURE CARDS — white surface, icon tile signature */
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;}
 .feature-card{background:var(--surface,#fff);border:1px solid var(--hairline);border-radius:var(--r-xl);padding:var(--sp-xl);box-shadow:0 1px 2px rgba(15,26,46,.04);transition:transform .35s var(--ease-out),box-shadow .35s,border-color .35s;transform-style:preserve-3d;}
@@ -430,6 +439,9 @@ header.scrolled{border-bottom-color:var(--hairline);}
                   <div class="phone-name">Layla Haddad</div>
                   <div class="phone-status">Active now</div>
                 </div>
+                <button class="replay-btn" type="button" data-target="heroChat" aria-label="Replay conversation" title="Replay conversation">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+                </button>
               </div>
               <div class="phone-body chat-seq" id="heroChat">
                 <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
@@ -581,8 +593,11 @@ header.scrolled{border-bottom-color:var(--hairline);}
           </div>
           <div><div class="conv-title">Instagram DM</div><div class="conv-sub">Nadia Al Rashid · Botox consultation</div></div>
           <div class="conv-chip">Booked</div>
+          <button class="replay-btn" type="button" data-target="convChat1" aria-label="Replay conversation" title="Replay conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          </button>
         </div>
-        <div class="conv-body chat-seq">
+        <div class="conv-body chat-seq" id="convChat1">
           <div class="bubble in cs-1">Hey! Do you guys do consultations for Botox? Never done it before and a bit nervous about it</div>
           <div class="b-meta cs-2">6:48 pm</div>
           <div class="typing-dots out"><span></span><span></span><span></span></div>
@@ -600,8 +615,11 @@ header.scrolled{border-bottom-color:var(--hairline);}
           </div>
           <div><div class="conv-title">Reply to Instagram Story</div><div class="conv-sub">Lip filler promo · story reply</div></div>
           <div class="conv-chip">Booked</div>
+          <button class="replay-btn" type="button" data-target="convChat2" aria-label="Replay conversation" title="Replay conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          </button>
         </div>
-        <div class="conv-body chat-seq">
+        <div class="conv-body chat-seq" id="convChat2">
           <div class="bubble in cs-1">Hey! saw your story about the lip filler offer 👀 is it still on this week?</div>
           <div class="b-meta cs-2">9:02 pm</div>
           <div class="typing-dots out"><span></span><span></span><span></span></div>
@@ -747,6 +765,22 @@ header.scrolled{border-bottom-color:var(--hairline);}
     });
   },{threshold:0.3});
   document.querySelectorAll('.chat-seq').forEach(function(el){io.observe(el);});
+})();
+
+/* REPLAY BUTTONS — chat-seq only auto-plays once per pageload (io.unobserve above),
+   which isn't enough for a live sales call. Removing then re-adding 'play' with a
+   forced reflow in between restarts every transition-delay and the typing-dot
+   animation from zero, so a conversation can be re-run on demand. */
+(function(){
+  document.querySelectorAll('.replay-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var target=document.getElementById(btn.dataset.target);
+      if(!target)return;
+      target.classList.remove('play');
+      void target.offsetWidth;
+      target.classList.add('play');
+    });
+  });
 })();
 
 (function(){
