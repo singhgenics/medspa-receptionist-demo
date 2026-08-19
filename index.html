@@ -186,7 +186,10 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
    the last one reuses the real .booked-pill look verbatim, tying straight
    back to the phone mockups above. */
 .steps{display:flex;flex-direction:column;margin-top:52px;}
-.step{display:grid;grid-template-columns:84px 1fr;gap:26px;padding:28px 0;border-top:1px solid var(--line);align-items:center;}
+.step{display:grid;grid-template-columns:1fr 84px;gap:26px;padding:28px 0;border-top:1px solid var(--line);align-items:center;}
+.step-tile{order:2;}
+.step > div:not(.step-tile){order:1;}
+@media (max-width:600px){.step{grid-template-columns:1fr 64px;gap:16px;}.step-tile{width:64px;height:64px;border-radius:16px;}}
 .step:last-child{border-bottom:1px solid var(--line);}
 .step h3{font-size:18px;font-weight:700;margin-bottom:6px;}
 .step p{font-size:14.5px;color:var(--text-soft);max-width:56ch;}
