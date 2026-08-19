@@ -247,6 +247,29 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .cta-panel p{position:relative;font-size:16px;color:var(--text-soft);max-width:48ch;margin:0 auto 30px;}
 .cta-panel .btn{position:relative;}
 
+/* CTA reimagined as an actual Instagram profile card — the "Message"
+   button is the real click-to-WhatsApp action, styled the way an IG
+   profile's own Message button actually looks. */
+.ig-profile{position:relative;background:var(--paper);border-radius:26px;padding:26px 24px;margin:36px auto 0;max-width:400px;color:var(--ink);text-align:left;box-shadow:0 30px 70px -22px rgba(0,0,0,.65),0 0 0 1px rgba(226,87,124,.14);}
+.ig-profile-top{display:flex;align-items:center;gap:18px;margin-bottom:16px;}
+.ig-ring.ig-ring-lg{width:66px;height:66px;flex-shrink:0;}
+.ig-av.ig-av-lg{font-size:19px;font-weight:700;}
+.ig-profile-stats{display:flex;flex:1;justify-content:space-around;}
+.ig-stat{display:flex;flex-direction:column;align-items:center;font-size:13px;}
+.ig-stat strong{font-size:15px;font-weight:700;color:var(--ink);font-family:'Sora',sans-serif;}
+.ig-stat span{font-size:10.5px;color:rgba(34,26,21,.55);margin-top:2px;}
+.ig-profile-name{font-size:14.5px;font-weight:700;}
+.ig-profile-handle{font-size:12.5px;color:rgba(34,26,21,.55);margin-bottom:9px;}
+.ig-profile .ig-profile-bio{font-size:13px;line-height:1.55;color:rgba(34,26,21,.78);max-width:none;margin:0 0 18px;}
+.ig-profile-actions{display:flex;gap:8px;align-items:stretch;}
+.ig-btn{flex:1;display:flex;align-items:center;justify-content:center;height:34px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:filter .2s,transform .2s;border:none;font-family:'Manrope',sans-serif;}
+.ig-btn:active{transform:scale(.96);}
+.ig-btn-primary{background:var(--rose);color:#fff;}
+@media (hover:hover) and (pointer:fine){.ig-btn-primary:hover{filter:brightness(1.08);}}
+.ig-btn-secondary{background:rgba(34,26,21,.08);color:var(--ink);}
+.ig-btn-icon{flex:0 0 34px;background:rgba(34,26,21,.08);color:rgba(34,26,21,.6);}
+.ig-btn-icon svg{width:16px;height:16px;}
+
 footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
 .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
 .footer-logo{font-family:'Sora',sans-serif;font-weight:700;font-size:14.5px;color:var(--text);display:flex;align-items:center;gap:8px;}
@@ -430,7 +453,27 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
     <div class="cta-panel rv">
       <h2>Want this answering your DMs?</h2>
       <p>If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to unanswered Instagram DMs, this can be live within days.</p>
-      <a class="btn btn-primary" href="https://wa.me/919933387661?text=I%20want%20this%20built" target="_blank" rel="noopener">Message me to get started<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+
+      <div class="ig-profile">
+        <div class="ig-profile-top">
+          <div class="ig-ring ig-ring-lg"><div class="ig-av ig-av-lg">IG</div></div>
+          <div class="ig-profile-stats">
+            <div class="ig-stat"><strong>128</strong><span>Posts</span></div>
+            <div class="ig-stat"><strong>4.2k</strong><span>Followers</span></div>
+            <div class="ig-stat"><strong>890</strong><span>Following</span></div>
+          </div>
+        </div>
+        <div class="ig-profile-name">IG Receptionist</div>
+        <div class="ig-profile-handle">@ig.receptionist · Dubai, UAE</div>
+        <p class="ig-profile-bio">Automated Instagram booking for med spas &amp; aesthetic clinics ✨<br>Tap Message to get this built for your clinic</p>
+        <div class="ig-profile-actions">
+          <a class="ig-btn ig-btn-primary" href="https://wa.me/919933387661?text=I%20want%20this%20built" target="_blank" rel="noopener">Message</a>
+          <span class="ig-btn ig-btn-secondary">Contact</span>
+          <span class="ig-btn ig-btn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 12h.01M6 12h.01M18 12h.01"/></svg>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
