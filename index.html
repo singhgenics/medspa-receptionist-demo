@@ -267,10 +267,21 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 /* CTA reimagined as an actual Instagram profile card — the "Message"
    button is the real click-to-WhatsApp action, styled the way an IG
    profile's own Message button actually looks. */
-.ig-profile-stage{display:flex;justify-content:center;margin-top:36px;}
+.ig-profile-stage{display:flex;flex-direction:column;align-items:center;margin-top:40px;}
 .ig-profile-screen{display:flex;flex-direction:column;text-align:left;}
 
-.ig-topbar{display:flex;align-items:center;justify-content:space-between;padding:40px 16px 10px;border-bottom:1px solid rgba(34,26,21,.08);}
+/* Tilted product-photo presentation, echoing a real phone resting at an
+   angle on a surface, rather than a flat face-on frame. */
+.ig-tilt{perspective:1400px;}
+.ig-tilt .phone{animation:none;transform:perspective(1400px) rotateX(7deg) rotateY(-12deg) rotateZ(3deg);transition:transform .6s var(--ease);}
+@media (hover:hover) and (pointer:fine){.ig-profile-stage:hover .ig-tilt .phone{transform:perspective(1400px) rotateX(3deg) rotateY(-6deg) rotateZ(1.5deg);}}
+.ig-shadow{width:220px;height:34px;margin-top:-6px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent 75%);filter:blur(2px);}
+
+.ig-statusbar{display:flex;align-items:center;justify-content:space-between;padding:38px 20px 2px;font-size:12px;font-weight:700;color:var(--ink);font-family:'Sora',sans-serif;}
+.ig-statusbar-icons{display:flex;align-items:center;gap:5px;}
+.ig-statusbar-icons svg{height:11px;width:auto;color:var(--ink);}
+
+.ig-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 10px;border-bottom:1px solid rgba(34,26,21,.08);}
 .ig-topbar svg{width:19px;height:19px;color:rgba(34,26,21,.7);flex-shrink:0;}
 .ig-topbar-name{font-size:13.5px;font-weight:700;color:var(--ink);}
 
@@ -286,20 +297,19 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 
 .ig-profile-name{font-size:14px;font-weight:700;}
 .ig-profile-body .ig-profile-bio{font-size:12.5px;line-height:1.5;color:rgba(34,26,21,.78);max-width:none;margin:2px 0 0;}
+.ig-profile-link{display:block;font-size:12.5px;font-weight:600;color:#00376b;margin-top:3px;}
 
 .ig-highlights{display:flex;gap:15px;margin:14px 0 4px;}
 .ig-highlight{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.ig-highlight span{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(226,87,124,.16),rgba(203,162,88,.16));border:1px solid rgba(34,26,21,.1);}
+.ig-highlight span{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(226,87,124,.16),rgba(203,162,88,.16));border:1px solid rgba(34,26,21,.1);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:rgba(34,26,21,.55);font-family:'Sora',sans-serif;}
 .ig-highlight em{font-style:normal;font-size:9.5px;color:rgba(34,26,21,.58);}
 
 .ig-profile-actions{display:flex;gap:8px;align-items:stretch;margin-top:14px;}
 .ig-btn{flex:1;display:flex;align-items:center;justify-content:center;height:34px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),filter 160ms ease;border:none;font-family:'Manrope',sans-serif;}
 .ig-btn:active{transform:scale(.97);}
-.ig-btn-primary{background:var(--rose);color:#fff;}
-@media (hover:hover) and (pointer:fine){.ig-btn-primary:hover{filter:brightness(1.08);}}
+.ig-btn-follow{background:#0095f6;color:#fff;}
+@media (hover:hover) and (pointer:fine){.ig-btn-follow:hover{filter:brightness(1.06);}}
 .ig-btn-secondary{background:rgba(34,26,21,.08);color:var(--ink);}
-.ig-btn-icon{flex:0 0 34px;background:rgba(34,26,21,.08);color:rgba(34,26,21,.6);}
-.ig-btn-icon svg{width:16px;height:16px;}
 
 .ig-post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:16px -18px 0;}
 .ig-post-grid span{aspect-ratio:1;display:block;}
@@ -524,8 +534,17 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
       <p>If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to unanswered Instagram DMs, this can be live within days.</p>
 
       <div class="ig-profile-stage">
+        <div class="ig-tilt">
         <div class="phone">
           <div class="screen ig-profile-screen">
+            <div class="ig-statusbar">
+              <span>9:41</span>
+              <div class="ig-statusbar-icons">
+                <svg viewBox="0 0 20 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="5" y="5" width="3" height="7" rx="0.5"/><rect x="10" y="2" width="3" height="10" rx="0.5"/><rect x="15" y="0" width="3" height="12" rx="0.5"/></svg>
+                <svg viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 5.5a12 12 0 0 1 16 0M5 8.7a7.5 7.5 0 0 1 10 0M8.3 12a3 3 0 0 1 3.4 0"/></svg>
+                <svg viewBox="0 0 25 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5"/><rect x="2" y="2" width="15" height="8" rx="1.2" fill="currentColor" stroke="none"/><path d="M22 4v4" stroke-linecap="round" stroke-width="1.6"/></svg>
+              </div>
+            </div>
             <div class="ig-topbar">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
               <div class="ig-topbar-name">ig.receptionist</div>
@@ -543,23 +562,24 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
                 </div>
               </div>
               <div class="ig-profile-name">IG Receptionist</div>
-              <p class="ig-profile-bio">Automated Instagram booking for med spas &amp; aesthetic clinics ✨<br>Tap Message to get this built for your clinic</p>
+              <p class="ig-profile-bio">Automated Instagram booking for med spas &amp; aesthetic clinics ✨<br>Tap Follow to get this built for your clinic</p>
+              <a class="ig-profile-link" href="https://wa.me/919933387661?text=I%20want%20this%20built" target="_blank" rel="noopener">wa.me/ig.receptionist</a>
               <div class="ig-highlights">
-                <div class="ig-highlight"><span></span><em>Booked</em></div>
-                <div class="ig-highlight"><span></span><em>Reviews</em></div>
-                <div class="ig-highlight"><span></span><em>FAQs</em></div>
+                <div class="ig-highlight"><span>CW</span><em>Client Wins</em></div>
+                <div class="ig-highlight"><span>★</span><em>Reviews</em></div>
+                <div class="ig-highlight"><span>?</span><em>How It Works</em></div>
               </div>
               <div class="ig-profile-actions">
-                <a class="ig-btn ig-btn-primary" href="https://wa.me/919933387661?text=I%20want%20this%20built" target="_blank" rel="noopener">Message</a>
+                <a class="ig-btn ig-btn-follow" href="https://wa.me/919933387661?text=I%20want%20this%20built" target="_blank" rel="noopener">Follow</a>
+                <span class="ig-btn ig-btn-secondary">Message</span>
                 <span class="ig-btn ig-btn-secondary">Contact</span>
-                <span class="ig-btn ig-btn-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 12h.01M6 12h.01M18 12h.01"/></svg>
-                </span>
               </div>
               <div class="ig-post-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
             </div>
           </div>
         </div>
+        </div>
+        <div class="ig-shadow" aria-hidden="true"></div>
       </div>
     </div>
   </div>
