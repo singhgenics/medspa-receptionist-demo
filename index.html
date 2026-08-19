@@ -5,393 +5,211 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Instagram DM Receptionist for Med Spas: Sample Build</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --primary:#3552f0;
-  --primary-active:#2740c9;
-  --primary-soft:#eaf0fe;
-  --primary-soft-strong:#dbe5fd;
-  --primary-disabled:#c7d3fb;
-  --ink:#0f1a2e;
-  --body:#526079;
-  --body-strong:#1b2740;
-  --muted:#6b7690;
-  --muted-soft:#9aa4bb;
-  --hairline:#e2e7f5;
-  --hairline-soft:#edf1fa;
-  --canvas:#f6f8fd;
-  --surface-soft:#eef2fc;
-  --surface-card:#eaf0fe;
-  --surface-strong:#dbe5fd;
-  --surface-dark:#0f1a2e;
-  --surface-dark-elevated:#1a2748;
-  --on-primary:#ffffff;
-  --on-dark:#ffffff;
-  --on-dark-soft:#a7b1cc;
-  --navy:#101a33;
-  --coral:#ff6b5a;
-  --coral-soft:#ffe3de;
-  --success:#22c55e;
-  --warning:#f59e0b;
-  --error:#ef4444;
-
-  --r-xs:6px;--r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-pill:9999px;
-  --sp-lg:24px;--sp-xl:32px;--sp-xxl:48px;--sp-section:96px;
-  --ease-out:cubic-bezier(.23,1,.32,1);
+  /* Starbucks-DNA: a two-tier accent system — one general brand color used
+     everywhere (rose, plays the "Green Accent" role), one color reserved
+     exclusively for a single ceremonial moment (gold, plays the "Rewards
+     gold" role — here, the instant a booking is confirmed). Canvas is warm,
+     never a cold pure black, per the same source doc's "warm over cold"
+     rule, translated into a dark GetLayers-style ground. */
+  --canvas:#130f0d;
+  --canvas-soft:#1c1613;
+  --canvas-card:#211a17;
+  --rose:#e2577c;
+  --rose-soft:rgba(226,87,124,.14);
+  --violet:#7c4a93;
+  --gold:#cba258;
+  --gold-soft:rgba(203,162,88,.12);
+  --paper:#f6efe4;
+  --ink:#221a15;
+  --ink-soft:rgba(34,26,21,.6);
+  --text:#f4ece1;
+  --text-soft:rgba(244,236,225,.64);
+  --text-faint:rgba(244,236,225,.38);
+  --line:rgba(244,236,225,.11);
+  --success:#5fae7c;
+  --r-pill:999px;
+  --r-card:26px;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 
 html{scroll-behavior:smooth;}
 body{
-  font-family:'Inter',sans-serif;
-  background:var(--canvas);color:var(--body);line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  font-family:'Manrope',sans-serif;
+  background:var(--canvas);
+  color:var(--text-soft);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
-h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);}
+h1,h2,h3{font-family:'Sora',sans-serif;color:var(--text);letter-spacing:-.02em;}
+a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
-a{color:inherit;}
 
-.grain{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-.wrap{max-width:1280px;margin:0 auto;padding:0 24px;}
-.band{padding:var(--sp-section) 0;}
-.band-tight{padding:64px 0;}
+.glow{position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:1400px;max-width:220vw;height:900px;z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side, rgba(226,87,124,.28), rgba(124,74,147,.16) 45%, transparent 72%);
+  filter:blur(10px);}
 
-.kicker{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--primary);background:var(--surface-card);
-  padding:6px 14px;border-radius:var(--r-pill);margin-bottom:20px;
-}
-.kicker-dot{width:6px;height:6px;border-radius:50%;background:var(--coral);flex-shrink:0;}
-.on-dark .kicker{background:rgba(255,255,255,.12);color:#fff;}
-.on-dark .kicker-dot{background:#fff;}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px;position:relative;z-index:2;}
+.band{padding:120px 0;}
+.band-tight{padding:72px 0;}
 
-h1{font-size:clamp(38px,5.6vw,66px);font-weight:700;line-height:1.06;letter-spacing:-1.6px;}
-h2{font-size:clamp(28px,3.6vw,44px);font-weight:700;line-height:1.14;letter-spacing:-1px;margin-bottom:18px;}
-h3{font-size:18px;font-weight:700;letter-spacing:0;}
-.lede{font-size:clamp(16px,1.4vw,18px);color:var(--muted);line-height:1.65;max-width:540px;font-weight:400;}
-.on-dark .lede{color:var(--on-dark-soft);}
-.on-dark h1,.on-dark h2,.on-dark h3{color:#fff;}
+.kicker{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);background:var(--rose-soft);padding:7px 16px;border-radius:var(--r-pill);margin-bottom:22px;}
+.kicker-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
 
-.rv{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease-out),transform .85s var(--ease-out);}
+h1{font-size:clamp(42px,7vw,84px);font-weight:800;line-height:1.02;}
+h2{font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.08;margin-bottom:18px;text-wrap:balance;}
+.lede{font-size:clamp(16px,1.5vw,19px);color:var(--text-soft);line-height:1.65;max-width:52ch;font-weight:400;}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
 .rv.in{opacity:1;transform:none;}
-.rv-d1{transition-delay:.12s;} .rv-d2{transition-delay:.24s;} .rv-d3{transition-delay:.36s;}
+.rv-d1{transition-delay:.1s;} .rv-d2{transition-delay:.2s;} .rv-d3{transition-delay:.3s;}
 
-/* BUTTONS */
-.btn{
-  display:inline-flex;align-items:center;gap:9px;
-  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:0;
-  border:none;cursor:pointer;height:46px;padding:0 24px;border-radius:var(--r-pill);
-  text-decoration:none;transition:background .25s,transform .25s var(--ease-out),box-shadow .25s;
-}
-.btn svg{width:15px;height:15px;transition:transform .3s var(--ease-out);flex-shrink:0;}
-.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:0 8px 20px -8px rgba(53,82,240,.55);}
-.btn-primary:hover{background:var(--primary-active);}
-.btn-primary:active{transform:scale(.97);}
-.btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--hairline);}
-.btn-secondary:hover{background:var(--surface-card);border-color:var(--primary-soft-strong);}
-.btn-on-color{background:#fff;color:var(--ink);}
-.btn-ghost{background:transparent;color:var(--ink);padding:0 4px;height:auto;border-radius:0;box-shadow:none;}
-.on-dark .btn-ghost{color:#fff;}
-@media (hover:hover) and (pointer:fine){
-  .btn:hover svg{transform:translateX(3px);}
-}
+/* BUTTONS — 50px full-pill + scale(0.95) active press, ported directly */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Manrope',sans-serif;font-size:14.5px;font-weight:700;border:1px solid transparent;cursor:pointer;height:50px;padding:0 26px;border-radius:var(--r-pill);transition:background .2s,border-color .2s,transform .2s;}
+.btn svg{width:15px;height:15px;transition:transform .3s var(--ease);flex-shrink:0;}
+.btn:active{transform:scale(.95);}
+.btn-primary{background:var(--rose);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 18px 40px -14px rgba(226,87,124,.6);}
+.btn-primary:hover{background:#ec6a8d;}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose);}
+@media (hover:hover) and (pointer:fine){.btn:hover svg{transform:translateX(3px);}}
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px;}
 
-/* HEADER */
-header{position:sticky;top:0;z-index:200;background:rgba(246,248,253,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s;}
-header.scrolled{border-bottom-color:var(--hairline);}
-.hdr-in{max-width:1280px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:32px;}
-.logo{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.3px;text-decoration:none;color:var(--ink);}
-.logo-mark{width:24px;height:24px;border-radius:8px 8px 8px 3px;background:linear-gradient(135deg,var(--primary),var(--primary-active));flex-shrink:0;}
-.hdr-nav{display:flex;gap:4px;margin-left:auto;}
-.hdr-nav a{font-size:14px;font-weight:500;color:var(--body);text-decoration:none;padding:9px 14px;border-radius:var(--r-pill);transition:background .25s,color .25s;}
-@media (hover:hover) and (pointer:fine){.hdr-nav a:hover{background:var(--surface-card);color:var(--primary);}}
+/* NAV — floating capsule, GetLayers signature */
+header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;padding:0 20px;}
+.capsule{display:flex;align-items:center;gap:4px;background:rgba(28,22,19,.72);border:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:var(--r-pill);padding:7px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6);}
+.logo{display:flex;align-items:center;gap:9px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--text);padding:0 14px 0 8px;}
+.spark{width:16px;height:16px;color:var(--gold);flex-shrink:0;}
+.capsule nav{display:flex;gap:2px;}
+.capsule nav a{font-size:13.5px;font-weight:600;color:var(--text-soft);padding:10px 16px;border-radius:var(--r-pill);transition:background .2s,color .2s;}
+@media (hover:hover) and (pointer:fine){.capsule nav a:hover{background:rgba(255,255,255,.06);color:var(--text);}}
+.capsule .btn-primary{height:38px;padding:0 20px;font-size:13.5px;margin-left:4px;}
+@media (max-width:680px){.capsule nav{display:none;}}
 
 /* HERO */
-.hero-badge{position:absolute;z-index:2;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--hairline);padding:8px 14px 8px 12px;border-radius:var(--r-pill);}
-.hero-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:center;position:relative;z-index:1;}
-.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.pulse-dot{animation:pulse 2.2s infinite;}
-.hero h1 em{font-style:normal;color:var(--coral);}
-.hero .lede{margin:22px 0 34px;}
-.hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center;padding-top:56px;}
+.hero h1 .accent{color:var(--rose);}
+.hero .lede{margin:24px 0 34px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
 
-.avatar-row{display:flex;align-items:center;gap:16px;margin-top:40px;}
-.avatar-stack{display:flex;}
-.avatar{width:40px;height:40px;border-radius:50%;border:3px solid var(--canvas);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;margin-left:-12px;flex-shrink:0;}
-.avatar:first-child{margin-left:0;}
-.avatar-txt{font-size:13.5px;color:var(--muted);line-height:1.5;max-width:230px;}
-.avatar-txt strong{color:var(--ink);}
+/* FLOATING PHONE CARD — tilted composition, GetLayers signature */
+.stage{display:flex;justify-content:center;perspective:1600px;}
+.tilt-card{transform:rotateY(-9deg) rotateX(2deg) rotateZ(1.5deg);transition:transform .5s var(--ease);}
+@media (hover:hover) and (pointer:fine){.stage:hover .tilt-card{transform:rotateY(-4deg) rotateX(1deg) rotateZ(.5deg);}}
 
-.hero-visual{position:relative;}
-.hero-illustration-card{
-  position:relative;
-  height:clamp(380px,42vw,480px);
-  display:flex;align-items:center;justify-content:center;
-  perspective:1800px;overflow:visible;
-}
-.hero-blob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(88%,380px);height:min(88%,380px);border-radius:50%;background:radial-gradient(circle,var(--primary-soft) 0%,rgba(234,240,254,0) 72%);z-index:0;}
-.float-chip{position:absolute;z-index:6;width:46px;height:46px;border-radius:var(--r-md);background:#fff;border:1px solid var(--hairline);box-shadow:0 14px 28px -10px rgba(16,26,51,.22);display:flex;align-items:center;justify-content:center;animation:floatChip 5.5s ease-in-out infinite;}
-.float-chip svg{width:20px;height:20px;stroke:var(--primary);}
-.float-chip.coral svg{stroke:var(--coral);}
-.float-chip.ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border:none;}
-.float-chip.ig svg{stroke:#fff;}
-.float-chip-b{animation-delay:1.4s;}
-.float-chip-c{animation-delay:2.6s;}
-@keyframes floatChip{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-@media (prefers-reduced-motion:reduce){.float-chip{animation:none;}}
-.phone-shadow{
-  position:absolute;bottom:9%;left:50%;width:200px;height:26px;
-  background:radial-gradient(ellipse,rgba(10,10,10,.32),transparent 72%);
-  filter:blur(4px);transform:translateX(-50%) scaleX(.8);
-  animation:shadowPulse 9s ease-in-out infinite;
-}
-.hero-phone-card{
-  position:relative;width:min(270px,74%);
-  transform-style:preserve-3d;
-  transform:perspective(1800px) rotateY(-8deg) rotateX(4deg);
-  animation:phoneOrbit 9s ease-in-out infinite;
-}
-@keyframes phoneOrbit{
-  0%{transform:perspective(1800px) rotateY(-20deg) rotateX(4deg) translateY(0);}
-  25%{transform:perspective(1800px) rotateY(-6deg) rotateX(-2deg) translateY(-10px);}
-  50%{transform:perspective(1800px) rotateY(11deg) rotateX(4deg) translateY(0);}
-  75%{transform:perspective(1800px) rotateY(-3deg) rotateX(-1deg) translateY(-7px);}
-  100%{transform:perspective(1800px) rotateY(-20deg) rotateX(4deg) translateY(0);}
-}
-@keyframes shadowPulse{
-  0%{transform:translateX(-50%) scaleX(.72);opacity:.55;}
-  25%{transform:translateX(-50%) scaleX(1);opacity:.38;}
-  50%{transform:translateX(-50%) scaleX(.82);opacity:.5;}
-  75%{transform:translateX(-50%) scaleX(1);opacity:.38;}
-  100%{transform:translateX(-50%) scaleX(.72);opacity:.55;}
-}
-/* DEVICE FRAME — a physical phone bezel wrapping the app screen mockups */
-.phone-mock{background:#141414;border-radius:30px;padding:10px 8px;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 24px 48px -18px rgba(10,10,10,.45);}
-.device-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:62px;height:15px;background:#000;border-radius:9px;z-index:5;}
-.device-btn{position:absolute;background:#0b0b0b;border-radius:2px;}
-.btn-vol1{left:-2px;top:62px;width:2.5px;height:22px;}
-.btn-vol2{left:-2px;top:90px;width:2.5px;height:22px;}
-.btn-power{right:-2px;top:76px;width:2.5px;height:34px;}
-.device-screen{background:var(--canvas);border-radius:22px;overflow:hidden;position:relative;}
-/* Instagram DM-themed chat mockup */
-.ig-ring{width:34px;height:34px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.phone-hdr{display:flex;align-items:center;gap:11px;padding:14px 14px 13px;background:#fff;border-bottom:1px solid #efefef;}
-.phone-av{width:100%;height:100%;border-radius:50%;background:#fafafa;display:flex;align-items:center;justify-content:center;color:#262626;font-weight:700;font-size:13px;border:2px solid #fff;}
-.phone-name{font-size:13.5px;font-weight:700;color:#262626;}
-.phone-status{font-size:11px;color:#8e8e8e;}
-.phone-body{padding:14px 12px 16px;background:#fff;border-radius:0 0 12px 12px;display:flex;flex-direction:column;min-height:200px;}
-.bubble{max-width:88%;border-radius:18px;padding:10px 14px;font-size:12.5px;line-height:1.5;}
-.bubble.in{align-self:flex-start;background:#efefef;color:#262626;border-bottom-left-radius:4px;margin-bottom:6px;}
-.bubble.out{align-self:flex-end;background:linear-gradient(135deg,#3897f0,#5851db);color:#fff;border-bottom-right-radius:4px;margin-bottom:6px;}
-.b-meta{font-size:10px;color:var(--muted-soft);margin-bottom:12px;}
-.b-meta.right{align-self:flex-end;}
-.booked-pill{align-self:center;margin-top:8px;background:rgba(34,197,94,.12);color:#16803c;border:1px solid rgba(34,197,94,.3);font-size:11px;font-weight:600;padding:7px 15px;border-radius:var(--r-pill);text-align:center;}
-
-/* REPLAY — lets a live demo be re-run on demand instead of once per scroll */
-.replay-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--hairline);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);flex-shrink:0;transition:color .2s,border-color .2s,transform .35s var(--ease-out);}
-.replay-btn svg{width:14px;height:14px;}
-@media (hover:hover) and (pointer:fine){.replay-btn:hover{color:var(--primary);border-color:var(--primary-soft-strong);}}
+.phone{width:min(320px,80vw);background:#000;border-radius:44px;padding:11px;box-shadow:0 0 0 1px rgba(226,87,124,.25),0 60px 120px -30px rgba(0,0,0,.85);position:relative;}
+.phone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#000;border-radius:12px;z-index:3;}
+.screen{background:var(--paper);border-radius:34px;overflow:hidden;height:560px;display:flex;flex-direction:column;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+.ig-hdr{display:flex;align-items:center;gap:10px;padding:40px 16px 12px;border-bottom:1px solid rgba(34,26,21,.08);}
+.ig-ring{width:32px;height:32px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ig-av{width:100%;height:100%;border-radius:50%;background:#fafafa;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;border:2px solid #fff;}
+.ig-name{font-size:13px;font-weight:700;}
+.ig-status{font-size:10.5px;color:rgba(34,26,21,.5);}
+.replay-btn{margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(34,26,21,.12);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(34,26,21,.5);flex-shrink:0;transition:color .2s,transform .35s var(--ease);}
+.replay-btn:hover{color:var(--rose);}
 .replay-btn:active{transform:rotate(-70deg);}
-.replay-btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
-.phone-hdr .replay-btn{margin-left:auto;}
-.conv-hdr .replay-btn{margin-left:8px;}
+.replay-btn svg{width:13px;height:13px;}
 
-/* FEATURE CARDS — white surface, icon tile signature */
-.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;}
-.feature-card{background:var(--surface,#fff);border:1px solid var(--hairline);border-radius:var(--r-xl);padding:var(--sp-xl);box-shadow:0 1px 2px rgba(15,26,46,.04);transition:transform .35s var(--ease-out),box-shadow .35s,border-color .35s;transform-style:preserve-3d;}
-@media (hover:hover) and (pointer:fine){.feature-card:hover{border-color:var(--primary-soft-strong);box-shadow:0 20px 40px -24px rgba(53,82,240,.35);}}
-.feature-card .fc-n{font-size:clamp(26px,2.6vw,36px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:14px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;}
-.feature-card .fc-l{font-size:13.5px;line-height:1.55;color:var(--body);}
+.thread{flex:1;padding:14px 12px 8px;overflow-y:auto;display:flex;flex-direction:column;gap:0;scrollbar-width:none;}
+.thread::-webkit-scrollbar{display:none;}
 
-.fc-icon{width:46px;height:46px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
-.fc-icon svg{width:21px;height:21px;}
-.tile-primary{background:var(--primary-soft);} .tile-primary svg{stroke:var(--primary);}
-.tile-coral{background:var(--coral-soft);} .tile-coral svg{stroke:var(--coral);}
-.tile-navy{background:rgba(16,26,51,.06);} .tile-navy svg{stroke:var(--navy);}
+.bubble{max-width:84%;border-radius:17px;padding:9px 13px;font-size:12px;line-height:1.45;margin-bottom:6px;}
+.bubble.in{align-self:flex-start;background:#efe8dc;border-bottom-left-radius:4px;}
+.bubble.out{align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;border-bottom-right-radius:4px;}
+.b-meta{font-size:9.5px;color:rgba(34,26,21,.4);margin-bottom:12px;}
+.b-meta.right{align-self:flex-end;}
 
-.card-navy{background:var(--navy);border-color:var(--navy);}
-.card-navy .fc-n{color:#fff;}
-.card-navy .fc-l{color:var(--on-dark-soft);}
-.card-navy .fc-icon{background:rgba(255,255,255,.1);}
-.card-navy .fc-icon svg{stroke:var(--coral);}
-.card-navy h3{color:#fff;}
-.card-navy p{color:var(--on-dark-soft);}
+/* Gold reserved exclusively for this one moment — the ceremony, per the
+   Starbucks-DNA rule that gold never appears as a general accent. */
+.booked-pill{align-self:center;margin:6px 0 4px;background:var(--gold-soft);color:#8a6a35;border:1px solid rgba(203,162,88,.4);font-size:11px;font-weight:700;padding:7px 16px;border-radius:var(--r-pill);text-align:center;}
 
-.stats-src{text-align:center;font-size:12px;color:var(--muted-soft);margin-top:36px;}
-
-.step-num{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;margin-bottom:20px;}
-.feature-card h3{font-size:16.5px;font-weight:700;margin-bottom:8px;color:var(--ink);}
-.feature-card p{font-size:13.5px;line-height:1.6;color:var(--body);}
-
-/* PROBLEM — numbered cards */
-.problem-rows{display:flex;flex-direction:column;gap:14px;margin-top:52px;}
-.p-row{
-  display:grid;grid-template-columns:.5fr 1.6fr auto;gap:32px;align-items:center;
-  padding:28px 32px;border:1px solid var(--hairline);border-radius:var(--r-lg);background:#fff;
-  transition:transform .35s var(--ease-out),border-color .35s,background .35s;
-}
-@media (hover:hover) and (pointer:fine){.p-row:hover{border-color:var(--primary-soft-strong);background:var(--surface-soft);}}
-.p-num{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:.5px;}
-.p-row h3{font-size:18px;font-weight:700;margin-bottom:7px;letter-spacing:-.2px;color:var(--ink);}
-.p-row p{font-size:14px;color:var(--muted);line-height:1.6;max-width:440px;}
-.p-arrow{width:40px;height:40px;border-radius:50%;border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.p-arrow svg{width:15px;height:15px;stroke:var(--ink);}
-
-/* TRUST BAR — the tools this connects to */
-.trust-bar{padding:44px 0;}
-.trust-label{text-align:center;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted-soft);margin-bottom:30px;}
-.trust-logos{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;}
-.trust-logo{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;font-weight:600;color:var(--body);background:#fff;border:1px solid var(--hairline);padding:11px 18px;border-radius:var(--r-pill);filter:grayscale(.4);opacity:.75;transition:opacity .3s,filter .3s,border-color .3s;}
-.trust-logo svg{width:18px;height:18px;flex-shrink:0;}
-@media (hover:hover) and (pointer:fine){.trust-logo:hover{opacity:1;filter:grayscale(0);border-color:var(--primary-soft-strong);}}
-
-/* HOW IT WORKS trust pills */
-.trust-pills{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;justify-content:center;}
-.trust-pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink);border:1px solid var(--hairline);border-radius:var(--r-pill);padding:9px 18px;background:#fff;}
-.trust-pill svg{width:14px;height:14px;fill:var(--success);}
-
-/* AMBIANCE */
-.ambiance-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
-.ambiance-img{border-radius:var(--r-lg);overflow:hidden;position:relative;height:440px;border:1px solid var(--hairline);transform-style:preserve-3d;}
-.parallax-layer{position:absolute;top:-15%;left:0;width:100%;height:130%;will-change:transform;}
-.ambiance-img img{width:100%;height:100%;object-fit:cover;object-position:70% 50%;}
-.ambiance-quote{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,2.2vw,28px);font-weight:600;line-height:1.4;color:var(--ink);letter-spacing:-.5px;}
-.ambiance-attr{margin-top:20px;font-size:13.5px;font-weight:700;color:var(--primary);letter-spacing:.2px;}
-
-/* BANNER IMAGE */
-.banner-img{position:relative;border-radius:var(--r-xl);overflow:hidden;height:360px;border:1px solid var(--hairline);}
-.banner-img img{width:100%;height:100%;object-fit:cover;object-position:center 60%;}
-.banner-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.55) 100%);}
-.banner-text{position:absolute;left:0;right:0;bottom:0;padding:36px 40px;color:#fff;font-size:clamp(19px,2vw,24px);font-weight:500;letter-spacing:-.4px;}
-@media (max-width:960px){
-  .ambiance-grid{grid-template-columns:1fr;gap:28px;}
-  .ambiance-img{height:320px;}
-  .banner-img{height:260px;}
-}
-
-/* CONVERSATIONS — product-mockup-card */
-.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:52px;}
-.conv-card{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 1px 2px rgba(15,26,46,.04);transition:transform .35s var(--ease-out),border-color .35s,box-shadow .35s;transform-style:preserve-3d;}
-@media (hover:hover) and (pointer:fine){.conv-card:hover{border-color:var(--primary-soft-strong);box-shadow:0 20px 40px -24px rgba(53,82,240,.3);}}
-.conv-hdr{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--hairline);}
-.conv-ic{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.conv-title{font-size:14.5px;font-weight:600;color:var(--ink);}
-.conv-sub{font-size:12px;color:var(--muted);}
-.conv-chip{margin-left:auto;font-size:11px;font-weight:600;padding:5px 12px;border-radius:var(--r-pill);background:rgba(34,197,94,.12);color:#16803c;border:1px solid rgba(34,197,94,.28);}
-.conv-body{background:var(--surface-card);padding:20px 18px;display:flex;flex-direction:column;min-height:240px;}
-
-.chat-seq .bubble,.chat-seq .b-meta,.chat-seq .booked-pill{
-  opacity:0;transform:translateY(12px) scale(.97);
-  transition:opacity .55s var(--ease-out),transform .55s var(--ease-out);
-}
-.chat-seq.play .bubble,.chat-seq.play .b-meta,.chat-seq.play .booked-pill{opacity:1;transform:none;}
-.chat-seq.play .cs-1{transition-delay:.15s;}
-.chat-seq.play .cs-2{transition-delay:.4s;}
-.chat-seq.play .cs-3{transition-delay:.9s;}
-.chat-seq.play .cs-4{transition-delay:1.15s;}
-.chat-seq.play .cs-5{transition-delay:1.65s;}
-.chat-seq.play .cs-6{transition-delay:1.9s;}
-.chat-seq.play .cs-7{transition-delay:2.4s;}
-
-.typing-dots{display:inline-flex;gap:4px;align-self:flex-start;background:#efefef;border-radius:14px;padding:11px 14px;margin-bottom:6px;opacity:0;}
-.typing-dots.out{align-self:flex-end;background:linear-gradient(135deg,#3897f0,#5851db);}
-.typing-dots.out span{background:rgba(255,255,255,.7);}
-.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted-soft);animation:dotBounce 1s ease-in-out infinite;}
-.typing-dots span:nth-child(2){animation-delay:.15s;}
-.typing-dots span:nth-child(3){animation-delay:.3s;}
-@keyframes dotBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
+.typing{display:inline-flex;gap:4px;align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--violet));border-radius:16px;padding:10px 13px;margin-bottom:6px;opacity:0;}
+.typing span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.85);animation:dot 1s ease-in-out infinite;}
+.typing span:nth-child(2){animation-delay:.15s;}
+.typing span:nth-child(3){animation-delay:.3s;}
+@keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
 @keyframes typingCycle{0%{opacity:0;transform:translateY(8px);}15%{opacity:1;transform:translateY(0);}75%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-4px);}}
-.chat-seq.play .typing-dots{animation:typingCycle .6s ease-out forwards;animation-delay:.45s;}
 
-/* STACK */
-.stack-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:44px;}
-.stack-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--hairline);border-radius:var(--r-pill);padding:10px 20px;font-size:13.5px;font-weight:500;color:var(--ink);background:#fff;}
-.stack-dot{width:8px;height:8px;border-radius:50%;}
+.chat-seq .bubble,.chat-seq .b-meta,.chat-seq .booked-pill{opacity:0;transform:translateY(10px) scale(.97);transition:opacity .5s var(--ease),transform .5s var(--ease);}
+.chat-seq.play .bubble,.chat-seq.play .b-meta,.chat-seq.play .booked-pill{opacity:1;transform:none;}
+.chat-seq.play .cs-1{transition-delay:.15s;} .chat-seq.play .cs-2{transition-delay:.4s;}
+.chat-seq.play .cs-3{transition-delay:.9s;} .chat-seq.play .cs-4{transition-delay:1.15s;}
+.chat-seq.play .cs-5{transition-delay:1.65s;} .chat-seq.play .cs-6{transition-delay:1.9s;}
+.chat-seq.play .typing{animation:typingCycle .6s ease-out forwards;animation-delay:.45s;}
 
-/* DISCLOSURE / mockup card */
-.mockup-card{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-lg);padding:28px 32px;margin-top:44px;}
-.mockup-card p{font-size:14px;color:var(--muted);line-height:1.65;}
-.mockup-card strong{color:var(--ink);}
+/* STATS — oversized numerals do the talking, no icon tiles */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px;}
+.stat-n{font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(40px,5vw,64px);letter-spacing:-.02em;line-height:1;margin-bottom:14px;background:linear-gradient(135deg,var(--text),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.stat-l{font-size:14.5px;color:var(--text-soft);max-width:26ch;}
+.stats-src{margin-top:44px;font-size:12px;color:var(--text-faint);}
 
-/* CTA — cta-band-illustrated */
-.cta-panel-wrap{background:linear-gradient(180deg,var(--surface-soft),var(--primary-soft));border:1px solid var(--primary-soft-strong);border-radius:var(--r-xl);padding:clamp(48px,8vw,80px) clamp(24px,6vw,80px);text-align:center;}
-.cta-panel{max-width:620px;margin:0 auto;}
-.cta-panel p{font-size:16px;line-height:1.65;color:var(--body);}
-.cta-panel .cta-sub{margin-top:22px;font-size:15px;}
+/* SECOND EXAMPLE — same floating-card treatment as hero, smaller */
+.ex-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;}
+.ex-card{background:var(--canvas-card);border:1px solid var(--line);border-radius:var(--r-card);padding:6px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);}
+.ex-hdr{display:flex;align-items:center;gap:11px;padding:16px 16px 12px;}
+.ex-ic{width:34px;height:34px;border-radius:12px;background:var(--rose-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ex-ic svg{width:16px;height:16px;stroke:var(--rose);}
+.ex-title{font-size:13.5px;font-weight:700;color:var(--text);}
+.ex-sub{font-size:11.5px;color:var(--text-faint);}
+.ex-chip{margin-left:auto;font-size:10.5px;font-weight:700;padding:5px 12px;border-radius:var(--r-pill);background:var(--gold-soft);color:var(--gold);border:1px solid rgba(203,162,88,.35);}
+.ex-body{background:var(--paper);border-radius:20px;padding:20px 16px;display:flex;flex-direction:column;min-height:220px;color:var(--ink);}
+.ex-body .bubble{font-size:13px;}
+.ex-body .b-meta{color:rgba(34,26,21,.42);}
 
-/* FOOTER */
-.footer-shell{background:var(--navy);padding:64px 0 40px;}
-.footer-grid{display:grid;grid-template-columns:1.3fr .8fr .8fr 1fr;gap:32px;align-items:start;}
-.footer-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;margin-bottom:14px;color:#fff;letter-spacing:-.3px;}
-.footer-tag{font-size:13.5px;color:var(--on-dark-soft);max-width:260px;line-height:1.6;}
-.footer-col h4{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--on-dark-soft);margin-bottom:16px;}
-.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.82);text-decoration:none;margin-bottom:11px;transition:color .25s;}
-.footer-col a:hover{color:#fff;}
-.footer-blob{position:relative;height:140px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-lg);overflow:hidden;}
-.footer-blob canvas{width:100%;height:100%;display:block;}
-.footer-bottom{margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--on-dark-soft);}
+/* HOW IT WORKS — compact numbered rows, sequence is real here so numbering earns its place */
+.steps{display:flex;flex-direction:column;margin-top:52px;}
+.step{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--line);}
+.step:last-child{border-bottom:1px solid var(--line);}
+.step-n{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--gold);padding-top:2px;}
+.step h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+.step p{font-size:14.5px;color:var(--text-soft);max-width:56ch;}
 
-.mob-cta{position:fixed;left:0;right:0;bottom:0;z-index:300;display:none;padding:14px 18px calc(14px + env(safe-area-inset-bottom));background:rgba(246,248,253,.96);backdrop-filter:blur(14px);border-top:1px solid var(--hairline);transform:translateY(0);transition:transform .35s cubic-bezier(.32,.72,0,1);}
-.mob-cta.hidden{transform:translateY(110%);}
-.mob-cta .btn{width:100%;justify-content:center;}
+/* CTA */
+.cta-panel{background:linear-gradient(180deg,var(--canvas-soft),var(--canvas-card));border:1px solid var(--line);border-radius:36px;padding:clamp(48px,7vw,84px) clamp(24px,6vw,84px);text-align:center;position:relative;overflow:hidden;}
+.cta-panel::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(closest-side,rgba(226,87,124,.24),transparent 72%);pointer-events:none;}
+.cta-panel h2{position:relative;}
+.cta-panel p{position:relative;font-size:16px;color:var(--text-soft);max-width:48ch;margin:0 auto 30px;}
+.cta-panel .btn{position:relative;}
 
-@media (max-width:960px){
-  .band{padding:64px 0;}
-  .hero-grid{grid-template-columns:1fr;gap:48px;}
-  .hero-visual{order:2;width:100%;max-width:440px;margin:36px auto 0;}
-  .p-row{grid-template-columns:1fr;gap:14px;text-align:left;}
-  .p-arrow{display:none;}
-  .card-grid{grid-template-columns:1fr 1fr;}
-  .conv-grid{grid-template-columns:1fr;}
-  .hdr-nav{display:none;}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:32px 20px;}
-  .footer-blob{grid-column:1/-1;height:110px;}
+footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:'Sora',sans-serif;font-weight:700;font-size:14.5px;color:var(--text);display:flex;align-items:center;gap:8px;}
+.footer-tag{font-size:12.5px;color:var(--text-faint);max-width:52ch;margin-top:10px;}
+.footer-meta{font-size:12px;color:var(--text-faint);display:flex;gap:18px;}
+
+@media (max-width:900px){
+  .hero-grid,.ex-grid{grid-template-columns:1fr;}
+  .stage{order:-1;margin-bottom:8px;}
+  .stat-row{grid-template-columns:1fr;gap:32px;}
+  .tilt-card{transform:none;}
+  .band{padding:80px 0;}
 }
-@media (max-width:640px){
-  .wrap{padding:0 16px;}
-  .band{padding:52px 0;}
-  .hdr-in{height:60px;}
-  .hero-actions .btn-primary{width:100%;justify-content:center;}
-  .card-grid{grid-template-columns:1fr;}
-  .mob-cta{display:block;}
-  .footer-grid{grid-template-columns:1fr;}
-}
-/* TOUCH IDLE MOTION — .tilt-3d cards get pointer-driven tilt on hover-capable
-   devices (see script below); touch devices can't hover, so give the same
-   cards a gentle looping idle wobble instead. Excludes the ambiance photo,
-   which shouldn't wobble. */
-@keyframes idleTilt{
-  0%,100%{transform:perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0);}
-  50%{transform:perspective(900px) rotateX(-2deg) rotateY(3deg) translateY(-5px);}
-}
-@media (hover:none),(pointer:coarse){
-  .conv-card,.p-row,.feature-card.tilt-3d{animation:idleTilt 4.5s ease-in-out infinite;}
-  .conv-card:nth-child(2),.p-row:nth-child(2),.feature-card.tilt-3d:nth-child(2){animation-delay:.5s;}
-  .p-row:nth-child(3),.feature-card.tilt-3d:nth-child(3){animation-delay:1s;}
-  .feature-card.tilt-3d:nth-child(4){animation-delay:1.5s;}
-}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;}
   .rv,.chat-seq .bubble,.chat-seq .b-meta,.chat-seq .booked-pill{opacity:1;transform:none;}
+  .tilt-card{transform:none;}
 }
 </style>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
 
-<header id="hdr">
-  <div class="hdr-in">
-    <a class="logo" href="#top"><span class="logo-mark"></span>Virtual Receptionist</a>
-    <nav class="hdr-nav">
-      <a href="#problem">The problem</a>
+<header>
+  <div class="capsule">
+    <a class="logo" href="#top"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>Virtual Receptionist</a>
+    <nav>
+      <a href="#example">Example</a>
       <a href="#how">How it works</a>
-      <a href="#stack">Capabilities</a>
     </nav>
     <a class="btn btn-primary" href="#contact">Get this built</a>
   </div>
@@ -403,50 +221,31 @@ header.scrolled{border-bottom-color:var(--hairline);}
     <div class="hero-grid">
       <div>
         <div class="kicker rv"><span class="kicker-dot"></span>Instagram DM automation for Dubai med spas</div>
-        <h1 class="rv rv-d1">Never miss another <em>booking.</em></h1>
-        <p class="lede rv rv-d2">A virtual receptionist that answers every Instagram DM, checks your calendar, and books the appointment on its own. No unanswered messages, no ignored story replies, no lost clients.</p>
+        <h1 class="rv rv-d1">Never miss<br>another <span class="accent">booking.</span></h1>
+        <p class="lede rv rv-d2">A virtual receptionist that answers every Instagram DM, checks your calendar, and books the appointment on its own — no unanswered messages, no ignored story replies, no lost clients.</p>
         <div class="hero-actions rv rv-d3">
           <a class="btn btn-primary" href="#contact">Get this built<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn-ghost" href="#how">See how it works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div>
-        <div class="avatar-row rv rv-d3">
-          <div class="avatar-stack">
-            <div class="avatar" style="background:var(--primary);">N</div>
-            <div class="avatar" style="background:var(--navy);">L</div>
-            <div class="avatar" style="background:var(--coral);">M</div>
-          </div>
-          <div class="avatar-txt"><strong>Every DM, answered</strong> — 24/7 on Instagram.</div>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
         </div>
       </div>
-
-      <div class="hero-visual rv rv-d2">
-        <div class="hero-illustration-card">
-          <div class="hero-blob" aria-hidden="true"></div>
-          <span class="hero-badge" id="heroBadge" style="top:14px;left:14px;box-shadow:var(--shadow-sm,0 6px 18px -6px rgba(10,10,10,.18));z-index:6;"><span class="pulse-dot"></span>Always on</span>
-          <div class="float-chip" style="top:6%;right:4%;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div>
-          <div class="float-chip float-chip-b ig" style="bottom:16%;left:-2%;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="6"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="#fff" stroke="none"/></svg></div>
-          <div class="float-chip float-chip-c" style="top:38%;right:-6%;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></div>
-          <div class="phone-shadow" aria-hidden="true"></div>
-          <div class="hero-phone-card phone-mock" id="heroPhoneCard">
-            <span class="device-notch"></span>
-            <span class="device-btn btn-vol1"></span>
-            <span class="device-btn btn-vol2"></span>
-            <span class="device-btn btn-power"></span>
-            <div class="device-screen">
-              <div class="phone-hdr">
-                <div class="ig-ring"><div class="phone-av">L</div></div>
+      <div class="stage">
+        <div class="tilt-card">
+          <div class="phone">
+            <div class="screen">
+              <div class="ig-hdr">
+                <div class="ig-ring"><div class="ig-av">L</div></div>
                 <div>
-                  <div class="phone-name">Layla Haddad</div>
-                  <div class="phone-status">Active now</div>
+                  <div class="ig-name">Layla Haddad</div>
+                  <div class="ig-status">Active now</div>
                 </div>
                 <button class="replay-btn" type="button" data-target="heroChat" aria-label="Replay conversation" title="Replay conversation">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
                 </button>
               </div>
-              <div class="phone-body chat-seq" id="heroChat">
+              <div class="thread chat-seq" id="heroChat">
                 <div class="bubble in cs-1">Hi, do you have anything for a hydrafacial this Thursday afternoon?</div>
                 <div class="b-meta cs-2">2:14 pm</div>
-                <div class="typing-dots out"><span></span><span></span><span></span></div>
+                <div class="typing"><span></span><span></span><span></span></div>
                 <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
                 <div class="b-meta right cs-4">Sent by Virtual system · 2:14 pm</div>
                 <div class="bubble in cs-5">3:30 works great</div>
@@ -457,70 +256,52 @@ header.scrolled{border-bottom-color:var(--hairline);}
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- TRUST BAR -->
-<section class="trust-bar">
-  <div class="wrap">
-    <p class="trust-label rv">Built around the way clients actually message you on Instagram</p>
-    <div class="trust-logos rv rv-d1">
-      <div class="trust-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram Direct</div>
-      <div class="trust-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Story &amp; Reel replies</div>
-      <div class="trust-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Google Calendar</div>
-      <div class="trust-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Any booking system</div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="band-tight">
-  <div class="wrap">
-    <span class="kicker rv"><span class="kicker-dot"></span>Why this exists</span>
-    <h2 class="rv">The cost of an unanswered DM, in numbers.</h2>
-    <div class="card-grid">
-      <div class="feature-card rv tilt-3d">
-        <div class="fc-icon tile-primary"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--coral)" stroke="none"/></svg></div>
-        <div class="fc-n">1 in 3</div><div class="fc-l">DMs to small business Instagram accounts never get a reply</div>
+    <div class="stat-row">
+      <div class="rv">
+        <div class="stat-n">1 in 3</div>
+        <div class="stat-l">DMs to small business Instagram accounts never get a reply</div>
       </div>
-      <div class="feature-card rv rv-d1 tilt-3d">
-        <div class="fc-icon tile-coral"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <div class="fc-n">70%+</div><div class="fc-l">of people expect a reply to a DM within minutes, not hours</div>
+      <div class="rv rv-d1">
+        <div class="stat-n">70%+</div>
+        <div class="stat-l">of people expect a reply to a DM within minutes, not hours</div>
       </div>
-      <div class="feature-card card-navy rv rv-d2 tilt-3d">
-        <div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div class="fc-n">AED 475K+</div><div class="fc-l">lost annually when Instagram enquiries go unanswered at an average med spa</div>
-      </div>
-      <div class="feature-card rv rv-d3 tilt-3d">
-        <div class="fc-icon tile-navy"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
-        <div class="fc-n">AED 29K+</div><div class="fc-l">average med spa client lifetime value, per missed relationship</div>
+      <div class="rv rv-d2">
+        <div class="stat-n">AED 475K+</div>
+        <div class="stat-l">lost annually when Instagram enquiries go unanswered at an average med spa</div>
       </div>
     </div>
-    <p class="stats-src rv">Illustrative figures for this demo, based on general social-messaging response research, 2026. Figures converted to AED.</p>
+    <p class="stats-src rv">Illustrative figures for this demo, based on general social-messaging response research, 2026.</p>
   </div>
 </section>
 
-<!-- PROBLEM -->
-<section class="band" id="problem">
+<!-- SECOND EXAMPLE -->
+<section class="band-tight" id="example">
   <div class="wrap">
-    <span class="kicker rv"><span class="kicker-dot"></span>The problem</span>
-    <h2 class="rv">You're not losing clients on service. You're losing them in your DMs.</h2>
-    <p class="lede rv rv-d1">Your front desk is excellent when they're free. The problem is they're rarely checking Instagram, and every unanswered DM is a client who books somewhere else within minutes.</p>
-    <div class="problem-rows">
-      <div class="p-row rv tilt-3d">
-        <div class="p-num">/ 01</div>
-        <div><h3>Staff can't reply to DMs while treating a client</h3><p>Messages pile up unread during peak hours, precisely when your busiest, highest-value clients are trying to reach you.</p></div>
-        <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="ex-grid">
+      <div>
+        <span class="kicker rv"><span class="kicker-dot"></span>Sample interaction</span>
+        <h2 class="rv">Every DM. Same result: booked.</h2>
+        <p class="lede rv rv-d1">A nervous first-time client, talked through it and booked — start to finish, without anyone on staff typing a word.</p>
       </div>
-      <div class="p-row rv rv-d1 tilt-3d">
-        <div class="p-num">/ 02</div>
-        <div><h3>Most people don't message twice</h3><p>If a DM goes unanswered the first time, most people don't follow up — they just message the next clinic on their feed instead.</p></div>
-        <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-      </div>
-      <div class="p-row rv rv-d2 tilt-3d">
-        <div class="p-num">/ 03</div>
-        <div><h3>Replies that come hours later don't convert</h3><p>By the time someone gets back to an Instagram enquiry, the client has often already booked elsewhere or lost interest entirely.</p></div>
-        <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="ex-card rv rv-d2">
+        <div class="ex-hdr">
+          <div class="ex-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--rose)" stroke="none"/></svg></div>
+          <div><div class="ex-title">Instagram DM</div><div class="ex-sub">Nadia Al Rashid · Botox consultation</div></div>
+          <div class="ex-chip">Booked</div>
+          <button class="replay-btn" type="button" data-target="exChat" aria-label="Replay conversation" title="Replay conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          </button>
+        </div>
+        <div class="ex-body chat-seq" id="exChat">
+          <div class="bubble in cs-1">Hey! Do you guys do consultations for Botox? Never done it before and a bit nervous about it</div>
+          <div class="b-meta cs-2">6:48 pm</div>
+          <div class="typing" style="align-self:flex-end;"><span></span><span></span><span></span></div>
+          <div class="bubble out cs-3">Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?</div>
+          <div class="b-meta right cs-4">Sent by Virtual system · 6:49 pm</div>
+          <div class="bubble in cs-5">Wednesday if possible, evening?</div>
+          <div class="booked-pill cs-6">Consultation booked Wed 6:30pm · calendar updated</div>
+        </div>
       </div>
     </div>
   </div>
@@ -532,134 +313,11 @@ header.scrolled{border-bottom-color:var(--hairline);}
     <span class="kicker rv"><span class="kicker-dot"></span>How it works</span>
     <h2 class="rv">Answers instantly. Books on its own.</h2>
     <p class="lede rv rv-d1">Runs quietly in the background on the channel your clients actually use to reach you.</p>
-    <div class="card-grid steps">
-      <div class="feature-card rv tilt-3d">
-        <div class="step-num" style="background:var(--primary-soft);color:var(--primary);">01</div>
-        <h3>A DM lands in your inbox</h3>
-        <p>Direct message, comment reply, or story reply — picked up instantly, any time of day.</p>
-      </div>
-      <div class="feature-card rv rv-d1 tilt-3d">
-        <div class="step-num" style="background:var(--coral-soft);color:var(--coral);">02</div>
-        <h3>The virtual receptionist has a real conversation</h3>
-        <p>Understands the service requested, asks natural follow-up questions, never sounds scripted.</p>
-      </div>
-      <div class="feature-card rv rv-d2 tilt-3d">
-        <div class="step-num" style="background:rgba(16,26,51,.06);color:var(--navy);">03</div>
-        <h3>Checks your calendar live</h3>
-        <p>Offers real open slots only, no double-bookings, no back-and-forth.</p>
-      </div>
-      <div class="feature-card card-navy rv rv-d3 tilt-3d">
-        <div class="step-num" style="background:rgba(255,255,255,.12);color:#fff;">04</div>
-        <h3 style="color:#fff;">Books and confirms automatically</h3>
-        <p>The appointment lands on your calendar the moment it's agreed, no manual entry.</p>
-      </div>
-    </div>
-    <div class="trust-pills rv rv-d2">
-      <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Works with your existing calendar</div>
-      <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Live within days</div>
-      <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Sounds like your front desk, not a robot</div>
-    </div>
-  </div>
-</section>
-
-<!-- AMBIANCE -->
-<section class="band-tight">
-  <div class="wrap">
-    <div class="ambiance-grid">
-      <div class="ambiance-img rv tilt-3d">
-        <div class="parallax-layer" data-parallax>
-          <img src="img/spa-detail.jpg" alt="Spa treatment tray with a lit candle, rolled towels and an orchid" loading="lazy">
-        </div>
-      </div>
-      <div class="rv rv-d1">
-        <p class="ambiance-quote">The automation should feel like an extension of the front desk you already trust — calm, attentive, never rushed.</p>
-        <p class="ambiance-attr">The design principle behind every build</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONVERSATIONS -->
-<section class="band" id="examples">
-  <div class="wrap">
-    <span class="kicker rv"><span class="kicker-dot"></span>Sample interactions</span>
-    <h2 class="rv">Every DM. Same result: booked.</h2>
-    <p class="lede rv rv-d1">Real examples of the virtual receptionist handling Instagram DMs, start to finish — a direct message and a reply to a story.</p>
-    <div class="conv-grid">
-      <div class="conv-card rv tilt-3d">
-        <div class="conv-hdr">
-          <div class="conv-ic" style="background:var(--primary-soft);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3552f0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#3552f0" stroke="none"/></svg>
-          </div>
-          <div><div class="conv-title">Instagram DM</div><div class="conv-sub">Nadia Al Rashid · Botox consultation</div></div>
-          <div class="conv-chip">Booked</div>
-          <button class="replay-btn" type="button" data-target="convChat1" aria-label="Replay conversation" title="Replay conversation">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-          </button>
-        </div>
-        <div class="conv-body chat-seq" id="convChat1">
-          <div class="bubble in cs-1">Hey! Do you guys do consultations for Botox? Never done it before and a bit nervous about it</div>
-          <div class="b-meta cs-2">6:48 pm</div>
-          <div class="typing-dots out"><span></span><span></span><span></span></div>
-          <div class="bubble out cs-3">Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?</div>
-          <div class="b-meta right cs-4">Sent by Virtual system · 6:49 pm</div>
-          <div class="bubble in cs-5">Wednesday if possible, evening?</div>
-          <div class="booked-pill cs-6">Consultation booked Wed 6:30pm · calendar updated</div>
-        </div>
-      </div>
-
-      <div class="conv-card rv rv-d1 tilt-3d">
-        <div class="conv-hdr">
-          <div class="conv-ic" style="background:var(--coral-soft);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff6b5a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
-          </div>
-          <div><div class="conv-title">Reply to Instagram Story</div><div class="conv-sub">Lip filler promo · story reply</div></div>
-          <div class="conv-chip">Booked</div>
-          <button class="replay-btn" type="button" data-target="convChat2" aria-label="Replay conversation" title="Replay conversation">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-          </button>
-        </div>
-        <div class="conv-body chat-seq" id="convChat2">
-          <div class="bubble in cs-1">Hey! saw your story about the lip filler offer 👀 is it still on this week?</div>
-          <div class="b-meta cs-2">9:02 pm</div>
-          <div class="typing-dots out"><span></span><span></span><span></span></div>
-          <div class="bubble out cs-3">Yes, it's live until Sunday! AED 1,200 for full lips. I have Saturday 1pm or Sunday 11am open — which works better?</div>
-          <div class="b-meta right cs-4">Sent by Virtual system · 9:03 pm</div>
-          <div class="bubble in cs-5">Saturday 1pm please</div>
-          <div class="booked-pill cs-6">Booked Saturday 1:00pm · confirmation sent by DM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TECH STACK -->
-<section class="band" id="stack">
-  <div class="wrap">
-    <span class="kicker rv"><span class="kicker-dot"></span>Capabilities</span>
-    <h2 class="rv">Fits into how you already run your front desk.</h2>
-    <p class="lede rv rv-d1">Whatever you book on today, this connects to it. No new software to learn.</p>
-    <div class="stack-row rv rv-d2">
-      <div class="stack-pill"><div class="stack-dot" style="background:var(--primary)"></div>Instant DM replies</div>
-      <div class="stack-pill"><div class="stack-dot" style="background:var(--coral)"></div>Story &amp; Reel reply handling</div>
-      <div class="stack-pill"><div class="stack-dot" style="background:var(--success)"></div>Live calendar sync</div>
-      <div class="stack-pill"><div class="stack-dot" style="background:var(--navy)"></div>Works with your existing booking system</div>
-    </div>
-    <div class="mockup-card rv rv-d3">
-      <p><strong>About this build:</strong> this is a sample project demonstrating an Instagram DM automation system I build for Dubai med spas and aesthetic clinics. Every clinic runs differently, so tone, service menu, and calendar integration are customised to how you already book before anything goes live. Nothing here represents a real client; it's a working demonstration of the automation itself.</p>
-    </div>
-  </div>
-</section>
-
-<!-- BANNER -->
-<section class="band-tight">
-  <div class="wrap">
-    <div class="banner-img rv">
-      <div class="parallax-layer" data-parallax>
-        <img src="img/spa-interior.jpg" alt="Warm, softly lit spa treatment room with folded towels and candles" loading="lazy">
-      </div>
-      <div class="banner-fade"></div>
-      <div class="banner-text">Every appointment on your calendar, without anyone missing a message.</div>
+    <div class="steps">
+      <div class="step rv"><div class="step-n">01</div><div><h3>A DM lands in your inbox</h3><p>Direct message, comment reply, or story reply — picked up instantly, any time of day.</p></div></div>
+      <div class="step rv rv-d1"><div class="step-n">02</div><div><h3>The virtual receptionist has a real conversation</h3><p>Understands the service requested, asks natural follow-up questions, never sounds scripted.</p></div></div>
+      <div class="step rv rv-d2"><div class="step-n">03</div><div><h3>Checks your calendar live</h3><p>Offers real open slots only — no double-bookings, no back-and-forth.</p></div></div>
+      <div class="step rv rv-d3"><div class="step-n">04</div><div><h3>Books and confirms automatically</h3><p>The appointment lands on your calendar the moment it's agreed, no manual entry.</p></div></div>
     </div>
   </div>
 </section>
@@ -667,110 +325,45 @@ header.scrolled{border-bottom-color:var(--hairline);}
 <!-- CTA -->
 <section class="band" id="contact">
   <div class="wrap">
-    <div class="cta-panel-wrap rv">
-      <div class="cta-panel">
-        <h2>Want this answering your DMs?</h2>
-        <p>If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to unanswered Instagram DMs, this can be live within days.</p>
-        <p class="cta-sub"><strong>Message me here to get started.</strong></p>
-      </div>
+    <div class="cta-panel rv">
+      <h2>Want this answering your DMs?</h2>
+      <p>If you run a med spa or aesthetic clinic in Dubai and you're tired of losing bookings to unanswered Instagram DMs, this can be live within days.</p>
+      <a class="btn btn-primary" href="#top">Message me to get started<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer-shell">
-  <div class="wrap footer-grid">
-    <div>
-      <div class="footer-logo">Virtual Receptionist</div>
-      <p class="footer-tag">Sample automation build for portfolio purposes. Demonstrating an always-on Instagram DM booking assistant for Dubai med spas.</p>
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>
+        <div class="footer-logo"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>Virtual Receptionist</div>
+        <p class="footer-tag">Sample automation build for portfolio purposes — nothing here represents a real client. Tone, service menu, and calendar integration are customised per clinic before anything goes live.</p>
+      </div>
+      <div class="footer-meta"><span>© 2026 Sample build</span><span>Dubai, UAE</span></div>
     </div>
-    <div class="footer-col">
-      <h4>Explore</h4>
-      <a href="#problem">The problem</a>
-      <a href="#how">How it works</a>
-      <a href="#examples">Sample chats</a>
-      <a href="#stack">Capabilities</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <a href="#contact">Get this built</a>
-    </div>
-    <div class="footer-blob"><canvas id="footer3d"></canvas></div>
-  </div>
-  <div class="wrap footer-bottom">
-    <span>© 2026 Sample build. Not a live client engagement.</span>
-    <span>Dubai, UAE</span>
   </div>
 </footer>
 
-<div class="mob-cta" id="mobCta"><a class="btn btn-primary" href="#contact">Get this built<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (function(){
-  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  gsap.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.steps').forEach(function(grid){
-    var items=grid.children;
-    if(reduce){gsap.set(items,{opacity:1,y:0});return;}
-    gsap.set(items,{opacity:0,y:20});
-    gsap.to(items,{
-      opacity:1,y:0,duration:.6,
-      stagger:{each:.09,from:'start'},
-      ease:'power2.out',
-      scrollTrigger:{trigger:grid,start:'top 85%',toggleActions:'play none none reverse'}
-    });
-  });
-})();
-
-(function(){
-  var hdr=document.getElementById('hdr');
-  window.addEventListener('scroll',function(){hdr.classList.toggle('scrolled',window.scrollY>8);},{passive:true});
-})();
-
-/* PARALLAX — scroll-scrubbed depth on the two photo sections.
-   Applied to plain wrapper elements only (never anything carrying .rv), so
-   this never fights the reveal-on-load transitions. Skips under
-   prefers-reduced-motion. */
-(function(){
-  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  if(window.matchMedia('(max-width:640px)').matches)return;
-
-  document.querySelectorAll('.parallax-layer').forEach(function(layer){
-    gsap.fromTo(layer,
-      {yPercent:-8},
-      {yPercent:8,ease:'none',
-        scrollTrigger:{trigger:layer.parentElement,start:'top bottom',end:'bottom top',scrub:true}}
-    );
-  });
-})();
-
-(function(){
   var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
-    });
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
   },{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
 })();
 
 (function(){
   var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target);}
-    });
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target);}});
   },{threshold:0.3});
   document.querySelectorAll('.chat-seq').forEach(function(el){io.observe(el);});
 })();
 
-/* REPLAY BUTTONS — chat-seq only auto-plays once per pageload (io.unobserve above),
-   which isn't enough for a live sales call. Removing then re-adding 'play' with a
-   forced reflow in between restarts every transition-delay and the typing-dot
-   animation from zero, so a conversation can be re-run on demand. */
+/* REPLAY — chat-seq only auto-plays once (io.unobserve above), which isn't
+   enough for a live sales call. Removing then re-adding 'play' with a
+   forced reflow between restarts every transition-delay and the typing
+   animation from zero. */
 (function(){
   document.querySelectorAll('.replay-btn').forEach(function(btn){
     btn.addEventListener('click',function(){
@@ -781,104 +374,6 @@ header.scrolled{border-bottom-color:var(--hairline);}
       target.classList.add('play');
     });
   });
-})();
-
-(function(){
-  var bar=document.getElementById('mobCta');
-  var target=document.getElementById('contact');
-  if(!bar||!target)return;
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){bar.classList.toggle('hidden',e.isIntersecting);});
-  },{threshold:0.2}).observe(target);
-})();
-
-/* POINTER-DRIVEN 3D TILT — gives cards real depth on desktop pointers.
-   Skipped under reduced-motion and on touch devices (no hover). */
-(function(){
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-
-  document.querySelectorAll('.tilt-3d').forEach(function(el){
-    var rect,raf=null,tx=0,ty=0;
-    function apply(){
-      el.style.transform='perspective(900px) rotateX('+ty+'deg) rotateY('+tx+'deg) translateY(-3px)';
-      raf=null;
-    }
-    el.addEventListener('pointerenter',function(){rect=el.getBoundingClientRect();});
-    el.addEventListener('pointermove',function(e){
-      if(!rect)rect=el.getBoundingClientRect();
-      var px=(e.clientX-rect.left)/rect.width-0.5;
-      var py=(e.clientY-rect.top)/rect.height-0.5;
-      tx=px*7; ty=-py*7;
-      if(!raf)raf=requestAnimationFrame(apply);
-    });
-    el.addEventListener('pointerleave',function(){
-      el.style.transform='';
-    });
-  });
-})();
-
-/* FOOTER 3D — a small companion sculpture in the corner of the footer card. */
-(function(){
-  var canvas=document.getElementById('footer3d');
-  if(!canvas||typeof THREE==='undefined')return;
-  var wrap=canvas.parentElement;
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  var renderer;
-  try{
-    renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
-  }catch(e){return;}
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-
-  var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(40,1,0.1,20);
-  camera.position.set(0,0,4.6);
-
-  scene.add(new THREE.AmbientLight(0xffffff,0.5));
-  var l1=new THREE.PointLight(0xFF6B5A,1.6,15); l1.position.set(3,3,3); scene.add(l1);
-  var l2=new THREE.PointLight(0xffffff,0.8,15); l2.position.set(-2,-2,2); scene.add(l2);
-
-  var geo=new THREE.IcosahedronGeometry(1,1);
-  var mat=new THREE.MeshPhysicalMaterial({color:0x3552F0,metalness:0.8,roughness:0.25,clearcoat:1});
-  var mesh=new THREE.Mesh(geo,mat);
-  scene.add(mesh);
-
-  var cage=new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(1.9,1.9,1.9)),
-    new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.18})
-  );
-  cage.rotation.set(0.4,0.4,0);
-  scene.add(cage);
-
-  function size(){
-    var w=wrap.clientWidth,h=wrap.clientHeight;
-    if(!w||!h)return;
-    renderer.setSize(w,h,false);
-    camera.aspect=w/h;
-    camera.updateProjectionMatrix();
-  }
-  size();
-  window.addEventListener('resize',size);
-
-  var visible=true;
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){visible=e.isIntersecting;});
-  },{threshold:0.05}).observe(wrap);
-
-  var clock=new THREE.Clock();
-  function tick(){
-    requestAnimationFrame(tick);
-    if(!visible)return;
-    if(!reduce){
-      var dt=clock.getDelta();
-      mesh.rotation.y+=dt*0.3;
-      mesh.rotation.x+=dt*0.12;
-      cage.rotation.y-=dt*0.15;
-    }
-    renderer.render(scene,camera);
-  }
-  tick();
 })();
 </script>
 </body>
