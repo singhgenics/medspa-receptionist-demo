@@ -258,7 +258,7 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 @keyframes mockGlowGold{0%,100%{box-shadow:0 0 0 0 rgba(203,162,88,.4);}50%{box-shadow:0 0 0 5px rgba(203,162,88,0);}}
 
 /* CTA */
-.cta-panel{background:linear-gradient(180deg,var(--canvas-soft),var(--canvas-card));border:1px solid var(--line);border-radius:36px;padding:clamp(48px,7vw,84px) clamp(24px,6vw,84px);text-align:center;position:relative;overflow:hidden;}
+.cta-panel{background:transparent;border-radius:36px;padding:clamp(48px,7vw,84px) clamp(24px,6vw,84px);text-align:center;position:relative;overflow:hidden;}
 .cta-panel::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(closest-side,rgba(226,87,124,.24),transparent 72%);pointer-events:none;}
 .cta-panel h2{position:relative;}
 .cta-panel p{position:relative;font-size:16px;color:var(--text-soft);max-width:48ch;margin:0 auto 30px;}
@@ -312,13 +312,34 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .ig-btn-secondary{background:rgba(34,26,21,.08);color:var(--ink);}
 
 .ig-post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:16px -18px 0;}
-.ig-post-grid span{aspect-ratio:1;display:block;}
-.ig-post-grid span:nth-child(1){background:linear-gradient(135deg,#e2577c,#7c4a93);}
-.ig-post-grid span:nth-child(2){background:linear-gradient(135deg,#cba258,#e2577c);}
-.ig-post-grid span:nth-child(3){background:linear-gradient(135deg,#7c4a93,#cba258);}
-.ig-post-grid span:nth-child(4){background:linear-gradient(160deg,#d9557a,#5c3a6e);}
-.ig-post-grid span:nth-child(5){background:linear-gradient(160deg,#b8905a,#8a5a6a);}
-.ig-post-grid span:nth-child(6){background:linear-gradient(160deg,#8a4a6a,#c9a05e);}
+
+/* Small branded post mockups instead of plain color tiles — each one
+   echoes a real piece of the product (a DM exchange, the booking
+   moment, the stats from the hero) so the grid reads as actual content
+   rather than decoration. */
+.ig-post{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:9px;text-align:center;overflow:hidden;}
+.ig-post em{font-style:normal;font-size:8px;font-weight:700;letter-spacing:.01em;line-height:1.2;}
+
+.ig-post-chat{background:var(--paper);gap:4px;width:100%;}
+.ig-post-bubble{border-radius:5px;height:8px;display:block;}
+.ig-post-bubble.in{width:68%;align-self:flex-start;margin-left:8%;background:rgba(34,26,21,.15);}
+.ig-post-bubble.out{width:76%;align-self:flex-end;margin-right:8%;background:linear-gradient(135deg,var(--rose),var(--violet));}
+.ig-post-chat.alt .ig-post-bubble.out{align-self:flex-start;margin:0 0 0 8%;}
+.ig-post-chat.alt .ig-post-bubble.in{align-self:flex-end;margin:0 8% 0 0;}
+
+.ig-post-stat{background:var(--canvas);}
+.ig-post-stat strong{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;color:var(--rose);line-height:1;}
+.ig-post-stat em{color:var(--text-faint);}
+.ig-post-stat.grad{background:linear-gradient(135deg,var(--rose),var(--violet));}
+.ig-post-stat.grad strong,.ig-post-stat.grad em{color:#fff;}
+
+.ig-post-booked{background:var(--gold-soft);color:#8a6a35;}
+.ig-post-booked svg{width:20px;height:20px;}
+.ig-post-booked em{color:#8a6a35;}
+
+.ig-post-quote{background:var(--canvas-card);}
+.ig-post-quote span{font-family:'Sora',sans-serif;font-size:28px;line-height:.5;color:var(--gold);}
+.ig-post-quote em{color:var(--text-soft);}
 
 footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
 .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
@@ -574,7 +595,29 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
                 <span class="ig-btn ig-btn-secondary">Message</span>
                 <span class="ig-btn ig-btn-secondary">Contact</span>
               </div>
-              <div class="ig-post-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="ig-post-grid" aria-hidden="true">
+                <div class="ig-post ig-post-chat">
+                  <span class="ig-post-bubble in"></span>
+                  <span class="ig-post-bubble out"></span>
+                </div>
+                <div class="ig-post ig-post-stat">
+                  <strong>1 in 3</strong><em>DMs unanswered</em>
+                </div>
+                <div class="ig-post ig-post-booked">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <em>Booked</em>
+                </div>
+                <div class="ig-post ig-post-chat alt">
+                  <span class="ig-post-bubble out"></span>
+                  <span class="ig-post-bubble in"></span>
+                </div>
+                <div class="ig-post ig-post-stat grad">
+                  <strong>24/7</strong><em>Always answering</em>
+                </div>
+                <div class="ig-post ig-post-quote">
+                  <span>&ldquo;</span><em>Never miss a DM</em>
+                </div>
+              </div>
             </div>
           </div>
         </div>
