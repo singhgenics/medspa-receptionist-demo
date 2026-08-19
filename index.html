@@ -35,6 +35,7 @@
   --r-pill:999px;
   --r-card:26px;
   --ease:cubic-bezier(.16,1,.3,1);
+  --ease-pop:cubic-bezier(.34,1.35,.64,1);
 }
 
 html{scroll-behavior:smooth;}
@@ -105,14 +106,17 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .tilt-card{transform:rotateY(-9deg) rotateX(2deg) rotateZ(1.5deg);transition:transform .5s var(--ease);}
 @media (hover:hover) and (pointer:fine){.stage:hover .tilt-card{transform:rotateY(-4deg) rotateX(1deg) rotateZ(.5deg);}}
 
-.phone{width:min(320px,80vw);background:#000;border-radius:44px;padding:11px;box-shadow:0 0 0 1px rgba(226,87,124,.25),0 60px 120px -30px rgba(0,0,0,.85);position:relative;}
+.phone{width:min(320px,80vw);background:#000;border-radius:44px;padding:11px;box-shadow:0 0 0 1px rgba(226,87,124,.25),0 60px 120px -30px rgba(0,0,0,.85);position:relative;animation:floatY 6s ease-in-out infinite;}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 .phone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#000;border-radius:12px;z-index:3;}
 .screen{background:var(--paper);border-radius:34px;overflow:hidden;height:560px;display:flex;flex-direction:column;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
 .ig-hdr{display:flex;align-items:center;gap:10px;padding:40px 16px 12px;border-bottom:1px solid rgba(34,26,21,.08);}
 .ig-ring{width:32px;height:32px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ig-av{width:100%;height:100%;border-radius:50%;background:#fafafa;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;border:2px solid #fff;}
 .ig-name{font-size:13px;font-weight:700;}
-.ig-status{font-size:10.5px;color:rgba(34,26,21,.5);}
+.ig-status{font-size:10.5px;color:rgba(34,26,21,.5);display:flex;align-items:center;gap:5px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0;animation:statusPulse 2s ease-in-out infinite;}
+@keyframes statusPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(95,174,124,.5);}50%{opacity:.55;box-shadow:0 0 0 4px rgba(95,174,124,0);}}
 .replay-btn{margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid rgba(34,26,21,.12);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(34,26,21,.5);flex-shrink:0;transition:color .2s,transform .35s var(--ease);}
 .replay-btn:hover{color:var(--rose);}
 .replay-btn:active{transform:rotate(-70deg);}
@@ -138,12 +142,24 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 @keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
 @keyframes typingCycle{0%{opacity:0;transform:translateY(8px);}15%{opacity:1;transform:translateY(0);}75%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-4px);}}
 
-.chat-seq .bubble,.chat-seq .b-meta,.chat-seq .booked-pill{opacity:0;transform:translateY(10px) scale(.97);transition:opacity .5s var(--ease),transform .5s var(--ease);}
-.chat-seq.play .bubble,.chat-seq.play .b-meta,.chat-seq.play .booked-pill{opacity:1;transform:none;}
+.chat-seq .bubble,.chat-seq .b-meta{opacity:0;transform:translateY(10px) scale(.96);transition:opacity .5s var(--ease-pop),transform .5s var(--ease-pop);}
+.chat-seq.play .bubble,.chat-seq.play .b-meta{opacity:1;transform:none;}
 .chat-seq.play .cs-1{transition-delay:.15s;} .chat-seq.play .cs-2{transition-delay:.4s;}
 .chat-seq.play .cs-3{transition-delay:.9s;} .chat-seq.play .cs-4{transition-delay:1.15s;}
-.chat-seq.play .cs-5{transition-delay:1.65s;} .chat-seq.play .cs-6{transition-delay:1.9s;}
+.chat-seq.play .cs-5{transition-delay:1.65s;}
 .chat-seq.play .typing{animation:typingCycle .6s ease-out forwards;animation-delay:.45s;}
+
+/* The booked moment gets its own distinct pop-and-glow instead of the plain
+   rise-in every other bubble uses — gold is a ceremony here, so its entrance
+   should feel like one too. */
+.chat-seq .booked-pill{opacity:0;transform:scale(.6);}
+.chat-seq.play .booked-pill{animation:bookedPop .7s var(--ease-pop) forwards;}
+.chat-seq.play .cs-6.booked-pill{animation-delay:1.9s;}
+@keyframes bookedPop{
+  0%{opacity:0;transform:scale(.6);box-shadow:0 0 0 rgba(203,162,88,0);}
+  55%{opacity:1;transform:scale(1.1);box-shadow:0 0 26px rgba(203,162,88,.55);}
+  100%{opacity:1;transform:scale(1);box-shadow:0 0 0 rgba(203,162,88,0);}
+}
 
 /* STATS — oversized numerals do the talking, no icon tiles */
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px;}
@@ -153,7 +169,7 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 
 /* SECOND EXAMPLE — same floating-card treatment as hero, smaller */
 .ex-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;}
-.ex-card{background:var(--canvas-card);border:1px solid var(--line);border-radius:var(--r-card);padding:6px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);}
+.ex-card{background:var(--canvas-card);border:1px solid var(--line);border-radius:var(--r-card);padding:6px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:floatY 7s ease-in-out infinite;animation-delay:.4s;}
 .ex-hdr{display:flex;align-items:center;gap:11px;padding:16px 16px 12px;}
 .ex-ic{width:34px;height:34px;border-radius:12px;background:var(--rose-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ex-ic svg{width:16px;height:16px;stroke:var(--rose);}
@@ -164,13 +180,43 @@ header{position:sticky;top:18px;z-index:200;display:flex;justify-content:center;
 .ex-body .bubble{font-size:13px;}
 .ex-body .b-meta{color:rgba(34,26,21,.42);}
 
-/* HOW IT WORKS — compact numbered rows, sequence is real here so numbering earns its place */
+/* HOW IT WORKS — sequence is real here, so a numbered badge earns its place;
+   each row gets a tiny "realistic" mockup excerpt (notification, chat
+   bubbles, calendar, confirmation pill) instead of a generic line icon —
+   the last one reuses the real .booked-pill look verbatim, tying straight
+   back to the phone mockups above. */
 .steps{display:flex;flex-direction:column;margin-top:52px;}
-.step{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--line);}
+.step{display:grid;grid-template-columns:84px 1fr;gap:26px;padding:28px 0;border-top:1px solid var(--line);align-items:center;}
 .step:last-child{border-bottom:1px solid var(--line);}
-.step-n{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--gold);padding-top:2px;}
 .step h3{font-size:18px;font-weight:700;margin-bottom:6px;}
 .step p{font-size:14.5px;color:var(--text-soft);max-width:56ch;}
+
+.step-tile{position:relative;width:84px;height:84px;border-radius:20px;background:var(--paper);overflow:hidden;flex-shrink:0;box-shadow:0 20px 40px -18px rgba(0,0,0,.6),0 0 0 1px rgba(226,87,124,.14);}
+.step-badge{position:absolute;top:7px;left:7px;width:19px;height:19px;border-radius:50%;background:var(--canvas);color:var(--gold);font-family:'Sora',sans-serif;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:2;}
+
+.mock-notif{display:flex;align-items:center;gap:6px;padding:16px 11px;height:100%;}
+.mock-ig-ring{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);flex-shrink:0;animation:mockPulse 2.4s ease-in-out infinite;}
+.mock-lines{display:flex;flex-direction:column;gap:5px;flex:1;}
+.mock-lines span{display:block;height:4px;border-radius:2px;background:rgba(34,26,21,.14);}
+.mock-lines span:first-child{width:78%;background:rgba(34,26,21,.34);}
+.mock-lines span:last-child{width:48%;}
+
+.mock-chat{display:flex;flex-direction:column;gap:7px;padding:0 13px;height:100%;justify-content:center;}
+.mock-bub{height:11px;border-radius:6px;}
+.mock-bub.in{width:62%;align-self:flex-start;background:rgba(34,26,21,.13);}
+.mock-bub.out{width:74%;align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--violet));}
+
+.mock-cal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:17px;height:100%;}
+.mock-cal span{border-radius:4px;background:rgba(34,26,21,.09);}
+.mock-cal span.hit{background:var(--rose);animation:mockGlow 2.2s ease-in-out infinite;}
+
+.mock-booked{display:flex;align-items:center;justify-content:center;height:100%;}
+.mock-booked-pill{display:flex;align-items:center;gap:4px;background:var(--gold-soft);color:#8a6a35;border:1px solid rgba(203,162,88,.45);font-size:10px;font-weight:700;padding:6px 11px;border-radius:var(--r-pill);animation:mockGlowGold 2.4s ease-in-out infinite;}
+.mock-booked-pill svg{width:10px;height:10px;}
+
+@keyframes mockPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.15);opacity:.75;}}
+@keyframes mockGlow{0%,100%{box-shadow:0 0 0 0 rgba(226,87,124,.4);}50%{box-shadow:0 0 0 4px rgba(226,87,124,0);}}
+@keyframes mockGlowGold{0%,100%{box-shadow:0 0 0 0 rgba(203,162,88,.4);}50%{box-shadow:0 0 0 5px rgba(203,162,88,0);}}
 
 /* CTA */
 .cta-panel{background:linear-gradient(180deg,var(--canvas-soft),var(--canvas-card));border:1px solid var(--line);border-radius:36px;padding:clamp(48px,7vw,84px) clamp(24px,6vw,84px);text-align:center;position:relative;overflow:hidden;}
@@ -206,7 +252,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
 
 <header>
   <div class="capsule">
-    <a class="logo" href="#top"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>Virtual Receptionist</a>
+    <a class="logo" href="#top"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>IG Receptionist</a>
     <nav>
       <a href="#example">Example</a>
       <a href="#how">How it works</a>
@@ -222,7 +268,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
       <div>
         <div class="kicker rv"><span class="kicker-dot"></span>Instagram DM automation for Dubai med spas</div>
         <h1 class="rv rv-d1">Never miss<br>another <span class="accent">booking.</span></h1>
-        <p class="lede rv rv-d2">A virtual receptionist that answers every Instagram DM, checks your calendar, and books the appointment on its own — no unanswered messages, no ignored story replies, no lost clients.</p>
+        <p class="lede rv rv-d2">IG Receptionist answers every Instagram DM, checks your calendar, and books the appointment on its own — no unanswered messages, no ignored story replies, no lost clients.</p>
         <div class="hero-actions rv rv-d3">
           <a class="btn btn-primary" href="#contact">Get this built<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -236,7 +282,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
                 <div class="ig-ring"><div class="ig-av">L</div></div>
                 <div>
                   <div class="ig-name">Layla Haddad</div>
-                  <div class="ig-status">Active now</div>
+                  <div class="ig-status"><span class="status-dot"></span>Active now</div>
                 </div>
                 <button class="replay-btn" type="button" data-target="heroChat" aria-label="Replay conversation" title="Replay conversation">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
@@ -247,7 +293,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
                 <div class="b-meta cs-2">2:14 pm</div>
                 <div class="typing"><span></span><span></span><span></span></div>
                 <div class="bubble out cs-3">Hi Layla! We have 3:30pm or 5pm open this Thursday for a HydraFacial. Which works better?</div>
-                <div class="b-meta right cs-4">Sent by Virtual system · 2:14 pm</div>
+                <div class="b-meta right cs-4">Sent by IG Receptionist · 2:14 pm</div>
                 <div class="bubble in cs-5">3:30 works great</div>
                 <div class="booked-pill cs-6">Booked · added to calendar automatically</div>
               </div>
@@ -298,7 +344,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
           <div class="b-meta cs-2">6:48 pm</div>
           <div class="typing" style="align-self:flex-end;"><span></span><span></span><span></span></div>
           <div class="bubble out cs-3">Of course, totally normal to feel that way! We do a free 15-minute consultation first with no pressure to book anything. Would Tuesday or Wednesday next week work better for you?</div>
-          <div class="b-meta right cs-4">Sent by Virtual system · 6:49 pm</div>
+          <div class="b-meta right cs-4">Sent by IG Receptionist · 6:49 pm</div>
           <div class="bubble in cs-5">Wednesday if possible, evening?</div>
           <div class="booked-pill cs-6">Consultation booked Wed 6:30pm · calendar updated</div>
         </div>
@@ -314,10 +360,30 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
     <h2 class="rv">Answers instantly. Books on its own.</h2>
     <p class="lede rv rv-d1">Runs quietly in the background on the channel your clients actually use to reach you.</p>
     <div class="steps">
-      <div class="step rv"><div class="step-n">01</div><div><h3>A DM lands in your inbox</h3><p>Direct message, comment reply, or story reply — picked up instantly, any time of day.</p></div></div>
-      <div class="step rv rv-d1"><div class="step-n">02</div><div><h3>The virtual receptionist has a real conversation</h3><p>Understands the service requested, asks natural follow-up questions, never sounds scripted.</p></div></div>
-      <div class="step rv rv-d2"><div class="step-n">03</div><div><h3>Checks your calendar live</h3><p>Offers real open slots only — no double-bookings, no back-and-forth.</p></div></div>
-      <div class="step rv rv-d3"><div class="step-n">04</div><div><h3>Books and confirms automatically</h3><p>The appointment lands on your calendar the moment it's agreed, no manual entry.</p></div></div>
+      <div class="step rv">
+        <div class="step-tile"><span class="step-badge">01</span>
+          <div class="mock-notif"><div class="mock-ig-ring"></div><div class="mock-lines"><span></span><span></span></div></div>
+        </div>
+        <div><h3>A DM lands in your inbox</h3><p>Direct message, comment reply, or story reply — picked up instantly, any time of day.</p></div>
+      </div>
+      <div class="step rv rv-d1">
+        <div class="step-tile"><span class="step-badge">02</span>
+          <div class="mock-chat"><span class="mock-bub in"></span><span class="mock-bub out"></span></div>
+        </div>
+        <div><h3>IG Receptionist has a real conversation</h3><p>Understands the service requested, asks natural follow-up questions, never sounds scripted.</p></div>
+      </div>
+      <div class="step rv rv-d2">
+        <div class="step-tile"><span class="step-badge">03</span>
+          <div class="mock-cal"><span></span><span></span><span></span><span></span><span class="hit"></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div><h3>Checks your calendar live</h3><p>Offers real open slots only — no double-bookings, no back-and-forth.</p></div>
+      </div>
+      <div class="step rv rv-d3">
+        <div class="step-tile"><span class="step-badge">04</span>
+          <div class="mock-booked"><span class="mock-booked-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Booked</span></div>
+        </div>
+        <div><h3>Books and confirms automatically</h3><p>The appointment lands on your calendar the moment it's agreed, no manual entry.</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -337,7 +403,7 @@ footer{padding:48px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
   <div class="wrap">
     <div class="footer-row">
       <div>
-        <div class="footer-logo"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>Virtual Receptionist</div>
+        <div class="footer-logo"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>IG Receptionist</div>
         <p class="footer-tag">Sample automation build for portfolio purposes — nothing here represents a real client. Tone, service menu, and calendar integration are customised per clinic before anything goes live.</p>
       </div>
       <div class="footer-meta"><span>© 2026 Sample build</span><span>Dubai, UAE</span></div>
